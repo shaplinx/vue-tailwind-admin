@@ -1,0 +1,14 @@
+.v-popper--theme-dropdown .v-popper__inner {
+    background: hsl(var(--b1));
+
+}
+.v-popper--theme-dropdown .v-popper__arrow-inner {
+
+    border-color: hsl(var(--b1));
+    opacity: 0;
+}
+.v-popper--theme-dropdown .v-popper__arrow-outer {
+    border-color: hsl(var(--b2));
+    opacity: 0;
+
+}
