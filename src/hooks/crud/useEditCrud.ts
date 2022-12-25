@@ -5,6 +5,7 @@ import { AxiosResponse } from "axios";
 import { CRUD } from "@/services/api/modules/crud/crud";
 import { $vfm } from "vue-final-modal";
 import DeleteModal from "@/components/modals/DeleteModal.vue"
+import { camelCase } from "../misc";
 
 
 interface EditCrudConfig<T> {
@@ -13,6 +14,7 @@ interface EditCrudConfig<T> {
   moduleName: string;
   formData?: any;
   processData?: callback;
+  processErrors? :callback;
 }
 
 type callback = (...args: any[]) => any;
@@ -62,7 +64,11 @@ class editCrud<T> {
         return Promise.resolve(res);
       })
       .catch((err) => {
-        setErrors(this.#config.formId, [err.data.message], err.data.errors);
+        if (err.status === 422) {
+          let errors = this.#config.processErrors ? this.#config.processErrors(err.data.errors) : err.data.errors
+          setErrors(this.#config.formId, [err.data.message], errors);
+        }
+        
         return Promise.reject(err);
       })
       .finally(() => {
@@ -110,7 +116,7 @@ class editCrud<T> {
       { component: DeleteModal },
       {
         id: this.route.params.id,
-        moduleName: this.#config.moduleName.toLowerCase(),
+        moduleName: camelCase(this.#config.moduleName),
         deleteFn: this.#config.crud.destroy,
         onSuccess: () => this.router.push({
           name: this.#config.moduleName + "Index",

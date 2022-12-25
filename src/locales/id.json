@@ -1,5 +1,6 @@
 {
   "pasien": {
+    "index-title": "Pasien Terdaftar",
     "countThisMonth": "Jumlah Pasien Bulan Ini",
     "countAllTime": "Jumlah Pasien Terdaftar",
     "monthlyReport": "Laporan Pasien Bulanan",
@@ -35,6 +36,7 @@
     }
   },
   "poliklinik": {
+    "index-title": "Poliklinik Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Poliklinik",
     "delete-modal-content": "Apakah anda yakin akan menghapus Poliklinik dengan id berikut?",
     "submit": "Simpan Poliklinik",
@@ -53,12 +55,14 @@
       "jasa_klinisiHelp": "Jasa medis yang akan diberikan pada klinisi",
       "jasa_asistenHelp": "Jasa medis yang akan diberikan pada asisten",
       "created_at": "Dibuat Tanggal",
+      "profesi":"Profesi",
       "submit": "Simpan Poliklinik",
       "submitClose": "Simpan Poliklinik Dan Tutup",
       "submitNew": "Simpan Poliklinik Dan Buat Baru"
     }
   },
   "icd10": {
+    "index-title": "ICD10 Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan ICD10",
     "delete-modal-content": "Apakah anda yakin akan menghapus ICD10 dengan id berikut?",
     "submit": "Simpan ICD10",
@@ -78,6 +82,7 @@
     }
   },
   "gaji": {
+    "index-title": "Gaji Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Gaji",
     "delete-modal-content": "Apakah anda yakin akan menghapus Gaji dengan id berikut?",
     "submit": "Simpan Gaji",
@@ -105,6 +110,7 @@
     }
   },
   "diagnosis": {
+    "index-title": "Diagnosis Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Diagnosis",
     "delete-modal-content": "Apakah anda yakin akan menghapus Diagnosis dengan id berikut?",
     "submit": "Simpan Diagnosis",
@@ -121,6 +127,7 @@
     }
   },
   "profesi": {
+    "index-title": "Profesi Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Profesi",
     "delete-modal-content": "Apakah anda yakin akan menghapus Profesi dengan id berikut?",
     "submit": "Simpan Profesi",
@@ -143,6 +150,7 @@
     }
   },
   "obat": {
+    "index-title": "Obat Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Obat",
     "delete-modal-content": "Apakah anda yakin akan menghapus Obat dengan id berikut?",
     "submit": "Simpan Obat",
@@ -169,6 +177,7 @@
     }
   },
   "kategoriLab": {
+    "index-title": "Kategori Lab Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Kategori Lab",
     "delete-modal-content": "Apakah anda yakin akan menghapus Kategori Lab dengan id berikut?",
     "submit": "Simpan Kategori Lab",
@@ -187,6 +196,7 @@
     }
   },
   "komponenLab": {
+    "index-title": "Komponen Lab Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Komponen Lab",
     "delete-modal-content": "Apakah anda yakin akan menghapus Komponen Lab dengan id berikut?",
     "submit": "Simpan Komponen Lab",
@@ -210,6 +220,7 @@
     }
   },
   "rekening": {
+    "index-title": "Mutasi Rekening Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Mutasi Rekening",
     "delete-modal-content": "Apakah anda yakin akan menghapus Mutasi Rekening dengan id berikut?",
     "submit": "Simpan Mutasi Rekening",
@@ -235,6 +246,7 @@
     }
   },
   "pertemuan": {
+    "index-title": "Pertemuan Terdaftar",
     "countThisMonth": "Jumlah Pertemuan Bulan Ini",
     "countAllTime": "Jumlah Pertemuan Terdaftar",
     "monthlyReport": "Laporan Pertemuan Bulanan",
@@ -247,7 +259,7 @@
     "left": "Pertemuan Sebelumnya",
     "right": "Pertemuan Selanjutnya",
     "form": {
-      "Poliklinik": "Pasien",
+      "pasien": "Pasien",
       "poliklinik": "Poliklinik",
       "pemeriksa": "Pemeriksa",
       "pemeriksa_help": "Harap isi poliklinik terlebih dahulu",
@@ -261,6 +273,7 @@
     }
   },
   "resep": {
+    "index-title": "Resep Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Resep",
     "delete-modal-content": "Apakah anda yakin akan menghapus Resep dengan id berikut?",
     "submit": "Simpan Resep",
@@ -279,6 +292,7 @@
     }
   },
   "pertemuanTindakan": {
+    "index-title": "Tindakan Pada Pertemuan Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Tindakan",
     "delete-modal-content": "Apakah anda yakin akan menghapus Tindakan dengan id berikut?",
     "submit": "Simpan Tindakan",
@@ -297,6 +311,7 @@
     }
   },
   "tindakan": {
+    "index-title": "Tindakan Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Tindakan",
     "delete-modal-content": "Apakah anda yakin akan menghapus Tindakan dengan id berikut?",
     "submit": "Simpan Tindakan",
@@ -314,6 +329,7 @@
     }
   },
   "tagihan": {
+    "index-title": "Tagihan Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Tagihan",
     "delete-modal-content": "Apakah anda yakin akan menghapus Tagihan dengan id berikut?",
     "submit": "Simpan Tagihan",
@@ -330,6 +346,7 @@
     }
   },
   "pegawai": {
+    "index-title": "Pegawai Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Pegawai",
     "delete-modal-content": "Apakah anda yakin akan menghapus Pegawai dengan id berikut?",
     "submit": "Simpan Pegawai",
@@ -351,6 +368,7 @@
     }
   },
   "pemeriksaan": {
+    "index-title": "Pemeriksaan Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Pemeriksaan",
     "delete-modal-content": "Apakah anda yakin akan menghapus Pemeriksaan dengan id berikut?",
     "submit": "Simpan Pemeriksaan",
@@ -385,6 +403,7 @@
     }
   },
   "pemeriksaanLab": {
+    "index-title": "Pemeriksaan Lab Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Pemeriksaan Lab",
     "delete-modal-content": "Apakah anda yakin akan menghapus Pemeriksaan Lab dengan id berikut?",
     "submit": "Simpan Pemeriksaan Lab",
@@ -400,10 +419,15 @@
       "harga_jual": "Harga Jual",
       "harga_beli": "Harga Beli",
       "kategori_lab": "Kategori Lab",
-      "submit": "Simpan Pemeriksaan Lab"
+      "submit": "Simpan Pemeriksaan Lab",
+      "submitClose": "Simpan Pemeriksaan Lab Dan Tutup",
+      "submitNew": "Simpan Pemeriksaan Lab Dan Buat Baru"
+
+
     }
   },
   "permintaanLab": {
+    "index-title": "Permintaan Lab Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Permintaan Lab",
     "delete-modal-content": "Apakah anda yakin akan menghapus Permintaan Lab dengan id berikut?",
     "submit": "Simpan Permintaan Lab",
@@ -505,11 +529,13 @@
     "dateEnd": "Tanggal Maksimal",
     "back": "kembali",
     "close": "Tutup",
-    "delete": "Hapus"
+    "delete": "Hapus",
+    "action": "Aksi"
     
   },
 
   "formkit": {
+    "searchLabel": "Cari",
     "searchPlaceholder" : "Ketik untuk mencari",
     "date_end": "Tanggal Selesai",
     "date_start": "Tanggal Mulai",

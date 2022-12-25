@@ -10,6 +10,15 @@
 </template>
 <script setup lang="ts">
 import { usePreferencesStore } from "./store/preferences";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const defaultLayout = "Dashboard";
+
+const layout = computed(() => {
+  return route.meta.layout ?? defaultLayout + "Layout";
+});
 
 const preferences = usePreferencesStore();
 

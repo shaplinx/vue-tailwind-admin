@@ -27,7 +27,7 @@
           type="form"
           @submit.prevent
         >
-          <div class="flex gap-2 mb-5 flex-col sm:flex-row sm:flex-grow">
+          <div class="flex gap-2 mb-0 flex-col flex-wrap flex-grow sm:flex-row sm:flex-grow">
             <FormKitSchema :schema="props.filterSchema" />
           </div>
         </FormKit>

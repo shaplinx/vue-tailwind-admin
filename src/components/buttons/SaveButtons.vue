@@ -29,7 +29,7 @@ const { t } = useI18n();
 const props = defineProps({
   isSaving: Boolean,
   only: {
-    type: Array as PropType<string[]>,
+    type:Array as PropType<string[]>,
     default: [
       "submit",
       "submitClose",
@@ -40,11 +40,11 @@ const props = defineProps({
     ],
   },
   except: {
-    type: Array,
+    type:Array,
     default: [],
   },
   module: {
-    type: String,
+    type:String,
     required: true,
   },
 });

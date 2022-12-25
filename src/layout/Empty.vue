@@ -5,9 +5,7 @@
     >
       <main class="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl h-full mx-auto">
         <RouterView v-slot="{ Component }">
-          <FadeInOut entry="left" exit="left" :duration="200" mode="out-in">
             <component :is="Component" />
-          </FadeInOut>
         </RouterView>
       </main>
     </div>

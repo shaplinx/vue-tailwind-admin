@@ -14,12 +14,16 @@ import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
 import fontawesome from "./services/icons/FontAwesome/index";
 import daisyuiVue from "daisyui-vue";
 import floatingVue from "floating-vue";
-import {vfmPlugin} from 'vue-final-modal'
+import {vfmPlugin} from 'vue-final-modal';
+import Dashboard from "./layout/Dashboard.vue";
+import Empty from "./layout/Empty.vue";
 
 const app = createApp(App);
 const pinia = createPinia();
 app
   .component("DataTable", Vue3EasyDataTable)
+  .component("DashboardLayout",Dashboard)
+  .component("EmptyLayout",Empty)
   .directive("ripple", Ripple)
   .use(pinia)
   .use(router)

@@ -40,19 +40,19 @@ const sizes: BadgeSizeClasses = {
 
 const props = defineProps({
   color: {
-    type: String as PropType<BadgeColor>,
+    type:String as PropType<BadgeColor>,
   },
   iconClass: {
-    type: String,
+    type:String,
   },
   label: {
-    type: String,
+    type:String,
   },
   size: {
-    type: String as unknown as PropType<BadgeSize>,
+    type:String as unknown as PropType<BadgeSize>,
   },
   outline: {
-    type: Boolean,
+    type:Boolean,
     default: false,
   },
 });

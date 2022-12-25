@@ -30,7 +30,7 @@ props.context?.node.on("input", ({ payload }) => {
 
 const classes = {
   container:
-    "relative formkit-invalid:input-error formkit-errors:input-error mx-auto w-full flex items-center justify-end box-border cursor-pointer transition-all duration-300 rounded bg-base-200 input text-base-content leading-snug outline-none",
+    "relativ rounded-lg formkit-invalid:input-error formkit-errors:input-error mx-auto w-full flex items-center justify-end box-border cursor-pointer transition-all duration-300 rounded bg-base-200 input text-base-content leading-snug outline-none",
   containerDisabled: "cursor-default opacity-50",
   containerOpen: "rounded-b-none",
   containerOpenTop: "rounded-t-none",
@@ -43,7 +43,7 @@ const classes = {
   multipleLabel:
     "flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5",
   search:
-    "w-full absolute inset-0 outline-none focus:ring-0 appearance-none box-border border-0 text-base-content font-sans bg-base-200 rounded  rtl:pl-0 rtl:pr-3.5",
+    "max-w-full  absolute inset-0 outline-none focus:ring-0 appearance-none box-border border-0 text-base-content font-sans bg-base-200 rounded  rtl:pl-0 rtl:pr-3.5",
   tags: "flex-grow flex-shrink flex flex-wrap items-center mt-1 pl-2 rtl:pl-0 rtl:pr-2",
   tag: "bg-green-500 text-white text-sm font-semibold py-0.5 pl-2 rounded mr-1 mb-1 flex items-center whitespace-nowrap rtl:pl-0 rtl:pr-2 rtl:mr-0 rtl:ml-1",
   tagDisabled: "pr-2 opacity-50 rtl:pl-2",
@@ -54,15 +54,15 @@ const classes = {
   tagsSearchWrapper:
     "text-base-content inline-block relative mx-1 mb-1 flex-grow flex-shrink h-full",
   tagsSearch:
-    "absolute inset-0 border-0 outline-none focus:ring-0 appearance-none p-0 text-base-content font-sans box-border w-full",
+    "absolute bg-base-200 inset-0 border-0 outline-none focus:ring-0 appearance-none p-0 text-base-content font-sans box-border w-full",
   tagsSearchCopy: "invisible whitespace-pre-wrap inline-block h-px",
   placeholder:
-    "flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug text-base-content rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5",
+    "flex items-center text-sm h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug text-base-content rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5",
   caret:
-    "bg-multiselect-caret bg-center bg-no-repeat w-2.5 h-4 py-px box-content mr-3.5 relative z-10  flex-shrink-0 flex-grow-0 transition-transform transform pointer-events-none rtl:mr-0 rtl:ml-3.5",
+    "bg-multiselect-caret bg-center bg-no-repeat w-2.5 h-4 py-px box-content mr-1 relative z-10  flex-shrink-0 flex-grow-0 transition-transform transform pointer-events-none rtl:mr-0 rtl:ml-3.5",
   caretOpen: "rotate-180 pointer-events-auto",
   clear:
-    "pr-3.5 relative z-10  transition duration-300 flex-shrink-0 flex-grow-0 flex hover:opacity-80 rtl:pr-0 rtl:pl-3.5",
+    "pr-3.5 relative z-10 ml-8 transition duration-300 flex-shrink-0 flex-grow-0 flex hover:opacity-80 rtl:pr-0 rtl:pl-3.5",
   clearIcon:
     "bg-multiselect-remove bg-center bg-no-repeat w-2.5 h-4 py-px box-content inline-block",
   spinner:

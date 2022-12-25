@@ -20,14 +20,14 @@ import {ButtonGroupMode, ButtonProp} from "./buttons"
 
 const props = defineProps({
   buttons: {
-    type: Object as PropType<ButtonProp[]>,
+    type:Object as PropType<ButtonProp[]>,
     required: true,
   },
   modelValue: {
-    type: [Number, String],
+    type:[Number, String],
   },
   mode: {
-    type: String as PropType<ButtonGroupMode>,
+    type:String as PropType<ButtonGroupMode>,
     default : 'horizontal'
   }
 });

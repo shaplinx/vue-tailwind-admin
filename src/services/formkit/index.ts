@@ -20,21 +20,21 @@ const formkitConfig = defaultConfig({
   },
   inputs: {
     customGroup: {
-      type: "group",
+      type:"group",
       component: CustomGroup,
     },
     vRepeater: {
-      type: "list",
+      type:"list",
       component: Repeater,
     },
     vSelect: createInput(vSelect),
     vButton: {
-      type: "input",
+      type:"input",
       component: VButtonVue,
     },
     datepicker: createInput(VueDatepickerVue),
     radioButton: {
-      type: "input",
+      type:"input",
       library: {
         rb: markRaw(RadioButton),
       },

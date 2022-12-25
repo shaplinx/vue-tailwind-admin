@@ -1,10 +1,12 @@
 import { ref, Ref } from "vue";
-import { Item, ServerOptions, Header } from "vue3-easy-data-table";
+import {  ServerOptions, Header } from "vue3-easy-data-table";
 import { FormKitSchemaNode } from "@formkit/core";
 import { CRUD } from "@/services/api/modules/crud/crud";
 import { useRouter } from "vue-router";
 import { $vfm } from "vue-final-modal";
 import DeleteModal from "@/components/modals/DeleteModal.vue"
+import { camelCase } from "../misc";
+
 
 interface RequestParams extends ServerOptions {
   [key: string]: any;
@@ -61,7 +63,7 @@ class IndexCRUD<T> {
             { component: DeleteModal },
             {
               id,
-              moduleName: this.#config.moduleName.toLowerCase(),
+              moduleName: camelCase(this.#config.moduleName),
               deleteFn: this.#config.crud.destroy,
               onSuccess: this.loadFromServer,
             }

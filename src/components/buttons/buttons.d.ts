@@ -19,13 +19,13 @@ declare interface ButtonProp {
   label?: string;
   size?: ButtonSize;
   variant?: ButtonVariant;
-  shape: "default" | "circle" | "square";
+  shape?: "default" | "circle" | "square";
   block?: boolean;
   wide?: boolean;
   disabled?: boolean;
   outline?:boolean;
   noAnimation?: boolean;
-  tag: string;
+  tag?: string;
   active?: boolean;
   outline?: boolean;
   value?: Number | string;

@@ -28,7 +28,7 @@ import { token } from "@formkit/utils";
 
 const props = defineProps({
   context: {
-    type: Object as PropType<FormKitFrameworkContext>,
+    type:Object as PropType<FormKitFrameworkContext>,
     required: true,
   },
 });

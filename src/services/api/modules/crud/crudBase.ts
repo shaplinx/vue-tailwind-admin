@@ -39,7 +39,7 @@ const DefineCrud = ({
         return new Promise((resolve, reject) => {
           base
             .get(
-              urlGetter({ customUrl, customUrlFnArgs, type: "INDEX" }),
+              urlGetter({ customUrl, customUrlFnArgs, type:"INDEX" }),
               config
             )
             .then((res: AxiosResponse) => {
@@ -67,7 +67,7 @@ const DefineCrud = ({
               urlGetter({
                 customUrl,
                 customUrlFnArgs,
-                type: "SHOW",
+                type:"SHOW",
                 id,
               }),
               config
@@ -94,7 +94,7 @@ const DefineCrud = ({
         return new Promise((resolve, reject) => {
           base
             .post(
-              urlGetter({ customUrl, customUrlFnArgs, type: "STORE" }),
+              urlGetter({ customUrl, customUrlFnArgs, type:"STORE" }),
               data,
               config
             )
@@ -121,7 +121,7 @@ const DefineCrud = ({
         return new Promise((resolve, reject) => {
           base
             .patch(
-              urlGetter({ customUrl, customUrlFnArgs, type: "UPDATE", id }),
+              urlGetter({ customUrl, customUrlFnArgs, type:"UPDATE", id }),
               data,
               config
             )
@@ -147,7 +147,7 @@ const DefineCrud = ({
         return new Promise((resolve, reject) => {
           base
             .delete(
-              urlGetter({ customUrl, customUrlFnArgs, type: "DESTROY", id }),
+              urlGetter({ customUrl, customUrlFnArgs, type:"DESTROY", id }),
               config
             )
             .then((res: AxiosResponse) => {

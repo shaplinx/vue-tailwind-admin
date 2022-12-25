@@ -8,15 +8,22 @@
       <TopBarVue />
 
       <main class="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl h-full mx-auto">
-        <RouterView v-slot="{ Component }">
-          <FadeInOut entry="left" exit="left" :duration="200" mode="out-in">
-            <component :is="Component" />
-          </FadeInOut>
+        <RouterView v-slot="{ Component, route }">
+          <Transition
+            mode="out-in"
+            enter-from-class="-translate-x-24 opacity-0"
+            enter-active-class="transition duration-150 transform"
+            enter-to-class="translate-x-0 opacity-100"
+            leave-from-class="translate-x-100 opacity-100"
+            leave-active-class="transition duration-150 transform"
+            leave-to-class="-translate-x-24 opacity-0"
+          >
+            <component :is="Component" :key="route.path" />
+          </Transition>
         </RouterView>
       </main>
       <FooterVue />
     </div>
-
   </div>
 </template>
 <script lang="ts" setup>

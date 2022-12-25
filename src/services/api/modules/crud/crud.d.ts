@@ -21,7 +21,7 @@ export declare interface urlGetterArgs {
   customUrl?: customUrl;
   customUrlFnArgs?: customUrlFnArgs;
   id?: actionId;
-  type: actionType;
+  type:actionType;
 }
 
 export declare interface actionArgs {

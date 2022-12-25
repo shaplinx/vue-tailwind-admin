@@ -12,6 +12,7 @@ interface CreateCrudConfig<T> {
   formId: string;
   formData?: any;
   processData?: callback;
+  processErrors? :callback;
 }
 
 type callback = (...args: any[]) => any;
@@ -49,7 +50,10 @@ class createCrud<T> {
         return Promise.resolve(res);
       })
       .catch((err) => {
-        setErrors(this.#config.formId, [err.data.message], err.data.errors);
+        if (err.status === 422) {
+          let errors = this.#config.processErrors ? this.#config.processErrors(err.data.errors) : err.data.errors
+          setErrors(this.#config.formId, [err.data.message], errors);
+        }
         return Promise.reject(err);
       })
       .finally(() => {
