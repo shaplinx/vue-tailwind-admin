@@ -1,40 +1,29 @@
 <template>
-  <div :class="`btn-group ${props.mode == 'vertical' ? 'btn-group-vertical': ''}`">
+  <dv-button-group>
     <dv-button
-      v-for="button,k in buttons"
+      v-for="(button, k) in buttons"
       :key="k"
-      :color="props.modelValue == button.value ? button.color : undefined"
+      :v-bind="button"
       :variant="button.variant"
-      :size="button.size"
-      :outline="button.outline"
-      :isLoading="button.isLoading"
-      :label="button.label"
       @click.prevent="$emit('update:modelValue', button.value)"
-    ></dv-button>
-  </div>
+      >{{ button.label }}</dv-button
+    >
+  </dv-button-group>
 </template>
 <script setup lang="ts">
-import { PropType } from "vue";
-import Button from "./Button.vue";
-import {ButtonGroupMode, ButtonProp} from "./buttons"
+import { PropType, defineProps } from "vue";
 
-const props = defineProps({
+ defineProps({
   buttons: {
-    type:Object as PropType<ButtonProp[]>,
+    type: Array as PropType<ButtonProp[]>,
     required: true,
   },
   modelValue: {
-    type:[Number, String],
+    type: [Number, String],
   },
   mode: {
-    type:String as PropType<ButtonGroupMode>,
-    default : 'horizontal'
-  }
+    type: String as PropType<ButtonGroupMode>,
+    default: "horizontal",
+  },
 });
-
-// const onInput = (value) => {
-//   console.log(value)
-//   $emit('update:modelValue', button.key)
-// }
 </script>
-

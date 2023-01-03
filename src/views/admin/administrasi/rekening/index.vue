@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableCard
-      :title="t('pasien.index-title')"
+      :title="t('rekening.index-title')"
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
@@ -19,22 +19,23 @@
         table-class-name="light-table"
         must-sort
       >
-        <template #item-kelamin="row">
-          <dv-badge
-            size="large"
-            outline
-            :color="row.kelamin == 'L' ? 'primary' : 'secondary'"
-            ><fa :icon="row.kelamin == 'L' ? 'mars' : 'venus'"></fa></dv-badge
-        ></template>
-        <template #item-tgl_lahir="row">
-          {{ dateTime(row.tgl_lahir).format("ll") }}
-          <dv-badge size="small" type="primary">{{
-            age(row.tgl_lahir)
-          }}</dv-badge>
+        <template #item-amount="row">
+        <span :class="row.amount < 0 ? 'text-error' : 'text-success'">
+          {{ money(row.amount).toFormat() }}
+        </span>
         </template>
-        <template #item-alamat="row"> {{ row.alamatLengkap }} </template>
+        <template #item-mutator_type="row">
+          <dv-badge v-if="row.mutator" type="secondary">
+            {{ row.mutator_type.split("\\").pop() }}
+          </dv-badge>
+        </template>
         <template #item-created_at="row">
           {{ dateTime(row.created_at).format("llll") }}
+        </template>
+        <template #item-active="row">
+          <dv-badge :type="row.active == 1 ? 'success' : 'error'">
+            {{ t(`menu.boolean.${row.active}`) }} 
+          </dv-badge>
         </template>
         <template #item-action="row">
           <DropdownMenuVue>
@@ -61,13 +62,14 @@
 </template>
 <script setup lang="ts">
 import TableCard from "@/components/cards/TableCard.vue";
-import { dateTime, age } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
+import { money } from "@/services/dinero/dinero";
 import { watch } from "vue";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-import crud from "@/services/api/modules/pasienCRUD";
+import crud from "@/services/api/modules/rekeningCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
+import { dateTime } from "@/services/moment/moment";
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -82,36 +84,41 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pasien>({
-  moduleName: "Pasien",
+} = new IndexCRUD<App.Models.Administrasi.BallanceMutation>({
+  moduleName: "Rekening",
   crud,
   filterSchema: schema,
   headers: [
     { text: "ID", value: "id", sortable: true },
-    { text: "Nama Lengkap", value: "nama_lengkap", sortable: true },
-    { text: "Kelamin", value: "kelamin", sortable: true },
-    { text: "Tanggal Lahir", value: "tgl_lahir", sortable: true },
-    { text: "Alamat", value: "alamat", sortable: true },
-    { text: "Tanggal Pendaftaran", value: "created_at", sortable: true },
+    { text: t("rekening.form.amount"), value: "amount", sortable: true },
+    {
+      text: t("rekening.form.mutator_type"),
+      value: "mutator_type",
+      sortable: true,
+    },
+    {
+      text: t("rekening.form.mutator_id"),
+      value: "mutator_id",
+      sortable: true,
+    },
+    { text: t("rekening.form.description"), value: "description", sortable: true },
+
+    { text: t("rekening.form.active"), value: "active", sortable: false },
+    { text: t("menu.created_at"), value: "created_at", sortable: true },
     { text: "Aksi", value: "action", sortable: false },
   ],
   buttons: (index) => [
     {
-      label: t("pasien.add-new-title"),
+      label: t("rekening.add-new-title"),
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () => index.router.push({ name: "RekeningCreate" }),
     },
   ],
 })
   .addServerOptions({ date_start: null, date_end: null })
-  .extRequestParams((index: any) => {
-    return {
-      date_start: index.serverOptions.value.date_start,
-      date_end: index.serverOptions.value.date_end,
-    };
-  });
+
 
 // initial load
 loadFromServer();

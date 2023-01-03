@@ -1,8 +1,10 @@
+import { buttonProps } from "daisyui-vue";
+
 declare type BaseSize = "xs" | "s" | "md" | "lg" | "lg";
 
 declare type ButtonSize = BaseSize;
 declare type ButtonVariant =
-  | "neutral"
+  | "default"
   | "primary"
   | "secondary"
   | "accent"
@@ -23,12 +25,12 @@ declare interface ButtonProp {
   block?: boolean;
   wide?: boolean;
   disabled?: boolean;
-  outline?:boolean;
+  outline?: boolean;
   noAnimation?: boolean;
   tag?: string;
   active?: boolean;
-  outline?: boolean;
   value?: Number | string;
   onClick?: Function;
 }
 
+declare type ButtonGroupMode = "vertical" | "horizontal";

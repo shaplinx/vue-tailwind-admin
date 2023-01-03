@@ -1,135 +1,134 @@
-import baseForm from "@/base/form"
-import hasStatus from "@/base/form/extends/hasStatus";
-export default {
-  mixins: [baseForm, hasStatus],
-  data() {
-    return {
-      options: {
-        user: [],
+import { FormKitSchemaNode } from "@formkit/core";
+import http from "@/services/api/base";
+import { currency } from "@/services/dinero/dinero";
+
+export const defineGajiSchema = ({
+  t,
+  formData = undefined,
+}: {
+  t: any;
+  formData: any | undefined;
+}): FormKitSchemaNode[] => {
+  return [
+    {
+      $formkit: "hidden",
+      name: "id",
+    },
+    {
+      $formkit: "vSelect",
+      name: "user",
+      label: t("gaji.form.user"),
+      displayLabel: "fullname",
+      placeholder: t("formkit.searchPlaceholder"),
+      object: true,
+      valueProp: "id",
+      "filter-results": false,
+      "min-chars": 1,
+      "resolve-on-load": true,
+      clearOnSearch: true,
+      debounce: 400,
+      searchable: true,
+      options: (search: string): Promise<any[]> => {
+        return http
+          .get("/administrasi/pegawai", { params: { search } })
+          .then((res: any) => res.data.data);
       },
-    }
-  },
-  computed: {
-    formSchema() {
-      return [
+    },
+    {
+      $formkit: "status",
+      name: "status",
+      label: t("gaji.form.status"),
+    },
+    {
+      $el: "div",
+      attrs: {
+        class: "grid grid-cols-1 md:grid-cols-2 gap-2",
+      },
+      children: [
         {
-          $formkit: "hidden",
-          name: "id",
-        },
-        {
-          $formkit: "vue-select",
-          name: "user",
-          errors: this.errors.user_id || [],
-          vuelabel: "fullname",
-          searchable: true,
-          filterable: false,
-          label: t("gaji.form.user"),
-          options: this.options.user,
-          "@search": (search, loading) =>
-            this.handleSearch(loading, {
-              url: "/api/administrasi/pegawai",
-              field: "user",
-              params: {
-                search: search,
-              },
-            }),
-        },
-        this.statusField,
-        {
-          $formkit: "vue-datetime",
-          datetype: "date",
+          $formkit: "date",
           name: "start_date",
-          help:  t("gaji.form.start_date_help"),
+          help: t("gaji.form.start_date_help"),
           label: t("gaji.form.start_date"),
         },
         {
-          $formkit: "vue-datetime",
-          datetype: "date",
+          $formkit: "date",
           name: "end_date",
-          help:  t("gaji.form.end_date_help"),
+          help: t("gaji.form.end_date_help"),
           label: t("gaji.form.end_date"),
         },
-
+      ],
+    },
+    {
+      $formkit: "vRepeater",
+      name: "custom_gaji_contents",
+      addLabel: t("formkit.repeater-new"),
+      label: t("gaji.form.customGaji"),
+      children: [
         {
-          "type": "group",
-          "name": "custom_gaji_contents",
-          "repeatable": true,
-          label: t("gaji.form.customGaji"),
-          "add-label": `+ ${t("menu.add-new")}`,
-          "children": [
-
-            {
-              "type": "text",
-              "name": "deskripsi",
-              label: t("gaji.form.deskripsi"),
-            },
-            {
-              $formkit: "inputGroup",
-              inputType: "number",
-              prepend: "Rp.",
-              name: "harga",
-              label: t("gaji.form.harga"),
-            },
-          ]
+          $formkit: "text",
+          name: "deskripsi",
+          label: t("gaji.form.deskripsi"),
         },
         {
-          component: 'div',
-          class: 'row',
+          $formkit: "number",
+          "sections-schema": {
+            prefix: currency(),
+          },
+          name: "harga",
+          label: t("gaji.form.harga"),
+        },
+      ],
+    },
+    {
+      $el: "div",
+      attrs: {
+        class: "grid grid-cols-1 md:grid-cols-3 gap-2",
+      },
+      children: [
+        {
+          $el: "div",
           children: [
             {
-              component: 'div',
-              class: "col-md-4 col-sm-12",
-              children: [
-                {
-                  $formkit: "inputGroup",
-                  inputType: "number",
-                  prepend: "Rp.",
-                  name: "totalJasa",
-                  disabled: true,
-                  label: t("gaji.form.totalJasa"),
-                },
-              ]
+              $formkit: "number",
+              "sections-schema": {
+                prefix: currency(),
+              },
+              name: "totalJasa",
+              readonly: true,
+              label: t("gaji.form.totalJasa"),
             },
-            {
-              component: 'div',
-              class: "col-md-4 col-sm-12",
-              children: [
-                {
-                  $formkit: "inputGroup",
-                  inputType: "number",
-                  prepend: "Rp.",
-                  name: "totalCustomGaji",
-                  disabled: true,
-                  label: t("gaji.form.totalCustomGaji"),
-                },
-              ]
-            },
-            {
-              component: 'div',
-              class: "col-md-4 col-s-12",
-              children: [
-                {
-                  $formkit: "inputGroup",
-                  inputType: "number",
-                  prepend: "Rp.",
-                  name: "totalGaji",
-                  disabled: true,
-                  label: t("gaji.form.totalGaji"),
-                },
-              ]
-            }
-          ]
+          ],
         },
-
         {
-          $formkit: "vue-loading-button",
-          block: true,
-          buttonType: "submit",
-          loading: this.isSaving,
-          variant: "primary",
-          label: t("gaji.form.submit"),
+          $el: "div",
+          children: [
+            {
+              $formkit: "number",
+              "sections-schema": {
+                prefix: currency(),
+              },
+              name: "totalCustomGaji",
+              readonly: true,
+              label: t("gaji.form.totalCustomGaji"),
+            },
+          ],
         },
-      ];
+        {
+          $el: "div",
+          children: [
+            {
+              $formkit: "number",
+              "sections-schema": {
+                prefix: currency(),
+              },
+              name: "totalGaji",
+              readonly: true,
+              label: t("gaji.form.totalGaji"),
+            },
+          ],
+        },
+      ],
     },
-  }
-}
+  ];
+};

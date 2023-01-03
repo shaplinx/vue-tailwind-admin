@@ -2,69 +2,71 @@
   <dv-card class="bg-base-100 text-base-content">
     <dv-card-body>
       <dv-card-title class="flex">
-        {{ t("pasien.add-new-title") }}
+        {{ t("pegawai.add-new-title") }}
       </dv-card-title>
       <FormKit
         :actions="false"
         v-model="formData"
         type="form"
         :disabled="isSaving"
-        id="pasien-create"
+        id="pegawai-create"
       >
         <FormKitSchema :schema="schema" />
       </FormKit>
       <SaveButtons
-        module="pasien"
-        :except="['delete']"
+        module="pegawai"
+        :except="['delete','submitNext']"
         :is-saving="isSaving"
+        @submitNew="submit({ name: 'PegawaiCreate' })"
         @submit="submit(onSubmit)"
         @submitNext="submit()"
-        @submitClose="submit({ name: 'PasienIndex' })"
-        @close="() => router.push({ name: 'PasienIndex' })"
+        @submitClose="submit({ name: 'PegawaiIndex' })"
+        @close="() => router.push({ name: 'PegawaiIndex' })"
       />
     </dv-card-body>
   </dv-card>
 </template>
 
 <script lang="ts" setup>
-import pasienCRUD from "@/services/api/modules/pasienCRUD";
-import { definePasienSchema } from "@/forms/pasienForm";
+import pegawaiCRUD from "@/services/api/modules/pegawaiCRUD";
+import { definePegawaiSchema } from "@/forms/pegawaiForm";
 import SaveButtons from "@/components/buttons/SaveButtons.vue";
 import useCreateCrud from "@/hooks/crud/useCreateCrud";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { AxiosResponse } from "axios";
 import { ResponseData } from "@/services/api/modules/crud/crud";
+import { mergeErrorsWithPrefix } from "@/hooks/misc";
+
 
 const router = useRouter();
-const onSubmit = (res: AxiosResponse<ResponseData<App.Models.Pasien>>) => {
-  router.push({ name: "PasienEdit", params: { id: res.data.data.id } });
+const onSubmit = (res: AxiosResponse<ResponseData<App.Models.User>>) => {
+  router.push({ name: "PegawaiEdit", params: { id: res.data.data.id } });
 };
 
 const { t } = useI18n();
 
-const { isSaving, formData, submit } = new useCreateCrud<App.Models.Pasien>({
-  crud: pasienCRUD,
-  formId: "pasien-create",
+const { isSaving, formData, submit } = new useCreateCrud<App.Models.User>({
+  crud: pegawaiCRUD,
+  formId: "pegawai-create",
   formData: {
-    alamat_idn: null,
-    tmp_lahir: null,
+    profesi:null,
+    roles: null,
   },
-  processData: (values: any): App.Models.Pasien => {
+  processData: (values) => {
     return {
       ...values,
-      tmp_lahir_id: values.tmp_lahir?.id,
-      alamat_id: values.alamat_idn?.id,
+      profesi_id: values.profesi?.id,
     };
   },
   processErrors: (errors) => {
     return {
       ...errors,
-      tmp_lahir: errors.tmp_lahir_id ?? [],
-      alamat_idn: errors.alamat_id ?? [],
+      profesi: mergeErrorsWithPrefix('profesi', errors),
+      roles: mergeErrorsWithPrefix('roles', errors)
     };
   },
 });
 
-const schema = definePasienSchema({ t, formData });
+const schema = definePegawaiSchema({ t, formData });
 </script>

@@ -2,23 +2,25 @@
   <dv-card class="bg-base-100 text-base-content">
     <SpinnerOverlay :show="isLoadingFormData" />
     <dv-card-body>
-      <dv-card-title> {{ t("pasien.edit-title") }} </dv-card-title>
+      <dv-card-title> {{ t("diagnosis.edit-title") }} </dv-card-title>
       <FormKit
         :actions="false"
         v-model="formData"
         type="form"
         :disabled="isSaving"
-        id="pasien-edit"
+        id="diagnosis-edit"
       >
         <FormKitSchema :schema="schema" />
       </FormKit>
       <SaveButtons
-        module="pasien"
+        module="diagnosis"
         :is-saving="isSaving"
+        :except="['submitNext']"
+        @submitNew="submit({ name: 'DiagnosisCreate' })"
         @submit="submit()"
         @submitNext="submit()"
-        @submitClose="submit({ name: 'PasienIndex' })"
-        @close="router.push({ name: 'PasienIndex' })"
+        @submitClose="submit({ name: 'DiagnosisIndex' })"
+        @close="router.push({ name: 'DiagnosisIndex' })"
         @delete="destroy"
       />
     </dv-card-body>
@@ -26,12 +28,12 @@
 </template>
 
 <script lang="ts" setup>
-import pasienCRUD from "@/services/api/modules/pasienCRUD";
-import { definePasienSchema } from "@/forms/pasienForm";
+import diagnosisCRUD from "@/services/api/modules/diagnosisCRUD";
+import { defineDiagnosisSchema } from "@/forms/diagnosisForm";
 import SaveButtons from "@/components/buttons/SaveButtons.vue";
 import SpinnerOverlay from "@/components/loader/SpinnerOverlay.vue";
 import useEditCrud from "@/hooks/crud/useEditCrud";
-
+import { mergeErrorsWithPrefix } from "@/hooks/misc";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -44,31 +46,28 @@ const {
   isLoadingFormData,
   loadFormData,
   submit,
-} = new useEditCrud<App.Models.Pasien>({
-  crud: pasienCRUD,
-  formId: "pasien-edit",
-  moduleName: "Pasien",
+} = new useEditCrud<App.Models.Diagnosis>({
+  crud: diagnosisCRUD,
+  formId: "diagnosis-edit",
+  moduleName: "Diagnosis",
   formData: {
-    alamat_idn: null,
-    tmp_lahir: null,
+    icd10: null,
   },
-  processData: (values: any) => {
+  processData: (values) => {
     return {
       ...values,
-      tmp_lahir_id: values.tmp_lahir?.id,
-      alamat_id: values.alamat_idn?.id,
+      icd10_id: values.icd10.id,
     };
   },
   processErrors: (errors) => {
     return {
       ...errors,
-      tmp_lahir: errors.tmp_lahir_id ?? [],
-      alamat_idn: errors.alamat_id ?? [],
+      icd10: mergeErrorsWithPrefix("icd10", errors),
     };
   },
 });
 
-const schema = definePasienSchema({ t, formData });
+const schema = defineDiagnosisSchema({ t, formData });
 
 loadFormData();
 </script>

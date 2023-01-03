@@ -7,6 +7,7 @@ import {
 import { setErrors, getNode } from "@formkit/core";
 import { CRUD } from "@/services/api/modules/crud/crud";
 
+
 interface CreateCrudConfig<T> {
   crud: CRUD<T>;
   formId: string;

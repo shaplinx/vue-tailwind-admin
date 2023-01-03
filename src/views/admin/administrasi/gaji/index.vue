@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableCard
-      :title="t('pasien.index-title')"
+      :title="t('gaji.index-title')"
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
@@ -19,23 +19,40 @@
         table-class-name="light-table"
         must-sort
       >
-        <template #item-kelamin="row">
-          <dv-badge
-            size="large"
-            outline
-            :color="row.kelamin == 'L' ? 'primary' : 'secondary'"
-            ><fa :icon="row.kelamin == 'L' ? 'mars' : 'venus'"></fa></dv-badge
-        ></template>
-        <template #item-tgl_lahir="row">
-          {{ dateTime(row.tgl_lahir).format("ll") }}
-          <dv-badge size="small" type="primary">{{
-            age(row.tgl_lahir)
+        <template #item-user="row">
+          {{ row.user.fullname }}
+        </template>
+        <template #item-start_date="row">
+          <dv-badge type="primary">{{
+            dateTime(row.start_date).format("ll")
           }}</dv-badge>
         </template>
-        <template #item-alamat="row"> {{ row.alamatLengkap }} </template>
-        <template #item-created_at="row">
-          {{ dateTime(row.created_at).format("llll") }}
+        <template #item-end_date="row">
+          <dv-badge type="primary">{{
+            dateTime(row.end_date).format("ll")
+          }}</dv-badge>
         </template>
+        <template #item-totalGaji="row">
+          <dv-badge type="success">{{
+            money(row.totalGaji).toFormat()
+          }}</dv-badge>
+        </template>
+        <template #item-totalCustomGaji="row">
+          <dv-badge type="success">{{
+            money(row.totalCustomGaji).toFormat()
+          }}</dv-badge>
+        </template>
+        <template #item-totalJasa="row">
+          <dv-badge type="success">{{
+            money(row.totalJasa).toFormat()
+          }}</dv-badge>
+        </template>
+        <template #item-status="row">
+          <dv-badge :type="statusBadge(row.status)">{{
+            t(`menu.status.${row.status}`)
+          }}</dv-badge>
+        </template>
+
         <template #item-action="row">
           <DropdownMenuVue>
             <dv-button variant="primary" size="small"
@@ -61,13 +78,14 @@
 </template>
 <script setup lang="ts">
 import TableCard from "@/components/cards/TableCard.vue";
-import { dateTime, age } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
+import { money } from "@/services/dinero/dinero";
 import { watch } from "vue";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-import crud from "@/services/api/modules/pasienCRUD";
+import crud from "@/services/api/modules/gajiCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
+import { dateTime } from "@/services/moment/moment";
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -82,34 +100,42 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pasien>({
-  moduleName: "Pasien",
+} = new IndexCRUD<App.Models.Administrasi.Gaji>({
+  moduleName: "Gaji",
   crud,
   filterSchema: schema,
   headers: [
     { text: "ID", value: "id", sortable: true },
-    { text: "Nama Lengkap", value: "nama_lengkap", sortable: true },
-    { text: "Kelamin", value: "kelamin", sortable: true },
-    { text: "Tanggal Lahir", value: "tgl_lahir", sortable: true },
-    { text: "Alamat", value: "alamat", sortable: true },
-    { text: "Tanggal Pendaftaran", value: "created_at", sortable: true },
+    { text: t("gaji.form.user"), value: "user", sortable: false },
+    { text: t("gaji.form.start_date"), value: "start_date", sortable: true },
+    { text: t("gaji.form.end_date"), value: "end_date", sortable: true },
+    { text: t("gaji.form.totalJasa"), value: "totalJasa", sortable: false },
+    {
+      text: t("gaji.form.totalCustomGaji"),
+      value: "totalCustomGaji",
+      sortable: false,
+    },
+    { text: t("gaji.form.totalGaji"), value: "totalGaji", sortable: false },
+    { text: t("gaji.form.status"), value: "status", sortable: false },
     { text: "Aksi", value: "action", sortable: false },
   ],
   buttons: (index) => [
     {
-      label: t("pasien.add-new-title"),
+      label: t("gaji.add-new-title"),
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () => index.router.push({ name: "GajiCreate" }),
     },
   ],
 })
   .addServerOptions({ date_start: null, date_end: null })
+
   .extRequestParams((index: any) => {
     return {
       date_start: index.serverOptions.value.date_start,
       date_end: index.serverOptions.value.date_end,
+      warning: index.serverOptions.value.warning,
     };
   });
 
@@ -123,4 +149,17 @@ watch(
   },
   { deep: true }
 );
+
+const statusBadge = (value: number) => {
+  switch (value) {
+    case 0:
+      return "error";
+    case 1:
+      return "warning";
+    case 2:
+      return "success";
+    default:
+      return "default";
+  }
+};
 </script>

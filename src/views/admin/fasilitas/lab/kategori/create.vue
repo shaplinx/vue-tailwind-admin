@@ -24,7 +24,7 @@
       />
     </dv-card-body>
   </dv-card>
-</template>
+</template> 
 
 <script lang="ts" setup>
 import kategoriLabCRUD from "@/services/api/modules/kategoriLabCRUD";

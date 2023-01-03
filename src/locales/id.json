@@ -325,7 +325,10 @@
       "jasa": "Jasa",
       "bagian_operator": "Jasa Operator",
       "bagian_operator_help": "Jasa akan dibagi dua antara operator dan asisten. Tentukan presentase yang akan diberikan pada operator",
-      "submit": "Simpan Tindakan"
+      "submit": "Simpan Tindakan",
+      "submitNext": "Simpan Tindakan Dan Lanjutkan",
+      "submitClose": "Simpan Tindakan Dan Tutup",
+      "submitNew": "Simpan Tindakan Dan Buat Baru"
     }
   },
   "tagihan": {
@@ -536,6 +539,7 @@
 
   "formkit": {
     "searchLabel": "Cari",
+    "repeater-new": "+ Tambah Baru",
     "searchPlaceholder" : "Ketik untuk mencari",
     "date_end": "Tanggal Selesai",
     "date_start": "Tanggal Mulai",

@@ -17,3 +17,11 @@ export function camelCase(str: string): string {
     })
     .replace(/\s+/g, "");
 }
+
+export function decimalToPrecent(decimal: number) {
+  let formatter = new Intl.NumberFormat("id-ID", {
+    style: "percent",
+    minimumFractionDigits: 2,
+  });
+  return formatter.format(decimal);
+}

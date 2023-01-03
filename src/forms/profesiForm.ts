@@ -1,7 +1,7 @@
 import { FormKitSchemaNode } from "@formkit/core";
 import http from "@/services/api/base";
 
-export const definePasienSchema = ({
+export const defineProfesiSchema = ({
   t,
   formData = undefined,
 }: {
@@ -42,6 +42,7 @@ export const definePasienSchema = ({
         help: t("profesi.form.poliklinik_help"),
         label: t("profesi.form.poliklinik"),
         object: true,
+        mode:"tags",
         valueProp: "id",
         "filter-results": false,
         "min-chars": 1,

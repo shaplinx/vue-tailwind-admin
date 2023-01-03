@@ -52,7 +52,7 @@ const { isSaving, formData, submit, router } = new useCreateCrud<App.Models.Pert
     pemeriksa: null,
     asisten: null,
     poliklinik: null,
-    waktu_pemeriksaan: dateTime()
+    waktu_pertemuan: dateTime().toISOString()
   },
   processData: (values: any): App.Models.Pertemuan => {
     return {

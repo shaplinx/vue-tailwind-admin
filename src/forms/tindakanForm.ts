@@ -1,4 +1,6 @@
-import { FormKitSchemaNode } from "@formkit/core";
+import { computed } from "vue";
+import { currency } from "@/services/dinero/dinero";
+import { decimalToPrecent } from "@/hooks/misc";
 
 export const defineTindakanSchema = ({
   t,
@@ -6,7 +8,8 @@ export const defineTindakanSchema = ({
 }: {
   t: any;
   formData: any | undefined;
-}) : FormKitSchemaNode[] => {
+}) => {
+  return computed(() => {
     return [
       {
         $formkit: "hidden",
@@ -20,25 +23,48 @@ export const defineTindakanSchema = ({
       {
         $formkit: "number",
         name: "harga_jual",
-        prefix: 'Rp',
+        "sections-schema": {
+          prefix: currency(),
+        },
         label: t("tindakan.form.harga_jual"),
       },
       {
         $formkit: "number",
-        prefix: 'Rp',
+        "sections-schema": {
+          prefix: currency(),
+        },
         name: "jasa",
         label: t("tindakan.form.jasa"),
       },
       {
-        $formkit: "slider",
-        min:0,
-        interval:0.05,
-        max:1,
+        $formkit: "status",
+        name: "status",
+        label: t("tindakan.form.jasa"),
+      },
+      {
+        $formkit: "range",
+        min: 0,
+        step: 0.05,
+        max: 1,
         name: "bagian_operator",
         label: t("tindakan.form.bagian_operator"),
         help: t("tindakan.form.bagian_operator_help"),
       },
+      {
+        $el: "div",
+        attrs: {
+          class: "flex justify-center -mt-3 mb-3",
+        },
+        children: [
+          {
+            $cmp: "dv-badge",
+            props: {
+              type: "primary",
+            },
+            children: decimalToPrecent(formData.value.bagian_operator),
+          },
+        ],
+      },
     ];
+  });
 };
-
-

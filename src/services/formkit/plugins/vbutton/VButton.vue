@@ -5,7 +5,7 @@
 
 import { FormKitFrameworkContext } from "@formkit/core";
 import { PropType } from "vue";
-import Button from "@/components/buttons/Button.vue";
+
 defineProps({
   context: Object as PropType<FormKitFrameworkContext>,
 });

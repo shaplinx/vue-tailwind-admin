@@ -2,23 +2,25 @@
   <dv-card class="bg-base-100 text-base-content">
     <SpinnerOverlay :show="isLoadingFormData" />
     <dv-card-body>
-      <dv-card-title> {{ t("pasien.edit-title") }} </dv-card-title>
+      <dv-card-title> {{ t("rekening.edit-title") }} </dv-card-title>
       <FormKit
         :actions="false"
         v-model="formData"
         type="form"
         :disabled="isSaving"
-        id="pasien-edit"
+        id="rekening-edit"
       >
         <FormKitSchema :schema="schema" />
       </FormKit>
       <SaveButtons
-        module="pasien"
+        module="rekening"
         :is-saving="isSaving"
+        :except="['submitNext']"
+        @submitNew="submit({ name: 'RekeningCreate' })"
         @submit="submit()"
         @submitNext="submit()"
-        @submitClose="submit({ name: 'PasienIndex' })"
-        @close="router.push({ name: 'PasienIndex' })"
+        @submitClose="submit({ name: 'RekeningIndex' })"
+        @close="router.push({ name: 'RekeningIndex' })"
         @delete="destroy"
       />
     </dv-card-body>
@@ -26,8 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import pasienCRUD from "@/services/api/modules/pasienCRUD";
-import { definePasienSchema } from "@/forms/pasienForm";
+import rekeningCRUD from "@/services/api/modules/rekeningCRUD";
+import { defineRekeningSchema } from "@/forms/rekeningForm";
 import SaveButtons from "@/components/buttons/SaveButtons.vue";
 import SpinnerOverlay from "@/components/loader/SpinnerOverlay.vue";
 import useEditCrud from "@/hooks/crud/useEditCrud";
@@ -44,31 +46,13 @@ const {
   isLoadingFormData,
   loadFormData,
   submit,
-} = new useEditCrud<App.Models.Pasien>({
-  crud: pasienCRUD,
-  formId: "pasien-edit",
-  moduleName: "Pasien",
-  formData: {
-    alamat_idn: null,
-    tmp_lahir: null,
-  },
-  processData: (values: any) => {
-    return {
-      ...values,
-      tmp_lahir_id: values.tmp_lahir?.id,
-      alamat_id: values.alamat_idn?.id,
-    };
-  },
-  processErrors: (errors) => {
-    return {
-      ...errors,
-      tmp_lahir: errors.tmp_lahir_id ?? [],
-      alamat_idn: errors.alamat_id ?? [],
-    };
-  },
+} = new useEditCrud<App.Models.Administrasi.BallanceMutation>({
+  crud: rekeningCRUD,
+  formId: "rekening-edit",
+  moduleName: "Rekening",
 });
 
-const schema = definePasienSchema({ t, formData });
+const schema = defineRekeningSchema({ t, formData });
 
 loadFormData();
 </script>

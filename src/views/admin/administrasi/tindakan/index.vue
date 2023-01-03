@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableCard
-      :title="t('pasien.index-title')"
+      :title="t('tindakan.index-title')"
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
@@ -19,22 +19,16 @@
         table-class-name="light-table"
         must-sort
       >
-        <template #item-kelamin="row">
-          <dv-badge
-            size="large"
-            outline
-            :color="row.kelamin == 'L' ? 'primary' : 'secondary'"
-            ><fa :icon="row.kelamin == 'L' ? 'mars' : 'venus'"></fa></dv-badge
-        ></template>
-        <template #item-tgl_lahir="row">
-          {{ dateTime(row.tgl_lahir).format("ll") }}
-          <dv-badge size="small" type="primary">{{
-            age(row.tgl_lahir)
+        <template #item-harga_jual="row">
+          <dv-badge type="success">{{
+            money(row.harga_jual).toFormat()
           }}</dv-badge>
         </template>
-        <template #item-alamat="row"> {{ row.alamatLengkap }} </template>
-        <template #item-created_at="row">
-          {{ dateTime(row.created_at).format("llll") }}
+        <template #item-jasa="row">
+          <dv-badge type="success">{{ money(row.jasa).toFormat() }}</dv-badge>
+        </template>
+        <template #item-bagian_operator="row">
+          {{ decimalToPrecent(row.bagian_operator) }}
         </template>
         <template #item-action="row">
           <DropdownMenuVue>
@@ -61,13 +55,14 @@
 </template>
 <script setup lang="ts">
 import TableCard from "@/components/cards/TableCard.vue";
-import { dateTime, age } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
+import { money } from "@/services/dinero/dinero";
 import { watch } from "vue";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-import crud from "@/services/api/modules/pasienCRUD";
+import crud from "@/services/api/modules/tindakanCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
+import { decimalToPrecent } from "@/hooks/misc";
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -82,34 +77,43 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pasien>({
-  moduleName: "Pasien",
+} = new IndexCRUD<App.Models.Administrasi.Tindakan>({
+  moduleName: "Tindakan",
   crud,
   filterSchema: schema,
   headers: [
     { text: "ID", value: "id", sortable: true },
-    { text: "Nama Lengkap", value: "nama_lengkap", sortable: true },
-    { text: "Kelamin", value: "kelamin", sortable: true },
-    { text: "Tanggal Lahir", value: "tgl_lahir", sortable: true },
-    { text: "Alamat", value: "alamat", sortable: true },
-    { text: "Tanggal Pendaftaran", value: "created_at", sortable: true },
+    { text: t("tindakan.form.nama"), value: "nama", sortable: true },
+    {
+      text: t("tindakan.form.harga_jual"),
+      value: "harga_jual",
+      sortable: true,
+    },
+    { text: t("tindakan.form.jasa"), value: "jasa", sortable: true },
+    {
+      text: t("tindakan.form.bagian_operator"),
+      value: "bagian_operator",
+      sortable: true,
+    },
     { text: "Aksi", value: "action", sortable: false },
   ],
   buttons: (index) => [
     {
-      label: t("pasien.add-new-title"),
+      label: t("tindakan.add-new-title"),
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () => index.router.push({ name: "TindakanCreate" }),
     },
   ],
 })
   .addServerOptions({ date_start: null, date_end: null })
+
   .extRequestParams((index: any) => {
     return {
       date_start: index.serverOptions.value.date_start,
       date_end: index.serverOptions.value.date_end,
+      warning: index.serverOptions.value.warning,
     };
   });
 

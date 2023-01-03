@@ -32,7 +32,8 @@
             <dv-badge
               v-for="pemeriksaan_lab in row.pemeriksaan_lab"
               type="primary"
-              >{{ pemeriksaan_lab.nama }}</dv-badge
+              v-tooltip="pemeriksaan_lab.nama"
+              >{{ pemeriksaan_lab.kode }}</dv-badge
             >
           </div>
         </template>

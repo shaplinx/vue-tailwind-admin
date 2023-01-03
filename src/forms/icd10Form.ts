@@ -1,6 +1,6 @@
 import { FormKitSchemaNode } from "@formkit/core";
 
-export const defineKategoriLabSchema = ({
+export const defineIcd10Schema = ({
   t,
   formData = undefined,
 }: {

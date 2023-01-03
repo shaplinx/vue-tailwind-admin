@@ -12,7 +12,10 @@ import RadioButton from "./plugins/radiobutton/RadioButton.vue";
 import VueDatepickerVue from "./plugins/vue-datepicker/VueDatepicker.vue";
 import { markRaw } from "vue";
 import { generateClasses } from "@formkit/themes";
+import Status from "./plugins/status/Status.vue";
+import Toggle from "./plugins/toggle/Toggle.vue"
 import theme from "./theme";
+
 
 const formkitConfig = defaultConfig({
   config: {
@@ -20,21 +23,23 @@ const formkitConfig = defaultConfig({
   },
   inputs: {
     customGroup: {
-      type:"group",
+      type: "group",
       component: CustomGroup,
     },
     vRepeater: {
-      type:"list",
+      type: "list",
       component: Repeater,
     },
     vSelect: createInput(vSelect),
     vButton: {
-      type:"input",
+      type: "input",
       component: VButtonVue,
     },
+    status: createInput(Status),
+    toggle: createInput(Toggle),
     datepicker: createInput(VueDatepickerVue),
     radioButton: {
-      type:"input",
+      type: "input",
       library: {
         rb: markRaw(RadioButton),
       },

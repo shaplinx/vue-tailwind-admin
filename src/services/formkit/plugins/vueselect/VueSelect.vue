@@ -7,6 +7,7 @@
       :label="props.context?.attrs.displayLabel"
       :delay="props.context?.attrs.debounce"
       :classes="classes"
+      :disabled="props.context?.disabled"
       ref="vueselect"
     >
     </VueSelect>
@@ -31,7 +32,7 @@ props.context?.node.on("input", ({ payload }) => {
 const classes = {
   container:
     "relativ rounded-lg formkit-invalid:input-error formkit-errors:input-error mx-auto w-full flex items-center justify-end box-border cursor-pointer transition-all duration-300 rounded bg-base-200 input text-base-content leading-snug outline-none",
-  containerDisabled: "cursor-default opacity-50",
+  containerDisabled: "cursor-not-allowed  opacity-50",
   containerOpen: "rounded-b-none",
   containerOpenTop: "rounded-t-none",
   containerActive:

@@ -1,20 +1,17 @@
 <template>
-  <div class="formkit-wrapper wrap">
-    <div class="formkit-inner repeater-wrapper">
-      <div class="formkit-content">
+  <div class="my-4">
+    <div class="flex items-stretch rounded-md">
+      <div class="flex flex-col flex-1 gap-0 border-base-300 border rounded-l-md p-5">
         <slot />
       </div>
       <button
-        class="repeater-delete"
+        class="flex items-center justify-center text-secondary-content p-2 rounded-r-md btn-secondary min-h-full w-9"
         @click.prevent="context?.node.emit('remove',props.context?.node.context?.attrs.order)"
         
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
           fill="currentColor"
-          class="bi bi-trash3"
           viewBox="0 0 16 16"
         >
           <path
@@ -36,46 +33,4 @@ const props = defineProps({
 
 </script>
 
-<style>
-.wrap {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-.repeater-delete {
-  background-color: rgb(239 68 68);
-  border-radius: 0px 0.25rem 0.25rem 0px;
-  color: rgb(255 255 255);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 30px;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
 
-
-.repeater-delete:hover {
-  background-color: rgb(185 28 28);
-}
-
-
-.repeater-delete:disabled {
-  background-color: rgb(239 68 68);
-  opacity: 50%;
-  cursor: not-allowed;
-}
-
-
-.formkit-content {
-  flex-grow: 1;
-  padding: var(--fk-padding-input);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.repeater-wrapper {
-  display: flex;
-  align-items: stretch;
-}
-</style>

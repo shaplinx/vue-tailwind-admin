@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableCard
-      :title="t('pasien.index-title')"
+      :title="t('pegawai.index-title')"
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
@@ -19,22 +19,20 @@
         table-class-name="light-table"
         must-sort
       >
-        <template #item-kelamin="row">
-          <dv-badge
-            size="large"
-            outline
-            :color="row.kelamin == 'L' ? 'primary' : 'secondary'"
-            ><fa :icon="row.kelamin == 'L' ? 'mars' : 'venus'"></fa></dv-badge
-        ></template>
-        <template #item-tgl_lahir="row">
-          {{ dateTime(row.tgl_lahir).format("ll") }}
-          <dv-badge size="small" type="primary">{{
-            age(row.tgl_lahir)
+        <template #item-profesi="row">
+          <dv-badge v-if="row.profesi" type="primary">{{
+            row.profesi.nama
           }}</dv-badge>
         </template>
-        <template #item-alamat="row"> {{ row.alamatLengkap }} </template>
-        <template #item-created_at="row">
-          {{ dateTime(row.created_at).format("llll") }}
+        <template #item-roles="row">
+          <div class="flex gap-2">
+            <dv-badge
+              v-if="row.roles"
+              v-for="role in row.roles"
+              type="secondary"
+              >{{ role.name }}</dv-badge
+            >
+          </div>
         </template>
         <template #item-action="row">
           <DropdownMenuVue>
@@ -61,11 +59,10 @@
 </template>
 <script setup lang="ts">
 import TableCard from "@/components/cards/TableCard.vue";
-import { dateTime, age } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
 import { watch } from "vue";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-import crud from "@/services/api/modules/pasienCRUD";
+import crud from "@/services/api/modules/pegawaiCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
 
@@ -82,30 +79,30 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pasien>({
-  moduleName: "Pasien",
+} = new IndexCRUD<App.Models.User>({
+  moduleName: "Pegawai",
   crud,
   filterSchema: schema,
   headers: [
     { text: "ID", value: "id", sortable: true },
-    { text: "Nama Lengkap", value: "nama_lengkap", sortable: true },
-    { text: "Kelamin", value: "kelamin", sortable: true },
-    { text: "Tanggal Lahir", value: "tgl_lahir", sortable: true },
-    { text: "Alamat", value: "alamat", sortable: true },
-    { text: "Tanggal Pendaftaran", value: "created_at", sortable: true },
+    { text: t("pegawai.form.name"), value: "name", sortable: true },
+    { text: t("pegawai.form.email"), value: "email", sortable: true },
+    { text: t("pegawai.form.roles"), value: "roles", sortable: false },
+    { text: t("pegawai.form.profesi"), value: "profesi", sortable: false },
     { text: "Aksi", value: "action", sortable: false },
   ],
   buttons: (index) => [
     {
-      label: t("pasien.add-new-title"),
+      label: t("pegawai.add-new-title"),
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () => index.router.push({ name: "PegawaiCreate" }),
     },
   ],
 })
   .addServerOptions({ date_start: null, date_end: null })
+
   .extRequestParams((index: any) => {
     return {
       date_start: index.serverOptions.value.date_start,

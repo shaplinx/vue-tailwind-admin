@@ -116,19 +116,19 @@ const routes: Array<RouteRecordRaw> = [
             children: [
               {
                 path: "index",
-                name: "ICD10Index",
+                name: "Icd10Index",
                 component: () =>
                   import("@/views/admin/administrasi/icd10/index.vue"),
               },
               {
                 path: "create",
-                name: "ICD10Create",
+                name: "Icd10Create",
                 component: () =>
                   import("@/views/admin/administrasi/icd10/create.vue"),
               },
               {
                 path: "edit/:id",
-                name: "ICD10Edit",
+                name: "Icd10Edit",
                 component: () =>
                   import("@/views/admin/administrasi/icd10/edit.vue"),
               },

@@ -89,6 +89,8 @@ export default {
   time: textClassification,
   url: textClassification,
   week: textClassification,
-  vs: textClassification,
-  datepicker: { ...textClassification, input: "" },
+  datepicker: { ...textClassification, },
+  toggle: {
+    wrapper: "flex flex-row items-center max-w-sm w-full justify-between"
+  }
 };

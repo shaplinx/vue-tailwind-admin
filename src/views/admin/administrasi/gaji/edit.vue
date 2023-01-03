@@ -2,23 +2,25 @@
   <dv-card class="bg-base-100 text-base-content">
     <SpinnerOverlay :show="isLoadingFormData" />
     <dv-card-body>
-      <dv-card-title> {{ t("pasien.edit-title") }} </dv-card-title>
+      <dv-card-title> {{ t("gaji.edit-title") }} </dv-card-title>
       <FormKit
         :actions="false"
         v-model="formData"
         type="form"
         :disabled="isSaving"
-        id="pasien-edit"
+        id="gaji-edit"
       >
         <FormKitSchema :schema="schema" />
       </FormKit>
       <SaveButtons
-        module="pasien"
+        module="gaji"
         :is-saving="isSaving"
+        :except="['submitNext']"
+        @submitNew="submit({ name: 'GajiCreate' })"
         @submit="submit()"
         @submitNext="submit()"
-        @submitClose="submit({ name: 'PasienIndex' })"
-        @close="router.push({ name: 'PasienIndex' })"
+        @submitClose="submit({ name: 'GajiIndex' })"
+        @close="router.push({ name: 'GajiIndex' })"
         @delete="destroy"
       />
     </dv-card-body>
@@ -26,13 +28,14 @@
 </template>
 
 <script lang="ts" setup>
-import pasienCRUD from "@/services/api/modules/pasienCRUD";
-import { definePasienSchema } from "@/forms/pasienForm";
+import gajiCRUD from "@/services/api/modules/gajiCRUD";
+import { defineGajiSchema } from "@/forms/gajiForm";
 import SaveButtons from "@/components/buttons/SaveButtons.vue";
 import SpinnerOverlay from "@/components/loader/SpinnerOverlay.vue";
 import useEditCrud from "@/hooks/crud/useEditCrud";
 
 import { useI18n } from "vue-i18n";
+import { mergeErrorsWithPrefix } from "@/hooks/misc";
 
 const { t } = useI18n();
 
@@ -44,31 +47,28 @@ const {
   isLoadingFormData,
   loadFormData,
   submit,
-} = new useEditCrud<App.Models.Pasien>({
-  crud: pasienCRUD,
-  formId: "pasien-edit",
-  moduleName: "Pasien",
+} = new useEditCrud<App.Models.Administrasi.Gaji>({
+  crud: gajiCRUD,
+  formId: "gaji-edit",
+  moduleName: "Gaji",
   formData: {
-    alamat_idn: null,
-    tmp_lahir: null,
+    user: null,
   },
-  processData: (values: any) => {
+  processData: (values) => {
     return {
       ...values,
-      tmp_lahir_id: values.tmp_lahir?.id,
-      alamat_id: values.alamat_idn?.id,
+      user_id: values.user?.id,
     };
   },
   processErrors: (errors) => {
     return {
       ...errors,
-      tmp_lahir: errors.tmp_lahir_id ?? [],
-      alamat_idn: errors.alamat_id ?? [],
+      user: mergeErrorsWithPrefix("user", errors),
     };
   },
 });
 
-const schema = definePasienSchema({ t, formData });
+const schema = defineGajiSchema({ t, formData });
 
 loadFormData();
 </script>

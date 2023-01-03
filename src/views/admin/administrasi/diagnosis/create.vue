@@ -2,69 +2,69 @@
   <dv-card class="bg-base-100 text-base-content">
     <dv-card-body>
       <dv-card-title class="flex">
-        {{ t("pasien.add-new-title") }}
+        {{ t("diagnosis.add-new-title") }}
       </dv-card-title>
       <FormKit
         :actions="false"
         v-model="formData"
         type="form"
         :disabled="isSaving"
-        id="pasien-create"
+        id="diagnosis-create"
       >
         <FormKitSchema :schema="schema" />
       </FormKit>
       <SaveButtons
-        module="pasien"
-        :except="['delete']"
+        module="diagnosis"
+        :except="['delete', 'submitNext']"
         :is-saving="isSaving"
+        @submitNew="submit({ name: 'DiagnosisCreate' })"
         @submit="submit(onSubmit)"
         @submitNext="submit()"
-        @submitClose="submit({ name: 'PasienIndex' })"
-        @close="() => router.push({ name: 'PasienIndex' })"
+        @submitClose="submit({ name: 'DiagnosisIndex' })"
+        @close="() => router.push({ name: 'DiagnosisIndex' })"
       />
     </dv-card-body>
   </dv-card>
 </template>
 
 <script lang="ts" setup>
-import pasienCRUD from "@/services/api/modules/pasienCRUD";
-import { definePasienSchema } from "@/forms/pasienForm";
+import diagnosisCRUD from "@/services/api/modules/diagnosisCRUD";
+import { defineDiagnosisSchema } from "@/forms/diagnosisForm";
 import SaveButtons from "@/components/buttons/SaveButtons.vue";
 import useCreateCrud from "@/hooks/crud/useCreateCrud";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { AxiosResponse } from "axios";
 import { ResponseData } from "@/services/api/modules/crud/crud";
+import { mergeErrorsWithPrefix } from "@/hooks/misc";
 
 const router = useRouter();
-const onSubmit = (res: AxiosResponse<ResponseData<App.Models.Pasien>>) => {
-  router.push({ name: "PasienEdit", params: { id: res.data.data.id } });
+const onSubmit = (res: AxiosResponse<ResponseData<App.Models.Diagnosis>>) => {
+  router.push({ name: "DiagnosisEdit", params: { id: res.data.data.id } });
 };
+
 
 const { t } = useI18n();
 
-const { isSaving, formData, submit } = new useCreateCrud<App.Models.Pasien>({
-  crud: pasienCRUD,
-  formId: "pasien-create",
+const { isSaving, formData, submit } = new useCreateCrud<App.Models.Diagnosis>({
+  crud: diagnosisCRUD,
+  formId: "diagnosis-create",
   formData: {
-    alamat_idn: null,
-    tmp_lahir: null,
+    icd10: null,
   },
-  processData: (values: any): App.Models.Pasien => {
+  processData: (values) => {
     return {
       ...values,
-      tmp_lahir_id: values.tmp_lahir?.id,
-      alamat_id: values.alamat_idn?.id,
+      icd10_id: values.icd10.id,
     };
   },
   processErrors: (errors) => {
     return {
       ...errors,
-      tmp_lahir: errors.tmp_lahir_id ?? [],
-      alamat_idn: errors.alamat_id ?? [],
+      icd10: mergeErrorsWithPrefix('icd10', errors),
     };
   },
 });
 
-const schema = definePasienSchema({ t, formData });
+const schema = defineDiagnosisSchema({ t, formData });
 </script>

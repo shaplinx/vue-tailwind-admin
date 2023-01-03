@@ -5,7 +5,8 @@ import { AxiosResponse } from "axios";
 import { CRUD } from "@/services/api/modules/crud/crud";
 import { $vfm } from "vue-final-modal";
 import DeleteModal from "@/components/modals/DeleteModal.vue"
-import { camelCase } from "../misc";
+import { CaseConversion } from "../helpers/string";
+
 
 
 interface EditCrudConfig<T> {
@@ -116,7 +117,7 @@ class editCrud<T> {
       { component: DeleteModal },
       {
         id: this.route.params.id,
-        moduleName: camelCase(this.#config.moduleName),
+        moduleName: new CaseConversion(this.#config.moduleName).toPascalCase().get(),
         deleteFn: this.#config.crud.destroy,
         onSuccess: () => this.router.push({
           name: this.#config.moduleName + "Index",
