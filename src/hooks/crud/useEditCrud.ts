@@ -2,20 +2,18 @@ import { Ref, ref } from "vue";
 import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
 import { setErrors, getNode } from "@formkit/core";
 import { AxiosResponse } from "axios";
-import { CRUD } from "@/services/api/modules/crud/crud";
+import { Actions } from "@/services/api/modules/crud/crud";
 import { $vfm } from "vue-final-modal";
-import DeleteModal from "@/components/modals/DeleteModal.vue"
+import DeleteModal from "@/components/modals/DeleteModal.vue";
 import { CaseConversion } from "../helpers/string";
 
-
-
 interface EditCrudConfig<T> {
-  crud: CRUD<T>;
+  crud: Actions<T>;
   formId: string;
   moduleName: string;
   formData?: any;
   processData?: callback;
-  processErrors? :callback;
+  processErrors?: callback;
 }
 
 type callback = (...args: any[]) => any;
@@ -66,10 +64,12 @@ class editCrud<T> {
       })
       .catch((err) => {
         if (err.status === 422) {
-          let errors = this.#config.processErrors ? this.#config.processErrors(err.data.errors) : err.data.errors
+          let errors = this.#config.processErrors
+            ? this.#config.processErrors(err.data.errors)
+            : err.data.errors;
           setErrors(this.#config.formId, [err.data.message], errors);
         }
-        
+
         return Promise.reject(err);
       })
       .finally(() => {
@@ -90,14 +90,14 @@ class editCrud<T> {
       | RouteLocationRaw = undefined
   ) => {
     this.submitFn()
-      .then(() => {
+      .then((res) => {
         if (
           typeof afterSubmitSuccess == "string" ||
           typeof afterSubmitSuccess == "object"
         ) {
           this.router.push(afterSubmitSuccess);
         } else {
-          afterSubmitSuccess?.();
+          afterSubmitSuccess?.(res);
         }
       })
       .catch((err) => {
@@ -107,7 +107,7 @@ class editCrud<T> {
         ) {
           this.router.push(afterSubmitError);
         } else {
-          afterSubmitError?.();
+          afterSubmitError?.(err);
         }
       });
   };
@@ -117,14 +117,17 @@ class editCrud<T> {
       { component: DeleteModal },
       {
         id: this.route.params.id,
-        moduleName: new CaseConversion(this.#config.moduleName).toPascalCase().get(),
+        moduleName: new CaseConversion(this.#config.moduleName)
+          .toPascalCase()
+          .get(),
         deleteFn: this.#config.crud.destroy,
-        onSuccess: () => this.router.push({
-          name: this.#config.moduleName + "Index",
-        }),
+        onSuccess: () =>
+          this.router.push({
+            name: this.#config.moduleName + "Index",
+          }),
       }
     );
-  }
+  };
 }
 
 export default editCrud;

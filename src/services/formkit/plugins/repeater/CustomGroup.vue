@@ -1,7 +1,7 @@
 <template>
   <div class="my-4">
     <div class="flex items-stretch rounded-md">
-      <div class="flex flex-col flex-1 gap-0 border-base-300 border rounded-l-md p-5">
+      <div class="flex flex-col flex-1 gap-0 border-base-300 border rounded-l-md p-5 shadow-lg">
         <slot />
       </div>
       <button

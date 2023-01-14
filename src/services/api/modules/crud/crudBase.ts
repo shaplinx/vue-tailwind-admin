@@ -1,6 +1,6 @@
 import base from "../../base";
 import { AxiosResponse, AxiosError } from "axios";
-import { CRUDConfig, urlGetterArgs, actionArgs, CRUD, ErrorResponseData } from "./crud";
+import { CRUDConfig, urlGetterArgs, actionArgs, ErrorResponseData } from "./crud";
 
 const DefineCrud = ({
   actions = ["INDEX", "SHOW", "STORE", "UPDATE", "DESTROY"],

@@ -27,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/admin",
     name: "AdminRoot",
     redirect: "/admin/dashboard",
-    component: ()=> import('@/layout/Dashboard.vue'),
+    component: () => import("@/layout/Dashboard.vue"),
     children: [
       {
         path: "/admin/dashboard",
@@ -68,7 +68,7 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import("@/views/admin/pertemuan/index.vue"),
           },
           {
-            path: "create",
+            path: "create/:pasienId?",
             name: "PertemuanCreate",
             component: () => import("@/views/admin/pertemuan/create.vue"),
           },
@@ -76,6 +76,70 @@ const routes: Array<RouteRecordRaw> = [
             path: "edit/:id",
             name: "PertemuanEdit",
             component: () => import("@/views/admin/pertemuan/edit.vue"),
+          },
+          {
+            path: "forms/:pages?",
+            name: "forms",
+            component: () => import("@/views/admin/pertemuan/forms/Index.vue"),
+            beforeEnter: (to, from, next) => {
+              if (
+                [
+                  "PemeriksaanForm",
+                  "ResepForm",
+                  "InvoiceForm",
+                  "LabForm",
+                  "TindakanForm",
+                ].includes(to.name as string)
+              ) {
+                return next();
+              }
+              if (typeof to.params.pages !== "string") {
+                return next({ name: "NotFound" });
+              }
+              let allowedPageParam = [
+                "pemeriksaan",
+                "resep",
+                "lab",
+                "tindakan",
+                "invoice",
+                "",
+              ];
+              return allowedPageParam.includes(to.params.pages as string)
+                ? next()
+                : next({ name: "NotFound" });
+            },
+            children: [
+              {
+                path: "pemeriksaan/:id",
+                name: "PemeriksaanForm",
+                component: () =>
+                  import("@/views/admin/pertemuan/forms/Pemeriksaan.vue"),
+              },
+              {
+                path: "resep/:id",
+                name: "ResepForm",
+                component: () =>
+                  import("@/views/admin/pertemuan/forms/Resep.vue"),
+              },
+              {
+                path: "lab/:id",
+                name: "LabForm",
+                component: () =>
+                  import("@/views/admin/pertemuan/forms/Lab.vue"),
+              },
+              {
+                path: "tindakan/:id",
+                name: "TindakanForm",
+                component: () =>
+                  import("@/views/admin/pertemuan/forms/Tindakan.vue"),
+              },
+              {
+                path: "invoice/:id",
+                name: "InvoiceForm",
+                component: () =>
+                  import("@/views/admin/pertemuan/forms/Invoice.vue"),
+              },
+            ],
           },
         ],
       },
@@ -340,7 +404,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "/admin/fasilitas/lab",
             redirect: "/admin/fasilitas/lab/komponen",
-            component:RouterView,
+            component: RouterView,
             children: [
               {
                 path: "komponen",
@@ -470,7 +534,7 @@ router.beforeEach((to, from, next) => {
     next("/user/login");
   }
   if (guestRequired && loggedIn) {
-    next("/dashboard");
+    next(HomePage);
   } else {
     next();
   }

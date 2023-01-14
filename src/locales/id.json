@@ -259,6 +259,7 @@
     "left": "Pertemuan Sebelumnya",
     "right": "Pertemuan Selanjutnya",
     "form": {
+      "id": "No. Pertemuan",
       "pasien": "Pasien",
       "poliklinik": "Poliklinik",
       "pemeriksa": "Pemeriksa",
@@ -331,7 +332,7 @@
       "submitNew": "Simpan Tindakan Dan Buat Baru"
     }
   },
-  "tagihan": {
+  "invoice": {
     "index-title": "Tagihan Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Tagihan",
     "delete-modal-content": "Apakah anda yakin akan menghapus Tagihan dengan id berikut?",
@@ -344,6 +345,7 @@
       "deskripsi": "Deskripsi",
       "jumlah": "Jumlah",
       "subTotal": "Sub Total",
+      "status":"Status",
       "details": "Tagihan Terperinci",
       "submit": "Hitung/Perbaharui Tagihan"
     }
@@ -442,6 +444,7 @@
       "laborat": "Laborat",
       "pemeriksaan_labs": "Pemeriksaan Lab",
       "hasil_lab": "Hasil Lab",
+      "status":"Status",
       "hasil_pemeriksaan_lab": "Pemeriksaan Lab",
       "hasil_komponen_lab": "Komponen Lab",
       "hasil_hasil_lab": "Hasil",
@@ -481,6 +484,7 @@
     },
     "tindakan": "Tindakan",
     "tagihan": "Tagihan",
+    "invoice": "Tagihan",
     "pertemuanTindakan": "Tindakan",
     "pertemuantindakan": "Tindakan",
     "permintaanLab": "Permintaan Lab",
@@ -550,7 +554,20 @@
         "p": "Perempuan"
       }
     },
-    "selectPlaceholder": "Pilih Salah Satu"
+    "low-on-stock": "Stock Rendah",
+    "selectPlaceholder": "Pilih Salah Satu",
+    "ttv" : {
+      "hr" : "kpm",
+      "rr" : "kpm",
+      "temp": "°C",
+      "spo2": "%",
+      "bp": "mmHg"
+    },
+    "select":"Pilih",
+    "month": "Bulan",
+    "year":"Tahun"
   }
+
+
 
 }

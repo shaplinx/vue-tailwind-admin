@@ -17,7 +17,16 @@
         :is-saving="isSaving"
         @submit="submit()"
         @submitNew="submit({ name: 'PertemuanCreate' })"
-        @submitNext="submit()"
+        @submitNext="
+          submit((res) => {
+            router.push({
+              name: 'PemeriksaanForm',
+              params: {
+                id: res.data.data.id,
+              },
+            });
+          })
+        "
         @submitClose="submit({ name: 'PertemuanIndex' })"
         @close="router.push({ name: 'PertemuanIndex' })"
         @delete="destroy"
@@ -56,15 +65,15 @@ const {
     pemeriksa: null,
     asisten: null,
     poliklinik: null,
-    waktu_pemeriksaan: dateTime()
+    waktu_pemeriksaan: dateTime(),
   },
   processData: (values: any): App.Models.Pertemuan => {
     return {
       ...values,
-      pasien_id: values.pasien?.id,
-      pemeriksa_id: values.pemeriksa?.id,
-      asisten_id: values.asisten?.id,
-      poliklinik_id: values.poliklinik?.id,
+      pasien_id: values.pasien?.id || null,
+      pemeriksa_id: values.pemeriksa?.id || null,
+      asisten_id: values.asisten?.id || null,
+      poliklinik_id: values.poliklinik?.id || null,
     };
   },
   processErrors: (errors) => {

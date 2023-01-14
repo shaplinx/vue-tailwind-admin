@@ -13,9 +13,11 @@ import VueDatepickerVue from "./plugins/vue-datepicker/VueDatepicker.vue";
 import { markRaw } from "vue";
 import { generateClasses } from "@formkit/themes";
 import Status from "./plugins/status/Status.vue";
-import Toggle from "./plugins/toggle/Toggle.vue"
+import Toggle from "./plugins/toggle/Toggle.vue";
 import theme from "./theme";
-
+import { repeater } from "./plugins/vRepeater";
+import InvoiceTable from "./plugins/invoice-table/InvoiceTable.vue";
+import AutoSuggest from "./plugins/autosuggest/AutoSuggest.vue";
 
 const formkitConfig = defaultConfig({
   config: {
@@ -26,11 +28,14 @@ const formkitConfig = defaultConfig({
       type: "group",
       component: CustomGroup,
     },
-    vRepeater: {
+    invoiceTable: createInput(InvoiceTable, { props: ["title"] }),
+    vRepeater: repeater,
+    vRepeater2: {
       type: "list",
       component: Repeater,
     },
     vSelect: createInput(vSelect),
+    autoSuggest: createInput(AutoSuggest, { props: ["onSearch"] }),
     vButton: {
       type: "input",
       component: VButtonVue,

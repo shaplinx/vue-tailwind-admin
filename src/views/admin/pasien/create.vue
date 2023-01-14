@@ -18,8 +18,17 @@
         :except="['delete']"
         :is-saving="isSaving"
         @submit="submit(onSubmit)"
-        @submitNext="submit()"
-        @submitNew="submit({ name: 'PertemuanCreate' })"
+        @submitNext="
+          submit((res) => {
+            router.push({
+              name: 'PertemuanCreate',
+              params: {
+                pasienId: res.data.data.id,
+              },
+            });
+          })
+        "
+        @submitNew="submit({ name: 'PasienCreate' })"
         @submitClose="submit({ name: 'PasienIndex' })"
         @close="() => router.push({ name: 'PasienIndex' })"
       />
@@ -42,28 +51,29 @@ const onSubmit = (res: AxiosResponse<ResponseData<App.Models.Pasien>>) => {
 
 const { t } = useI18n();
 
-const { isSaving, formData, submit, router } = new useCreateCrud<App.Models.Pasien>({
-  crud: pasienCRUD,
-  formId: "pasien-create",
-  formData: {
-    alamat_idn: null,
-    tmp_lahir: null,
-  },
-  processData: (values: any): App.Models.Pasien => {
-    return {
-      ...values,
-      tmp_lahir_id: values.tmp_lahir?.id,
-      alamat_id: values.alamat_idn?.id,
-    };
-  },
-  processErrors: (errors) => {
-    return {
-      ...errors,
-      tmp_lahir: errors.tmp_lahir_id ?? [],
-      alamat_idn: errors.alamat_id ?? [],
-    };
-  },
-});
+const { isSaving, formData, submit, router } =
+  new useCreateCrud<App.Models.Pasien>({
+    crud: pasienCRUD,
+    formId: "pasien-create",
+    formData: {
+      alamat_idn: null,
+      tmp_lahir: null,
+    },
+    processData: (values: any): App.Models.Pasien => {
+      return {
+        ...values,
+        tmp_lahir_id: values.tmp_lahir?.id || null,
+        alamat_id: values.alamat_idn?.id || null,
+      };
+    },
+    processErrors: (errors) => {
+      return {
+        ...errors,
+        tmp_lahir: errors.tmp_lahir_id ?? [],
+        alamat_idn: errors.alamat_id ?? [],
+      };
+    },
+  });
 
 const schema = definePasienSchema({ t, formData });
 </script>

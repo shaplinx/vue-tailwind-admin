@@ -9,11 +9,11 @@
       <dv-button @click="close" variant="ghost" class="absolute right-3 top-3"
         ><fa size="lg" icon="circle-xmark"></fa
       ></dv-button>
-      <dv-card-body>
+      <dv-card-body v-if="params.moduleName">
         <dv-card-title>
-          {{ t(`${params.moduleName}.delete-modal-title`) }}
+          {{ t(`${toCamelCase(params.moduleName)}.delete-modal-title`) }}
         </dv-card-title>
-        {{ t(`${params.moduleName}.delete-modal-content`) }}
+        {{ t(`${toCamelCase(params.moduleName)}.delete-modal-content`) }}
 
         <div class="flex flex-wrap gap-2">
           <template v-if="Array.isArray(params.id)">
@@ -46,6 +46,7 @@ import { CRUD } from "@/services/api/modules/crud/crud";
 
 import { useI18n } from "vue-i18n";
 import { ref } from "vue";
+import { CaseConversion } from "@/hooks/helpers/string";
 
 interface DeleteModalParams<T> {
   id: any;
@@ -64,10 +65,10 @@ const deleteFn = (
 ) => {
   isDeleting.value = true;
   params.deleteFn!({ id })
-    .then(() => {
+    .then((res) => {
       if (execute) {
         close();
-        params.onSuccess();
+        params.onSuccess(res);
       }
     })
     .finally(() => {
@@ -86,6 +87,10 @@ const onYes = (params: DeleteModalParams<any>, close: any) => {
     deleteFn(params, params.id, close, true);
   }
 };
+
+function toCamelCase(str: string = "") {
+  return new CaseConversion(str).toCamelCase().get();
+}
 
 const { t } = useI18n();
 </script>

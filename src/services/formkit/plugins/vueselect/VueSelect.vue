@@ -1,8 +1,8 @@
 <template>
   <div class="vue-select-container">
     <VueSelect
-      :modelValue="props.context?._value"
-      @update:modelValue="(value: any) => props.context?.node.input(value)"
+      :modelValue="props.context?._value || null"
+      @update:modelValue="(value: any) => updated(value)"
       v-bind="props.context?.attrs"
       :label="props.context?.attrs.displayLabel"
       :delay="props.context?.attrs.debounce"
@@ -22,6 +22,9 @@ const props = defineProps({
 });
 
 const vueselect = ref<any>(null);
+const updated = (val: any) => {
+  props.context?.node.input(val);
+};
 
 props.context?.node.on("input", ({ payload }) => {
   if (vueselect.value) {
@@ -32,7 +35,7 @@ props.context?.node.on("input", ({ payload }) => {
 const classes = {
   container:
     "relativ rounded-lg formkit-invalid:input-error formkit-errors:input-error mx-auto w-full flex items-center justify-end box-border cursor-pointer transition-all duration-300 rounded bg-base-200 input text-base-content leading-snug outline-none",
-  containerDisabled: "cursor-not-allowed  opacity-50",
+  containerDisabled: "cursor-not-allowed  opacity-100",
   containerOpen: "rounded-b-none",
   containerOpenTop: "rounded-t-none",
   containerActive:

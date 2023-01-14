@@ -16,8 +16,17 @@
         module="pasien"
         :is-saving="isSaving"
         @submit="submit()"
-        @submitNext="submit()"
-        @submitNew="submit({ name: 'PertemuanCreate' })"
+        @submitNext="
+          submit((res) => {
+            router.push({
+              name: 'PertemuanCreate',
+              params: {
+                pasienId: res.data.data.id,
+              },
+            });
+          })
+        "
+        @submitNew="submit({ name: 'PasienCreate' })"
         @submitClose="submit({ name: 'PasienIndex' })"
         @close="router.push({ name: 'PasienIndex' })"
         @delete="destroy"
@@ -56,8 +65,8 @@ const {
   processData: (values: any) => {
     return {
       ...values,
-      tmp_lahir_id: values.tmp_lahir?.id,
-      alamat_id: values.alamat_idn?.id,
+      tmp_lahir_id: values.tmp_lahir?.id || null,
+      alamat_id: values.alamat_idn?.id || null,
     };
   },
   processErrors: (errors) => {

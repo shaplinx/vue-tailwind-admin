@@ -28,7 +28,7 @@ app
   .use(pinia)
   .use(router)
   .use(i18n)
-  .use(vfmPlugin)
+  .use(vfmPlugin())
   .use(floatingVue)
   .use(daisyuiVue)
   .use(PerfectScrollbar)

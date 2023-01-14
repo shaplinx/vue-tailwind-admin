@@ -13,12 +13,13 @@ const textClassification = {
       focus-within:ring-primary focus-within:ring-2 formkit-invalid:input-error formkit-invalid:focus-within:ring-error  formkit-errors:input-error formkit-errors:focus-within:ring-error
     `,
   suffixIcon: "h-5 w-5 block ml-3",
-  input: "h-full autofill:bg-base-200 autofill:hover:bg-base-200 autofill:focus:bg-base-200 bg-base-200 focus:ring-0 focus:border-0 focus:outline-none font-normal placeholder:font-light w-full ",
+  input:
+    "h-full autofill:bg-base-200 autofill:hover:bg-base-200 autofill:focus:bg-base-200 bg-base-200 focus:ring-0 focus:border-0 focus:outline-none font-normal placeholder:font-light w-full ",
 };
 const boxClassification = {
   fieldset:
-    " border border-base-300 rounded-lg px-2 pb-1 formkit-invalid:border-error formkit-errors:border-error ",
-  legend: "font-bold text-sm",
+    " border border-base-300 rounded-lg px-2 py-4 formkit-invalid:border-error formkit-errors:border-error ",
+  legend: "text-sm px-3",
   wrapper: "flex items-center mb-1 cursor-pointer",
   help: "mb-2",
   input:
@@ -89,8 +90,32 @@ export default {
   time: textClassification,
   url: textClassification,
   week: textClassification,
-  datepicker: { ...textClassification, },
+  datepicker: { ...textClassification },
   toggle: {
-    wrapper: "flex flex-row items-center max-w-sm w-full justify-between"
-  }
+    wrapper: "flex flex-row items-center max-w-sm w-full justify-between",
+  },
+  vRepeater: {
+    ...boxClassification,
+    items: "grid grid-cols-1 gap-2",
+    item: "flex flex-row shadow-lg",
+    content: "border  border-base-300 p-4 flex-grow rounded-l-lg",
+    controls: "bg-base-200 w-12 rounded-r-lg grid grid-cols-1 gap-1",
+    addWrapper: "mt-4",
+    addButton: "w-56",
+  },
+  autoSuggest: {
+    input: `
+      border
+      border-base-300
+      rounded-lg mb-1 
+      input
+      w-full
+      bg-base-200 
+      flex-row items-center
+      focus-within:ring-primary focus-within:ring-2 formkit-invalid:input-error formkit-invalid:focus-within:ring-error  formkit-errors:input-error formkit-errors:focus-within:ring-error
+    `,
+    option: "cursor-pointer",
+    options: "w-full menu menu-compact bg-base-200 absolute z-10"
+
+  },
 };

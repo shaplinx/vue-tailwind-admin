@@ -1,29 +1,23 @@
 
-import createCrudModule, { client } from "@/base/vuex-crud";
-const rootUrl = 'api/pertemuan'
+import CRUD from "./crud/CrudClass";
 
-export default createCrudModule({
-  resource: 'pertemuan',
-  paginatedList: true,
-  idAttribute: 'pertemuan_id',
-  parseSingle: res => res,
-  customUrlFn(id, type) {
+const baseUrl = "pertemuan";
+const extUrl = "pemeriksaan"
 
-
-    if (type === 'FETCH_SINGLE') {
-      return `${rootUrl}/${id}/pemeriksaan`;
+const config = {
+  rootUrl: (id: any, type: any) => {
+    if (type === "SHOW") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-    if (type === 'UPDATE') {
-      return `${rootUrl}/${id}/pemeriksaan`;
+    if (type === "UPDATE") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-
-    if (type === 'SAVE') {
-      return `${rootUrl}/${id}/pemeriksaan`;
+    if (type === "DESTROY") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-    if (type === 'DESTROY') {
-      return `${rootUrl}/${id}/pemeriksaan`;
-    }
-    return rootUrl
+    return baseUrl;
   },
+};
+const { actions } = new CRUD<App.Models.Pertemuan.Pemeriksaan>(config);
 
-});
+export default actions;

@@ -24,9 +24,9 @@ export const definePertemuanSchema = ({
         valueProp: "id",
         "filter-results": false,
         "min-chars": 1,
-        "resolve-on-load": true,
+        "resolve-on-aload": true,
         clearOnSearch: true,
-        debounce: 400,
+        debounce: 500,
         searchable: true,
         options: (search: string): Promise<any[]> => {
           return http
@@ -47,7 +47,7 @@ export const definePertemuanSchema = ({
         "min-chars": 1,
         "resolve-on-load": true,
         clearOnSearch: true,
-        debounce: 400,
+        debounce: 500,
         searchable: true,
         options: (search: string): Promise<any[]> => {
           return http
@@ -62,14 +62,14 @@ export const definePertemuanSchema = ({
         displayLabel: "fullname",
         label: t("pertemuan.form.pemeriksa"),
         object: true,
-        disabled: formData.value.poliklinik?.id ? false : true,
+        disabled: formData.value?.poliklinik?.id ? false : true,
         valueProp: "id",
         "filter-results": false,
         "min-chars": 1,
         placeholder:t("formkit.searchPlaceholder"),
         "resolve-on-load": true,
         clearOnSearch: true,
-        debounce: 400,
+        debounce: 500,
         searchable: true,
         options: (search: string): Promise<any[]> => {
           return http
@@ -77,7 +77,7 @@ export const definePertemuanSchema = ({
               params: {
                 search,
                 role: "Pemeriksa",
-                Poliklinik_id: formData.value.poliklinik?.id,
+                Poliklinik_id: formData.value?.poliklinik?.id,
               },
             })
             .then((res) => res.data.data)
@@ -91,13 +91,13 @@ export const definePertemuanSchema = ({
         label: t("pertemuan.form.asisten"),
         object: true,
         placeholder:t("formkit.searchPlaceholder"),
-        disabled: formData.value.poliklinik?.id ? false : true,
+        disabled: formData.value?.poliklinik?.id ? false : true,
         valueProp: "id",
         "filter-results": false,
         "min-chars": 1,
         "resolve-on-load": true,
         clearOnSearch: true,
-        debounce: 400,
+        debounce: 500,
         searchable: true,
         options: (search: string): Promise<any[]> => {
           return http
@@ -105,7 +105,7 @@ export const definePertemuanSchema = ({
               params: {
                 search,
                 role: "Asisten",
-                Poliklinik_id: formData.value.poliklinik?.id || null,
+                Poliklinik_id: formData.value?.poliklinik?.id || null,
               },
             })
             .then((res) => res.data.data)

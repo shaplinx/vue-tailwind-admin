@@ -44,6 +44,7 @@
 <script lang="ts" setup>
 import { FormKitSchemaNode } from "@formkit/core";
 import { FormKitSchema } from "@formkit/vue";
+import { ButtonProp } from "../buttons/buttons";
 
 
 const props = defineProps<{

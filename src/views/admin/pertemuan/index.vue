@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Overview />
     <TableCard
       :title="t('pertemuan.index-title')"
       :useFilter="true"
@@ -64,6 +65,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import Overview from  "@/views/admin/pertemuan/overview.vue"
 import TableCard from "@/components/cards/TableCard.vue";
 import { dateTime, age } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
@@ -73,6 +75,7 @@ import crud from "@/services/api/modules/pertemuanCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
 import http from "@/services/api/base";
+import router from "@/router";
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -87,7 +90,7 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pasien>({
+} = new IndexCRUD<App.Models.Pertemuan>({
   moduleName: "Pertemuan",
   crud,
   filterSchema: schema,
@@ -141,9 +144,9 @@ const {
       "min-chars": 1,
       placeholder: t("formkit.searchPlaceholder"),
       "resolve-on-load": true,
-      mode:"single",
+      mode: "single",
       clearOnSearch: true,
-      debounce: 400,
+      debounce: 500,
       searchable: true,
       options: (search: string): Promise<any[]> => {
         return http
@@ -158,8 +161,38 @@ const {
       },
       "outer-class": "mb-0",
       "label-class": "$reset text-sm",
-      "wrapper-class": "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
-      "inner-class": "bg-base-100 text-sm w-full sm:min-w-[14rem] sm:max-w-full rounded-lg",
+      "wrapper-class":
+        "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
+      "inner-class":
+        "bg-base-100 text-sm w-full sm:min-w-[14rem] sm:max-w-full rounded-lg",
+    },
+  ])
+  .addActions([
+    {
+      label: t("menu.pemeriksaan"),
+      icon: "stethoscope",
+      callback: (id) =>
+        router.push({ name: "PemeriksaanForm", params: { id } }),
+    },
+    {
+      label: t("menu.permintaanLab"),
+      icon: "flask",
+      callback: (id) => router.push({ name: "LabForm", params: { id } }),
+    },
+    {
+      label: t("menu.resep"),
+      icon: "prescription",
+      callback: (id) => router.push({ name: "ResepForm", params: { id } }),
+    },
+    {
+      label: t("menu.tindakan"),
+      icon: "syringe",
+      callback: (id) => router.push({ name: "TindakanForm", params: { id } }),
+    },
+    {
+      label: t("menu.invoice"),
+      icon: "receipt",
+      callback: (id) => router.push({ name: "InvoiceForm", params: { id } }),
     },
   ]);
 // initial load

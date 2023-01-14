@@ -1,7 +1,7 @@
 import { ref, Ref } from "vue";
 import { ServerOptions, Header } from "vue3-easy-data-table";
 import { FormKitSchemaNode } from "@formkit/core";
-import { CRUD } from "@/services/api/modules/crud/crud";
+import { Actions, Pagination } from "@/services/api/modules/crud/crud";
 import { useRouter } from "vue-router";
 import { $vfm } from "vue-final-modal";
 import DeleteModal from "@/components/modals/DeleteModal.vue";
@@ -19,7 +19,7 @@ interface action {
 }
 
 interface IndexCrudConfig<T> {
-  crud: CRUD<T>;
+  crud: Actions<T>;
   moduleName: string;
   headers?: Header[];
   filterSchema?: FormKitSchemaNode[];
@@ -27,6 +27,7 @@ interface IndexCrudConfig<T> {
   generateRequestParams?: (arg: RequestParams) => () => object;
   actions?: action[];
   buttons?: (index: IndexCRUD<T>) => ButtonProp[];
+  plugins?: { [name: string]: any };
 }
 
 type callback = (...args: any[]) => any;
@@ -45,6 +46,7 @@ class IndexCRUD<T> {
       sortType: "desc",
       search: "",
     },
+    plugins: [],
     actions: [
       {
         icon: "pencil",
@@ -64,7 +66,9 @@ class IndexCRUD<T> {
             { component: DeleteModal },
             {
               id,
-              moduleName: new CaseConversion(this.#config.moduleName).toCamelCase().get(),
+              moduleName: new CaseConversion(this.#config.moduleName)
+                .toCamelCase()
+                .get(),
               deleteFn: this.#config.crud.destroy,
               onSuccess: this.loadFromServer,
             }
@@ -79,11 +83,13 @@ class IndexCRUD<T> {
   headers = ref<Header[]>(this.#default.headers);
 
   filterSchema = ref<FormKitSchemaNode[]>(this.#default.filterSchema);
-  items = ref([]) as Ref<T[]>;
+  items = ref([]) as Ref<Pagination<T>[]>;
   loading = ref<boolean>(false);
   serverItemsLength = ref<number>(0);
 
-  serverOptions = ref<RequestParams>(this.#default.serverOptions);
+  serverOptions = ref<RequestParams>(
+    this.#default.serverOptions as RequestParams
+  );
 
   actions = ref<action[]>(this.#default.actions);
 
@@ -126,6 +132,15 @@ class IndexCRUD<T> {
       });
   };
 
+  public plugins: { [name: string]: any } = {};
+  register(name: string, plugin: any) {
+    this.plugins[name] = plugin;
+  }
+
+  unregister(name: string) {
+    delete this.plugins[name];
+  }
+
   constructor(config: IndexCrudConfig<T>) {
     this.#config = config;
     this.reset();
@@ -157,7 +172,7 @@ class IndexCRUD<T> {
     return this;
   }
 
-  extRequestParams(callback: (arg: CRUD<T>) => object) {
+  extRequestParams(callback: (arg: IndexCRUD<T>) => object) {
     this.requestParamsExtension = callback;
     return this;
   }
@@ -180,6 +195,12 @@ class IndexCRUD<T> {
     this.buttons.value = this.#config.buttons?.(this) ?? this.#default.buttons;
     this.filterSchema.value =
       this.#config.filterSchema ?? this.#default.filterSchema;
+
+    if (this.#config.plugins) {
+      Object.keys(this.#config.plugins).forEach((name) => {
+        this.register(name, this.#config.plugins?.[name]);
+      });
+    }
   }
 }
 

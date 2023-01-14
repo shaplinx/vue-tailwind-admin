@@ -1,8 +1,10 @@
-import defineCrud from "./crud/crudBase";
+
+import CRUD from "./crud/CrudClass";
 
 const baseUrl = "administrasi/icd10";
-export default defineCrud({
-  rootUrl: (id, type) => {
+
+const config = {
+  rootUrl: (id: any, type: any) => {
     if (type === "SHOW") {
       return `${baseUrl}/${id}`;
     }
@@ -14,4 +16,7 @@ export default defineCrud({
     }
     return baseUrl;
   },
-});
+};
+const { actions } = new CRUD<App.Models.Administrasi.ICD10>(config);
+
+export default actions;

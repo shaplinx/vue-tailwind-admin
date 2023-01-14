@@ -1,29 +1,23 @@
 
-import createCrudModule, { client } from "@/base/vuex-crud";
-const rootUrl = 'api/pertemuan'
-const moduleName = "lab"
+import CRUD from "./crud/CrudClass";
 
-export default createCrudModule({
-  resource: moduleName,
-  paginatedList: true,
-  idAttribute: 'pertemuan_id',
-  parseSingle: res => res,
-  customUrlFn(id, type) {
+const baseUrl = "pertemuan";
+const extUrl = "lab"
 
-    if (type === 'FETCH_LIST') {
-      return `api/fasilitas/lab/permintaan`;
+const config = {
+  rootUrl: (id: any, type: any) => {
+    if (type === "SHOW") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-    if (type === 'FETCH_SINGLE') {
-      return `${rootUrl}/${id}/${moduleName}`;
+    if (type === "UPDATE") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-    if (type === 'UPDATE') {
-      return `${rootUrl}/${id}/${moduleName}`;
+    if (type === "DESTROY") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-
-    if (type === 'DESTROY') {
-      return `${rootUrl}/${id}/${moduleName}`;
-    }
-    return rootUrl
+    return baseUrl;
   },
+};
+const { actions } = new CRUD<App.Models.Fasilitas.Lab.PermintaanLab>(config);
 
-});
+export default actions;

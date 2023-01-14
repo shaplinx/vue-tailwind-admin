@@ -4,7 +4,7 @@
       <legend v-if="props.context?.label" class="font-bold text-sm">
         {{ props.context?.label }}
       </legend>
-      <div class=" mt-4">
+      <div class="mt-4">
         <FormKit
           v-for="item in items"
           :key="item"
@@ -14,7 +14,7 @@
           <slot />
         </FormKit>
         <FormKit
-        input-class="w-full"
+          input-class="w-full"
           type="button"
           :label="props.context?.attrs.addLabel || 'Add Item'"
           @click.prevent="addItem"
@@ -43,11 +43,12 @@ const model: ComputedRef<any[]> = computed(() => {
 });
 
 watch(model, (newVal, oldVal) => {
+
   if (items.value.length < newVal.length) {
     for (let index = items.value.length; index < newVal.length; index++) {
       items.value.push(token());
     }
-  } else {
+  }  else {
     var offset = 0;
     for (let index = 0; index <= newVal.length - 1; index++) {
       let empty = true;
@@ -74,5 +75,27 @@ props.context.node.on("child", (e) => {
     items.value = items.value.filter((item) => item !== e.payload);
   });
 });
-</script>
 
+function isEqual(obj1: any, obj2: any): boolean {
+  if (obj1 === obj2) return true;
+  if (
+    typeof obj1 !== "object" ||
+    obj1 === null ||
+    typeof obj2 !== "object" ||
+    obj2 === null
+  )
+    return false;
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) return false;
+
+  for (const key of keys1) {
+    if (!obj2.hasOwnProperty(key)) return false;
+    if (!isEqual(obj1[key], obj2[key])) return false;
+  }
+
+  return true;
+}
+</script>

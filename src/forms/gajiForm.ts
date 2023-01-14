@@ -26,7 +26,7 @@ export const defineGajiSchema = ({
       "min-chars": 1,
       "resolve-on-load": true,
       clearOnSearch: true,
-      debounce: 400,
+      debounce: 500,
       searchable: true,
       options: (search: string): Promise<any[]> => {
         return http

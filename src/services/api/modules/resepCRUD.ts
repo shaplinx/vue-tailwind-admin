@@ -1,29 +1,24 @@
 
-import createCrudModule, { client } from "@/base/vuex-crud";
-const rootUrl = 'api/pertemuan'
-const moduleName = "resep"
+import CRUD from "./crud/CrudClass";
 
-export default createCrudModule({
-  resource: moduleName,
-  paginatedList: true,
-  idAttribute: 'pertemuan_id',
-  parseSingle: res => res,
-  customUrlFn(id, type) {
+const baseUrl = "pertemuan";
+const extUrl = "resep"
 
-    if (type === 'FETCH_LIST') {
-      return `api/fasilitas/farmasi/resep`;
+const config = {
+  actions: ["INDEX", "SHOW", "UPDATE", "DESTROY"],
+  rootUrl: (id: any, type: any) => {
+    if (type === "SHOW") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-    if (type === 'FETCH_SINGLE') {
-      return `${rootUrl}/${id}/${moduleName}`;
+    if (type === "UPDATE") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-    if (type === 'UPDATE') {
-      return `${rootUrl}/${id}/${moduleName}`;
+    if (type === "DESTROY") {
+      return `${baseUrl}/${id}/${extUrl}`;
     }
-
-    if (type === 'DESTROY') {
-      return `${rootUrl}/${id}/${moduleName}`;
-    }
-    return rootUrl
+    return baseUrl;
   },
+};
+const { actions } = new CRUD<App.Models.Fasilitas.Farmasi.Resep>(config);
 
-});
+export default actions;

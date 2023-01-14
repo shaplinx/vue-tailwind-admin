@@ -51,7 +51,7 @@ export const definePasienSchema = ({
         "min-chars": 1,
         "resolve-on-load": false,
         clearOnSearch: true,
-        debounce: 400,
+        debounce: 500,
         searchable: true,
         options: (search: string): Promise<any[]> => {
           return http
@@ -84,7 +84,7 @@ export const definePasienSchema = ({
         "min-chars": 1,
         "resolve-on-load": false,
         clearOnSearch: true,
-        debounce: 400,
+        debounce: 500,
         searchable: true,
         options: (search: string): Promise<any[]> => {
           return http

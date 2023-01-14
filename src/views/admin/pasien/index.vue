@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Overview/>
     <TableCard
       :title="t('pasien.index-title')"
       :useFilter="true"
@@ -45,7 +46,7 @@
               <li
                 v-close-popper
                 v-for="action in actions"
-                @click="action.callback?.(row.id)"
+                @click="action.callback?.(row.id, row)"
               >
                 <a
                   ><fa v-if="action.icon" :icon="action.icon"></fa
@@ -60,6 +61,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import Overview from "./overview.vue"
 import TableCard from "@/components/cards/TableCard.vue";
 import { dateTime, age } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
@@ -68,6 +70,8 @@ import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
 import crud from "@/services/api/modules/pasienCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
+import { $vfm } from "vue-final-modal";
+import RekamMedisModal from "@/components/modals/RekamMedisModal.vue";
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -111,7 +115,21 @@ const {
       date_start: index.serverOptions.value.date_start,
       date_end: index.serverOptions.value.date_end,
     };
-  });
+  })
+  .addActions([
+    {
+      label: t("menu.rm"),
+      icon: "file-medical",
+      callback: (id, pasien) =>
+        $vfm.show(
+          { component: RekamMedisModal },
+          {
+            pasienId: id,
+            pasien,
+          }
+        ),
+    },
+  ]);
 
 // initial load
 loadFromServer();
@@ -123,4 +141,6 @@ watch(
   },
   { deep: true }
 );
+
+
 </script>

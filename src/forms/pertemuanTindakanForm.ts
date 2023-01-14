@@ -1,88 +1,98 @@
-import baseForm from "@/base/form"
-import hasStatus from "@/base/form/extends/hasStatus";
-export default {
-  mixins: [baseForm, hasStatus],
-  data() {
-    return {
-      options: {
-        tindakan: [],
-        operator:[],
-        asisten:[],
+import { FormKitSchemaNode } from "@formkit/core";
+import http from "@/services/api/base";
 
-
-      },
-    }
-  },
-  computed: {
-    formSchema() {
-      return [
+export const definePertemuanTindakanSchema = ({
+  t,
+  formData = undefined,
+}: {
+  t: any;
+  formData: any | undefined;
+}): FormKitSchemaNode[] => {
+  return [
+    {
+      $formkit: "hidden",
+      name: "id",
+    },
+    {
+      $formkit: "hidden",
+      name: "pertemuan_id",
+    },
+    {
+      $formkit: "status",
+      name: "status",
+      label: t("pemeriksaan.form.status"),
+    },
+    {
+      $formkit: "vRepeater",
+      name: "tindakan_contents",
+      label: t("pertemuanTindakan.form.tindakan_contents"),
+      addLabel: t("formkit.repeater-new"),
+      children: [
         {
-          $formkit: "hidden",
-          name: "id",
-        },
-        {
-          $formkit: "hidden",
-          name: "pertemuan_id",
-        },
-        this.statusField,
-        {
-          "type": "group",
-          "name": "tindakan_contents",
-          "repeatable": true,
-          errors: this.errors.tindakan_contents || [],
-          label: t("pertemuanTindakan.form.tindakan_contents"),
-          "add-label": `+ ${t("menu.add-new")}`,
-          "children": [
+          $el: "div",
+          attrs: {
+            class: "grid grid-cols-2 gap-2"
+          },
+          children: [
             {
-              $formkit: "vue-select",
+              $formkit: "vSelect",
               name: "tindakan",
-              vuelabel: "nama",
-              searchable: true,
-              filterable: false,
+              displayLabel: "nama",
               label: t("pertemuanTindakan.form.tindakan_contents_tindakan"),
-              options: this.options.tindakan,
-              "@search": (search, loading) =>
-                this.handleSearch(loading, {
-                  url: "/api/administrasi/tindakan",
-                  field: "tindakan",
-                  params: {
-                    search: search,
-                  },
-                }),
+              object: true,
+              valueProp: "id",
+              "filter-results": false,
+              "min-chars": 1,
+              "resolve-on-load": true,
+              clearOnSearch: true,
+              debounce: 500,
+              searchable: true,
+              options: (search: string): Promise<any[]> => {
+                return http
+                  .get("/administrasi/tindakan", { params: { search } })
+                  .then((res) => res.data.data)
+                  .catch(() => []);
+              },
             },
             {
-              $formkit: "vue-select",
+              $formkit: "vSelect",
               name: "operator",
-              vuelabel: "fullname",
-              searchable: true,
-              filterable: false,
+              displayLabel: "fullname",
               label: t("pertemuanTindakan.form.tindakan_contents_operator"),
-              options: this.options.operator,
-              "@search": (search, loading) =>
-                this.handleSearch(loading, {
-                  url: "/api/administrasi/pegawai",
-                  field: "operator",
-                  params: {
-                    search: search,
-                  },
-                }),
+              object: true,
+              valueProp: "id",
+              "filter-results": false,
+              "min-chars": 1,
+              "resolve-on-load": true,
+              clearOnSearch: true,
+              debounce: 500,
+              searchable: true,
+              options: (search: string): Promise<any[]> => {
+                return http
+                  .get("/administrasi/pegawai", { params: { search } })
+                  .then((res) => res.data.data)
+                  .catch(() => []);
+              },
             },
             {
-              $formkit: "vue-select",
+              $formkit: "vSelect",
               name: "asisten",
-              vuelabel: "fullname",
-              searchable: true,
-              filterable: false,
+              displayLabel: "fullname",
               label: t("pertemuanTindakan.form.tindakan_contents_asisten"),
-              options: this.options.asisten,
-              "@search": (search, loading) =>
-                this.handleSearch(loading, {
-                  url: "/api/administrasi/pegawai",
-                  field: "asisten",
-                  params: {
-                    search: search,
-                  },
-                }),
+              object: true,
+              valueProp: "id",
+              "filter-results": false,
+              "min-chars": 1,
+              "resolve-on-load": true,
+              clearOnSearch: true,
+              debounce: 500,
+              searchable: true,
+              options: (search: string): Promise<any[]> => {
+                return http
+                  .get("/administrasi/pegawai", { params: { search } })
+                  .then((res) => res.data.data)
+                  .catch(() => []);
+              },
             },
             {
               $formkit: "number",
@@ -91,15 +101,11 @@ export default {
             },
           ]
         },
-        {
-          $formkit: "vue-loading-button",
-          block: true,
-          buttonType: "submit",
-          loading: this.isSaving,
-          variant: "primary",
-          label: t("pertemuanTindakan.form.submit"),
-        },
-      ];
+       
+
+      ]
     },
-  }
-}
+  ];
+};
+
+

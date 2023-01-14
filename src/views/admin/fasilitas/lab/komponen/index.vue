@@ -115,8 +115,23 @@ const {
     return {
       date_start: index.serverOptions.value.date_start,
       date_end: index.serverOptions.value.date_end,
+      warning: index.serverOptions.value?.warning,
     };
-  });
+  })
+  .addFilterSchema([
+    {
+      $formkit: "toggle",
+      name: "warning",
+      size: "lg",
+      type: "secondary",
+      label: t("formkit.low-on-stock"),
+      "label-class": "$reset text-sm",
+      "outer-class": "mb-0",
+      "inner-class": "flex flex-col justify-center sm:mt-2",
+      "wrapper-class":
+        "$reset flex-row h-full max-sm:flex max-sm:flex-col max-sm:gap-2 max-sm:items-center",
+    },
+  ]);
 
 // initial load
 loadFromServer();

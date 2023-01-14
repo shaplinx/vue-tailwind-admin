@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Overview />
     <TableCard
       :title="t('rekening.index-title')"
       :useFilter="true"
@@ -20,9 +21,9 @@
         must-sort
       >
         <template #item-amount="row">
-        <span :class="row.amount < 0 ? 'text-error' : 'text-success'">
-          {{ money(row.amount).toFormat() }}
-        </span>
+          <span :class="row.amount < 0 ? 'text-error' : 'text-success'">
+            {{ money(row.amount).toFormat() }}
+          </span>
         </template>
         <template #item-mutator_type="row">
           <dv-badge v-if="row.mutator" type="secondary">
@@ -34,7 +35,7 @@
         </template>
         <template #item-active="row">
           <dv-badge :type="row.active == 1 ? 'success' : 'error'">
-            {{ t(`menu.boolean.${row.active}`) }} 
+            {{ t(`menu.boolean.${row.active}`) }}
           </dv-badge>
         </template>
         <template #item-action="row">
@@ -61,6 +62,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import Overview from "./overview.vue";
 import TableCard from "@/components/cards/TableCard.vue";
 import { useI18n } from "vue-i18n";
 import { money } from "@/services/dinero/dinero";
@@ -101,7 +103,11 @@ const {
       value: "mutator_id",
       sortable: true,
     },
-    { text: t("rekening.form.description"), value: "description", sortable: true },
+    {
+      text: t("rekening.form.description"),
+      value: "description",
+      sortable: true,
+    },
 
     { text: t("rekening.form.active"), value: "active", sortable: false },
     { text: t("menu.created_at"), value: "created_at", sortable: true },
@@ -116,9 +122,7 @@ const {
       onClick: () => index.router.push({ name: "RekeningCreate" }),
     },
   ],
-})
-  .addServerOptions({ date_start: null, date_end: null })
-
+}).addServerOptions({ date_start: null, date_end: null });
 
 // initial load
 loadFromServer();

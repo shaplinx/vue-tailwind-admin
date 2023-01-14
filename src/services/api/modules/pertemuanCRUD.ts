@@ -1,8 +1,13 @@
-import defineCrud from "./crud/crudBase";
+import CRUD from "./crud/CrudClass";
+import { HasOverview } from "./crud/CrudHasOverview";
 
 const baseUrl = "pertemuan";
-export default defineCrud({
-  rootUrl: (id, type) => {
+const hasOverview = new HasOverview<App.Models.Pertemuan>({
+  baseUrl,
+}).actions;
+
+const config = {
+  rootUrl: (id: any, type: any) => {
     if (type === "SHOW") {
       return `${baseUrl}/${id}`;
     }
@@ -14,4 +19,8 @@ export default defineCrud({
     }
     return baseUrl;
   },
-});
+  plugins: [hasOverview],
+};
+const { actions } = new CRUD<App.Models.Pertemuan>(config);
+
+export default actions;

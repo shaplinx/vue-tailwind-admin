@@ -5,11 +5,12 @@ import {
   useRouter,
 } from "vue-router";
 import { setErrors, getNode } from "@formkit/core";
-import { CRUD } from "@/services/api/modules/crud/crud";
+import { Actions } from "@/services/api/modules/crud/crud";
+
 
 
 interface CreateCrudConfig<T> {
-  crud: CRUD<T>;
+  crud: Actions<T>;
   formId: string;
   formData?: any;
   processData?: callback;
@@ -84,6 +85,7 @@ class createCrud<T> {
           this.router.push(afterSubmitSuccess);
         } else {
           afterSubmitSuccess?.(res);
+       
         }
       })
       .catch((err) => {

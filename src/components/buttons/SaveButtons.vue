@@ -1,15 +1,22 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+  <div
+    class="grid grid-cols-1 gap-4"
+    :class="[
+      only.length > 3 ? 'lg:grid-cols-3' : '',
+      only.length < 3 && only.length > 1 ? 'md:grid-cols-2' : '',
+    ]"
+  >
     <dv-button
       v-for="(btn, key) in props.only.filter((x) => !except.includes(x))"
       :variant="buttonMap[btn].variant"
       :class="[
-        key === 0 ? 'col-span-1 md:col-span-2 xl:col-span-1' : '',
+        key === 0 ? 'col-span-1 md:col-span-2 lg:col-span-1' : '',
         key === only.length - 1 && key % 2 !== 0
-          ? 'col-span-1 md:col-span-2 xl:col-span-1'
+          ? 'col-span-1 md:col-span-2 lg:col-span-1'
           : '',
-        key === 0  && only.length-1 % 2 == 0 ? 'col-span-1 md:col-span-2 xl:col-span-2' : '',
-
+        key === 0 && only.length - (1 % 2) == 0
+          ? 'col-span-1 md:col-span-2 lg:col-span-2'
+          : '',
       ]"
       :disabled="isSaving"
       @click="$emit(`${btn}`)"
@@ -29,7 +36,7 @@ const { t } = useI18n();
 const props = defineProps({
   isSaving: Boolean,
   only: {
-    type:Array as PropType<string[]>,
+    type: Array as PropType<string[]>,
     default: [
       "submit",
       "submitClose",
@@ -40,11 +47,11 @@ const props = defineProps({
     ],
   },
   except: {
-    type:Array,
+    type: Array,
     default: [],
   },
   module: {
-    type:String,
+    type: String,
     required: true,
   },
 });
