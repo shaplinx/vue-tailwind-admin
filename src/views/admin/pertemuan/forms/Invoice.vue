@@ -30,7 +30,6 @@ import { defineInvoiceSchema } from "@/forms/invoiceForm";
 import { useI18n } from "vue-i18n";
 import SaveButtons from "@/components/buttons/SaveButtons.vue";
 
-
 const { t } = useI18n();
 
 const emit = defineEmits(["changed"]);
@@ -38,16 +37,20 @@ const emit = defineEmits(["changed"]);
 const { model, isLoading, isSubmitting, submit, init, destroy } =
   new BelongsToPertemuan<App.Models.Invoice>({
     onGetModelSuccess: (data: App.Models.Invoice) => {
-      emit("changed", data.pertemuan_id);
+      emit("changed", data.pertemuan_id, data.pertemuan);
     },
-
+    processData: (data) => {
+      if (data) {
+        data.pertemuan = undefined;
+      }
+      return data;
+    },
     afterDelete: (form) => {
       form?.children.find((x) => x.name === "invoice_contents")?.input([]);
     },
     crud: invoiceCrud,
     formId: "invoice-form",
     moduleName: "invoice",
-
   });
 const schema = defineInvoiceSchema({ t, formData: model });
 

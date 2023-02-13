@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import RouterView from "@/components/RouterView.vue";
+import RouterViewSlideIn from "@/components/RouterViewSlideIn.vue";
 
 //import Chart from "../views/ChartView.vue";
-const HomePage = "/admin/dashboard";
+export const HomePage = "/admin/dashboard";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -38,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/admin/pasien",
         redirect: "/admin/pasien/index",
-        component: RouterView,
+        component: RouterViewSlideIn,
         children: [
           {
             path: "index",
@@ -60,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/admin/pertemuan",
         redirect: "/admin/pertemuan/index",
-        component: RouterView,
+        component: RouterViewSlideIn,
         children: [
           {
             path: "index",
@@ -89,6 +90,8 @@ const routes: Array<RouteRecordRaw> = [
                   "InvoiceForm",
                   "LabForm",
                   "TindakanForm",
+                  "SuratSehatForm",
+                  "SuratSakitForm",
                 ].includes(to.name as string)
               ) {
                 return next();
@@ -102,6 +105,8 @@ const routes: Array<RouteRecordRaw> = [
                 "lab",
                 "tindakan",
                 "invoice",
+                "sakit",
+                "sehat",
                 "",
               ];
               return allowedPageParam.includes(to.params.pages as string)
@@ -139,6 +144,18 @@ const routes: Array<RouteRecordRaw> = [
                 component: () =>
                   import("@/views/admin/pertemuan/forms/Invoice.vue"),
               },
+              {
+                path: "sakit/:id",
+                name: "SuratSakitForm",
+                component: () =>
+                  import("@/views/admin/pertemuan/forms/SuratSakit.vue"),
+              },
+              {
+                path: "sehat/:id",
+                name: "SuratSehatForm",
+                component: () =>
+                  import("@/views/admin/pertemuan/forms/SuratSehat.vue"),
+              },
             ],
           },
         ],
@@ -148,6 +165,42 @@ const routes: Array<RouteRecordRaw> = [
         redirect: "/admin/administrasi/diagnosis",
         component: RouterView,
         children: [
+          {
+            path: "surat-sehat",
+            redirect: "/admin/administrasi/surat-sehat/index",
+            component: () => import("@/views/admin/administrasi/index.vue"),
+            children: [
+              {
+                path: "index",
+                name: "SuratSehatIndex",
+                component: () =>
+                  import("@/views/admin/administrasi/suratSehat/index.vue"),
+              },
+              {
+                path: "read/:id",
+                name: "SuratSehatRead",
+                component: () => import("@/views/admin/administrasi/suratSehat/read.vue"),
+              },
+            ],
+          },
+          {
+            path: "surat-sakit",
+            redirect: "/admin/administrasi/surat-sakit/index",
+            component: () => import("@/views/admin/administrasi/index.vue"),
+            children: [
+              {
+                path: "index",
+                name: "SuratSakitIndex",
+                component: () =>
+                  import("@/views/admin/administrasi/suratSakit/index.vue"),
+              },
+              {
+                path: "read/:id",
+                name: "SuratSakitRead",
+                component: () => import("@/views/admin/administrasi/suratSakit/read.vue"),
+              },
+            ],
+          },
           {
             path: "diagnosis",
             redirect: "/admin/administrasi/diagnosis/index",
@@ -328,6 +381,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/admin/fasilitas",
         redirect: "/admin/fasilitas/poliklinik",
+        name: "Fasilitas",
         component: RouterView,
         children: [
           {
@@ -500,9 +554,26 @@ const routes: Array<RouteRecordRaw> = [
                         "@/views/admin/fasilitas/lab/permintaan/index.vue"
                       ),
                   },
+                  {
+                    path: "read/:id",
+                    name: "PermintaanLabRead",
+                    component: () => import("@/views/admin/fasilitas/lab/permintaan/read.vue"),
+                  },
                 ],
               },
             ],
+          },
+        ],
+      },
+      {
+        path: "print",
+        redirect: "/admin/print/surat-sehat",
+        component: RouterView,
+        children: [
+          {
+            path: "surat-sehat/:id",
+            name: "PrintSuratSehat",
+            component: () => import("@/views/admin/print/SuratSehat.vue"),
           },
         ],
       },

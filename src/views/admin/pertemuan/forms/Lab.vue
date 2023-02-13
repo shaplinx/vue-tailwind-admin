@@ -40,9 +40,12 @@ const emit = defineEmits(["changed"]);
 const { model, isLoading, isSubmitting, submit, init, destroy, getForm } =
   new BelongsToPertemuan<App.Models.Fasilitas.Lab.PermintaanLab>({
     onGetModelSuccess: (data: App.Models.Fasilitas.Lab.PermintaanLab) => {
-      emit("changed", data.pertemuan_id);
+      emit("changed", data.pertemuan_id, data.pertemuan);
     },
     processData: (data) => {
+      if (data) {
+        data.pertemuan = undefined;
+      }
       return {
         ...data,
         laborat_id: data?.laborat?.id || null,

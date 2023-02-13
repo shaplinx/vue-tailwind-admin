@@ -99,9 +99,32 @@
             </div>
           </div>
 
-          <dv-button @click="showRekamMedis" type="primary"> Lihat Rekam Medis</dv-button>
+          <dv-button @click="showRekamMedis" type="primary">
+            Lihat Rekam Medis</dv-button
+          >
         </div>
-        <div v-show="!model.pertemuan" class="w-full min-h-[24rem] animate-pulse bg-base-200 h-6 rounded-md "></div>
+        <div class="space-y-5 rounded-lg bg-base-200 p-4" v-show="!model.pertemuan && show">
+          <div class=" grid grid-cols-2 gap-4">
+            <div class="h-5 animate-pulse  rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-3/4 rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse  rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-full rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse  rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-3/4 rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse row-span-3 rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-full rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-full rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-3/4 rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse  rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-full rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse  rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-3/4 rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse  rounded-lg bg-base-300"></div>
+            <div class="h-5 animate-pulse w-3/4 rounded-lg bg-base-300"></div>
+
+          </div>
+          <div class="h-12 rounded-lg w-full bg-base-300"></div>
+        </div>
       </dv-card-body>
     </dv-card>
     <div v-if="show" class="w-full lg:w-8/12">
@@ -136,6 +159,18 @@
           @click="tabClicked('InvoiceForm', model.pertemuan?.id!)"
           >{{ t("menu.tagihan") }}</a
         >
+        <a
+          class="tab"
+          :class="active('SuratSakitForm') ? 'tab-active' : ''"
+          @click="tabClicked('SuratSakitForm', model.pertemuan?.id!)"
+          >{{ t("menu.surat_sakit") }}</a
+        >
+        <a
+          class="tab"
+          :class="active('SuratSehatForm') ? 'tab-active' : ''"
+          @click="tabClicked('SuratSehatForm', model.pertemuan?.id!)"
+          >{{ t("menu.surat_sehat") }}</a
+        >
       </div>
       <router-view
         :loading="!isLoading || model.pertemuan == null"
@@ -159,7 +194,6 @@ import { FormKitSchemaNode } from "@formkit/core";
 import { CaseConversion } from "@/hooks/helpers/string";
 import RekamMedisModal from "@/components/modals/RekamMedisModal.vue";
 import { $vfm } from "vue-final-modal";
-
 
 const route = useRoute();
 const router = useRouter();
@@ -191,7 +225,11 @@ const tabClicked = (
 };
 const isLoading = ref(false);
 
-const changed = (val: number | string) => {
+const changed = (val: number | string, data: App.Models.Pertemuan) => {
+  if (data) {
+    model.value = { pertemuan: data };
+    return;
+  }
   isLoading.value = true;
   pertemuanCRUD.show!({ id: val })
     .then((res) => {
@@ -255,13 +293,12 @@ const schema: FormKitSchemaNode[] = [
 ];
 
 const showRekamMedis = () => {
-    $vfm.show(
-      { component: RekamMedisModal },
-      {
-        pasienId: model.value.pertemuan?.pasien?.id,
-        pasien: model.value.pertemuan?.pasien
-      }
-    );
-  };
-
+  $vfm.show(
+    { component: RekamMedisModal },
+    {
+      pasienId: model.value.pertemuan?.pasien?.id,
+      pasien: model.value.pertemuan?.pasien,
+    }
+  );
+};
 </script>

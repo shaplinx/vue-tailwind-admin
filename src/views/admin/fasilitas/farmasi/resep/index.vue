@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableCard
-      :title="t('pasien.index-title')"
+      :title="t('resep.index-title')"
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
@@ -19,20 +19,55 @@
         table-class-name="light-table"
         must-sort
       >
-        <template #item-kelamin="row">
-          <dv-badge
-            size="large"
-            outline
-            :color="row.kelamin == 'L' ? 'primary' : 'secondary'"
-            ><fa :icon="row.kelamin == 'L' ? 'mars' : 'venus'"></fa></dv-badge
-        ></template>
-        <template #item-tgl_lahir="row">
-          {{ dateTime(row.tgl_lahir).format("ll") }}
-          <dv-badge size="small" type="primary">{{
-            age(row.tgl_lahir)
-          }}</dv-badge>
+        <template #item-pertemuan="row">
+          <p class="font-bold">{{ row.pertemuan?.pasien?.nama_lengkap }}</p>
+          <p>
+            <span class="font-thin text-xs"
+              >({{
+                dateTime(row.pertemuan?.waktu_pertemuan).format("ll")
+              }})</span
+            >
+          </p>
+          <p class="font-light text-sm">
+            {{ row.pertemuan?.pemeriksa?.fullname }}
+          </p>
         </template>
-        <template #item-alamat="row"> {{ row.alamatLengkap }} </template>
+        <template #item-status="row">
+          <dv-badge
+            :type="
+              row.status == 2
+                ? 'success'
+                : row.status == 1
+                ? 'warning'
+                : 'error'
+            "
+          >
+            {{ t(`menu.status.${row.status}`) }}
+          </dv-badge>
+        </template>
+        <template  #item-resep_contents="row">
+        <ul class="list-disc text-sm font-light">
+          <li
+            v-for="isi in row.resep_contents"
+            :key="isi.id"
+            class="mr-1 mb-1"
+            type="success"
+            >{{ isi.obat.nama }} {{ isi.obat.kemasan }}
+            {{ isi.obat.sediaan }} {{ isi.aturan_pakai }} ({{ isi.jumlah }})
+          </li>
+        </ul>    
+        </template>
+        <template  #item-resep_luars="row">
+        <ul class="list-disc text-sm font-light">
+          <li
+            v-for="isi in row.resep_luars"
+            :key="isi.id"
+            class="mr-1 mb-1"
+            type="success"
+            >{{ isi.nama_obat }}  {{ isi.signa }} ({{ isi.jumlah }})
+          </li>
+        </ul>    
+        </template>
         <template #item-created_at="row">
           {{ dateTime(row.created_at).format("llll") }}
         </template>
@@ -61,11 +96,11 @@
 </template>
 <script setup lang="ts">
 import TableCard from "@/components/cards/TableCard.vue";
-import { dateTime, age } from "@/services/moment/moment";
+import { dateTime } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
 import { watch } from "vue";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-import crud from "@/services/api/modules/pasienCRUD";
+import crud from "@/services/api/modules/resepCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
 
@@ -82,26 +117,35 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pasien>({
-  moduleName: "Pasien",
+} = new IndexCRUD<App.Models.Fasilitas.Farmasi.Resep>({
+  moduleName: "PermintaanLab",
   crud,
   filterSchema: schema,
   headers: [
-    { text: "ID", value: "id", sortable: true },
-    { text: "Nama Lengkap", value: "nama_lengkap", sortable: true },
-    { text: "Kelamin", value: "kelamin", sortable: true },
-    { text: "Tanggal Lahir", value: "tgl_lahir", sortable: true },
-    { text: "Alamat", value: "alamat", sortable: true },
-    { text: "Tanggal Pendaftaran", value: "created_at", sortable: true },
-    { text: "Aksi", value: "action", sortable: false },
+    { text: "ID", value: "ref_number", sortable: true },
+    { text: t("menu.pertemuan"), value: "pertemuan", sortable: false },
+    { text: t("resep.form.status"), value: "status", sortable: false },
+    {
+      text: t("resep.form.resep_contents"),
+      value: "resep_contents",
+      sortable: false,
+    },
+    {
+      text: t("resep.form.resep_luars"),
+      value: "resep_luars",
+      sortable: false,
+    },
+    { text: t("menu.created_at"), value: "created_at", sortable: true },
+    { text: t("menu.action"), value: "action", sortable: false },
   ],
   buttons: (index) => [
     {
-      label: t("pasien.add-new-title"),
+      label: t("resep.add-new-title"),
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () =>
+        index.router.push({ name: "forms", params: { pages: "lab" } }),
     },
   ],
 })
@@ -115,6 +159,7 @@ const {
 
 // initial load
 loadFromServer();
+
 
 watch(
   serverOptions,

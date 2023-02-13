@@ -18,6 +18,7 @@ import theme from "./theme";
 import { repeater } from "./plugins/vRepeater";
 import InvoiceTable from "./plugins/invoice-table/InvoiceTable.vue";
 import AutoSuggest from "./plugins/autosuggest/AutoSuggest.vue";
+import ColorBlind from "./plugins/colorBlind/ColorBlind.vue"
 
 const formkitConfig = defaultConfig({
   config: {
@@ -41,6 +42,7 @@ const formkitConfig = defaultConfig({
       component: VButtonVue,
     },
     status: createInput(Status),
+    colorBlind: createInput(ColorBlind),
     toggle: createInput(Toggle),
     datepicker: createInput(VueDatepickerVue),
     radioButton: {

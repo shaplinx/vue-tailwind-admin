@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="grid grid-cols-1">
-      <div class="stats shadow overflow-hidden">
+      <div class="stats shadow overflow-auto">
         <div class="stat">
           <div class="stat-figure text-primary">
             <fa icon="heart-circle-plus" size="2xl" />

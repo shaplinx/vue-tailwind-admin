@@ -5,26 +5,26 @@ import user from "@/services/api/modules/user";
 
 interface auth {
   token?: String;
-  user?: Object;
+  user?: App.Models.User;
 }
 
 export const useAuthStore = defineStore({
   id: "auth",
   state: (): { auth: auth; loggingIn: boolean; loggingOut: boolean } => ({
-    auth: JSON.parse(localStorage.getItem("auth") || "{}"),
+    auth: JSON.parse(localStorage.getItem("auth") || "{}") ,
     loggingIn: false,
     loggingOut: false,
   }),
   getters: {
     token: (state) => state.auth.token,
     user: (state) => state.auth.user,
+    isLoggingOut: (state) => state.loggingOut,
   },
   actions: {
     login(data: {
       email?: string;
       password?: string;
       remember?: boolean;
-
     }): Promise<AxiosResponse> {
       this.loggingIn = true;
       return new Promise((reslove, reject) => {
@@ -42,23 +42,22 @@ export const useAuthStore = defineStore({
           });
       });
     },
-    logout() :  Promise<AxiosResponse> {
+    logout(): Promise<AxiosResponse> {
       this.loggingOut = true;
-      return new Promise((reslove,reject) => {
+      return new Promise((reslove, reject) => {
         user
-        .logout()
-        .then((res) => {
-          this.auth = {};
-          localStorage.removeItem("auth");
-          this.loggingOut = false;
-          reslove(res);
-        })
-        .catch((err:AxiosError) => {
-          this.loggingIn = false;
-          reject(err.response);
-        });
-      })
-
+          .logout()
+          .then((res) => {
+            this.auth = {};
+            localStorage.removeItem("auth");
+            this.loggingOut = false;
+            reslove(res);
+          })
+          .catch((err: AxiosError) => {
+            this.loggingIn = false;
+            reject(err.response);
+          });
+      });
     },
   },
 });

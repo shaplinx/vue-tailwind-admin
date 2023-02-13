@@ -31,30 +31,134 @@ import { ref } from "vue";
 import SideNav from "./SideNav.vue";
 import { usePreferencesStore } from "../../store/preferences";
 
+
+
 const preferences = usePreferencesStore();
 
-const NavItems = ref<NavItem[]>([
+const NavItems = ref<NavItem[]>([{
+  id: "dashboards",
+  icon: "gauge-high",
+  label: "menu.dashboard",
+  to: `Dashboard`,
+},
+{
+  id: "pasien",
+  icon: "hospital-user",
+  label: "menu.pasien",
+  to: `PasienIndex`,
+},
+{
+  id: "pertemuan",
+  icon: "comment-medical",
+  label: "menu.pertemuan",
+  to: `PertemuanIndex`,
+},
+{
+  id: "fasilitas",
+  icon: "hospital",
+  label: "menu.fasilitas",
+  subs: [{
+    icon: "house-medical-flag",
+    label: "menu.poliklinik",
+    to: `PoliklinikIndex`,
+
+  },
   {
-    label: "Dashoard",
-    icon: "desktop",
-    child: [
+    icon: "prescription-bottle-medical",
+    label: "menu.farmasi",
+    type: "none",
+    subs: [
       {
-        label: "Child 1",
-        icon:"compass",
-        child: [
-          {
-            label: "Child 1",
-            icon: "cogs"
-          },
-        ],
+        icon: "pills",
+        label: "menu.obat",
+        to: `ObatIndex`,
+
       },
-    ],
+      {
+        icon: "prescription",
+        label: "menu.resep",
+        to: `ResepIndex`,
+
+      }
+    ]
   },
   {
-    label: "Home 2",
-  },
-  {
-    label: "Home 3",
-  },
-]);
+    icon: "flask-vial",
+    label: "menu.laboraturium",
+    type:"none",
+    subs: [
+      {
+        icon: "vials",
+        label: "menu.permintaanLab",
+        to: `PermintaanLabIndex`,
+
+      },
+      {
+        icon: "vial-virus",
+        label: "menu.pemeriksaanLab",
+        to: `PemeriksaanLabIndex`,
+
+      },
+      {
+        icon: "vial",
+        label: "menu.komponenLab",
+        to: `KomponenLabIndex`,
+
+      },
+      {
+        icon: "tag",
+        label: "menu.kategoriLab",
+        to: `KategoriLabIndex`,
+
+      },
+
+    ]
+  }
+  ]
+},
+{
+  id: "administrasi",
+  icon: "folder",
+  label: "menu.administrasi",
+  type:"none",
+  subs: [
+    {
+      icon: "user-tie",
+      label: "menu.profesi",
+      to: `ProfesiIndex`,
+
+    },
+    {
+      icon: "square-virus",
+      label: "menu.icd10",
+      to: `Icd10Index`,
+    },
+    {
+      icon: "users",
+      label: "menu.pegawai",
+      to: `PegawaiIndex`,
+    },
+    {
+      icon: "syringe",
+      label: "menu.tindakan",
+      to: `TindakanIndex`,
+    },
+    {
+      icon: "disease",
+      label: "menu.diagnosis",
+      to: `DiagnosisIndex`,
+    },
+    {
+      icon: "money-check-dollar",
+      label: "menu.gaji",
+      to: `GajiIndex`,
+    },
+    {
+      icon: "vault",
+      label: "menu.rekening",
+      to: `RekeningIndex`,
+    }
+  ]
+},
+])
 </script>

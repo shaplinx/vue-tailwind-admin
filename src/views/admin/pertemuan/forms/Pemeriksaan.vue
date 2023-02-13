@@ -9,7 +9,6 @@
         :disabled="isSubmitting"
         id="pemeriksaan-form"
         @keydown.enter.prevent
-
       >
         <FormKitSchema :schema="schema" />
       </FormKit>
@@ -20,7 +19,6 @@
         @submit="submit()"
         @delete="destroy"
       />
-   
     </dv-card-body>
   </dv-card>
 </template>
@@ -41,7 +39,7 @@ const emit = defineEmits(["changed"]);
 const { model, isLoading, isSubmitting, submit, init, destroy } =
   new BelongsToPertemuan<App.Models.Pertemuan.Pemeriksaan>({
     onGetModelSuccess: (data: App.Models.Pertemuan.Pemeriksaan) => {
-      emit("changed", data.pertemuan_id);
+      emit("changed", data.pertemuan_id, data.pertemuan);
     },
 
     processErrors: (err) => {
@@ -50,6 +48,12 @@ const { model, isLoading, isSubmitting, submit, init, destroy } =
         ...renameErrors("obat_id", "obat", err),
         farmasis: mergeErrorsWithPrefix("farmasis", err),
       };
+    },
+    processData: (data) => {
+      if (data) {
+        data.pertemuan = undefined;
+      }
+      return data;
     },
     afterDelete: (form) => {
       form?.children.find((x) => x.name === "diagnosis")?.input([]);

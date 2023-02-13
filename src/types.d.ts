@@ -1,8 +1,11 @@
 declare type NavItem = {
   label: string;
-  child?: NavItem[];
+  subs?: NavItem[];
+  id?: string;
   isOpen?: boolean;
   icon?: string;
+  to?: string;
+  type?: "name" | "path" | "external" | "none";
 };
 
 declare interface LoginFormError {

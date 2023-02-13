@@ -22,7 +22,7 @@ export const definePemeriksaanSchema = ({
       {
         $formkit: "textarea",
         name: "anamnesis",
-        rows:"5",
+        rows: "5",
         label: t("pemeriksaan.form.anamnesis"),
       },
       {
@@ -75,9 +75,53 @@ export const definePemeriksaanSchema = ({
         ],
       },
       {
+        $el: "div",
+        attrs: {
+          class: "grid grid-cols-2 sm:grid-cols-3 gap-2",
+        },
+        children: [
+          {
+            $formkit: "text",
+            "sections-schema": {
+              suffix: t("formkit.ttv.tb"),
+            },
+            name: "TB",
+            label: t("pemeriksaan.form.TB"),
+          },
+          {
+            $formkit: "text",
+            "sections-schema": {
+              suffix: t("formkit.ttv.bb"),
+            },
+            name: "BB",
+            label: t("pemeriksaan.form.BB"),
+          },
+          {
+            $formkit: "select",
+            name: "buta_warna",
+            options: [
+              {
+                label: t("formkit.colorBlind.null"),
+                value: null,
+              },
+              {
+                label: t("formkit.colorBlind.1"),
+                value: 1,
+              },
+              {
+                label: t("formkit.colorBlind.0"),
+                value: 0,
+              },
+            ],
+            label: t("pemeriksaan.form.buta_warna"),
+          },
+        ],
+      },
+     
+      {
         $formkit: "textarea",
         name: "px_fisik",
-        rows:"5",
+        rows: "5",
         label: t("pemeriksaan.form.px_fisik"),
       },
       {
@@ -99,9 +143,8 @@ export const definePemeriksaanSchema = ({
             labelKey: "nama",
             valueKey: "id",
             onSelect: (val: string, item: any, node: FormKitNode) => {
-             
-              node?.parent?.input?.(item).then(()=> {
-                node.parent?.input(item)
+              node?.parent?.input?.(item).then(() => {
+                node.parent?.input(item);
               });
             },
             onSearch: (search: string, loading: any, set: any) => {

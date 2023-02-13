@@ -38,9 +38,12 @@ const emit = defineEmits(["changed"]);
 const { model, isLoading, isSubmitting, submit, init, destroy } =
   new BelongsToPertemuan<App.Models.Pertemuan.PertemuanTindakan>({
     onGetModelSuccess: (data: App.Models.Pertemuan.PertemuanTindakan) => {
-      emit("changed", data.pertemuan_id);
+      emit("changed", data.pertemuan_id, data.pertemuan);
     },
     processData: (data) => {
+      if (data) {
+        data.pertemuan = undefined;
+      }
       return {
         ...data,
         tindakan_contents: data?.tindakan_contents?.map((content) => {

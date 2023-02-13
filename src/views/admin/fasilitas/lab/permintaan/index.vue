@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableCard
-      :title="t('pasien.index-title')"
+      :title="t('permintaanLab.index-title')"
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
@@ -19,20 +19,61 @@
         table-class-name="light-table"
         must-sort
       >
-        <template #item-kelamin="row">
-          <dv-badge
-            size="large"
-            outline
-            :color="row.kelamin == 'L' ? 'primary' : 'secondary'"
-            ><fa :icon="row.kelamin == 'L' ? 'mars' : 'venus'"></fa></dv-badge
-        ></template>
-        <template #item-tgl_lahir="row">
-          {{ dateTime(row.tgl_lahir).format("ll") }}
-          <dv-badge size="small" type="primary">{{
-            age(row.tgl_lahir)
-          }}</dv-badge>
+        <template #item-pertemuan="row">
+          <p class="font-bold">{{ row.pertemuan?.pasien?.nama_lengkap }}</p>
+          <p>
+            <span class="font-thin text-xs"
+              >({{
+                dateTime(row.pertemuan?.waktu_pertemuan).format("ll")
+              }})</span
+            >
+          </p>
+          <p class="font-light text-sm">
+            {{ row.pertemuan?.pemeriksa?.fullname }}
+          </p>
         </template>
-        <template #item-alamat="row"> {{ row.alamatLengkap }} </template>
+        <template #item-status="row">
+          <dv-badge
+            :type="
+              row.status == 2
+                ? 'success'
+                : row.status == 1
+                ? 'warning'
+                : 'error'
+            "
+          >
+            {{ t(`menu.status.${row.status}`) }}
+          </dv-badge>
+        </template>
+        <template #item-pemeriksaan_labs="row">
+          <template v-for="pemeriksaan in row.pemeriksaan_labs">
+            <VTooltip>
+              <dv-badge :id="`pemeriksaan${pemeriksaan.id}`" type="success"
+                >{{ pemeriksaan.nama }}
+              </dv-badge>
+
+              <template #popper>
+                <ul ul class="mb-0 list-unstyled">
+                  <li
+                    v-for="komponen in pemeriksaan.komponen_lab"
+                    :key="komponen.id"
+                  >
+                    <small
+                      class="text-mute"
+                      v-html="
+                        `${komponen.nama} : ${getHasilValue(
+                          row.hasil_labs,
+                          komponen.id,
+                          pemeriksaan.id
+                        )} ${komponen.satuan} (${komponen.nilai_rujukan})`
+                      "
+                    />
+                  </li>
+                </ul>
+              </template>
+            </VTooltip>
+          </template>
+        </template>
         <template #item-created_at="row">
           {{ dateTime(row.created_at).format("llll") }}
         </template>
@@ -45,7 +86,7 @@
               <li
                 v-close-popper
                 v-for="action in actions"
-                @click="action.callback?.(row.id)"
+                @click="action.callback?.(row.id, row)"
               >
                 <a
                   ><fa v-if="action.icon" :icon="action.icon"></fa
@@ -61,11 +102,11 @@
 </template>
 <script setup lang="ts">
 import TableCard from "@/components/cards/TableCard.vue";
-import { dateTime, age } from "@/services/moment/moment";
+import { dateTime } from "@/services/moment/moment";
 import { useI18n } from "vue-i18n";
 import { watch } from "vue";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-import crud from "@/services/api/modules/pasienCRUD";
+import crud from "@/services/api/modules/permintaanLabCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
 
@@ -73,6 +114,7 @@ const { t } = useI18n();
 const schema = defineFilterSchema({ t });
 
 const {
+  router,
   actions,
   buttons,
   filterSchema,
@@ -82,26 +124,30 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pasien>({
-  moduleName: "Pasien",
+} = new IndexCRUD<App.Models.Fasilitas.Lab.PermintaanLab>({
+  moduleName: "PermintaanLab",
   crud,
   filterSchema: schema,
   headers: [
-    { text: "ID", value: "id", sortable: true },
-    { text: "Nama Lengkap", value: "nama_lengkap", sortable: true },
-    { text: "Kelamin", value: "kelamin", sortable: true },
-    { text: "Tanggal Lahir", value: "tgl_lahir", sortable: true },
-    { text: "Alamat", value: "alamat", sortable: true },
-    { text: "Tanggal Pendaftaran", value: "created_at", sortable: true },
-    { text: "Aksi", value: "action", sortable: false },
+    { text: "ID", value: "ref_number", sortable: true },
+    { text: t("menu.pertemuan"), value: "pertemuan", sortable: false },
+    { text: t("permintaanLab.form.status"), value: "status", sortable: false },
+    {
+      text: t("permintaanLab.form.pemeriksaan_labs"),
+      value: "pemeriksaan_labs",
+      sortable: false,
+    },
+    { text: t("menu.created_at"), value: "created_at", sortable: true },
+    { text: t("menu.action"), value: "action", sortable: false },
   ],
   buttons: (index) => [
     {
-      label: t("pasien.add-new-title"),
+      label: t("permintaanLab.add-new-title"),
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () =>
+        index.router.push({ name: "forms", params: { pages: "lab" } }),
     },
   ],
 })
@@ -111,10 +157,45 @@ const {
       date_start: index.serverOptions.value.date_start,
       date_end: index.serverOptions.value.date_end,
     };
-  });
+  })
+  .clear(["actions"], 0)
+  .addActions([
+    {
+      icon: "pencil",
+      label: "Edit",
+      callback: (id: any, row:any) => {
+        router.push({ name: `LabForm`, params: { id: row.pertemuan_id } });
+      },
+    },
+    {
+      icon: "eye",
+      label: "Read",
+      callback: (id: any, row: any) => {
+        router.push({
+          name: "PermintaanLabRead",
+          params: { id: row.pertemuan_id },
+        });
+      },
+    },
+  ]);
 
 // initial load
 loadFromServer();
+
+function getHasilValue(
+  allHasilLab: App.Models.Pertemuan.HasilLab[],
+  KomponenLabId: number,
+  PemeriksaanLabId: number
+) {
+  let output = allHasilLab.filter(
+    (hasil) =>
+      hasil.pemeriksaan_lab_id == PemeriksaanLabId &&
+      hasil.komponen_lab_id == KomponenLabId
+  );
+  return output[0].hasil
+    ? output[0].hasil
+    : '<span class="badge text-error">n/a</span>';
+}
 
 watch(
   serverOptions,

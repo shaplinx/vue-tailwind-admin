@@ -24,7 +24,7 @@
           <dv-badge
             size="large"
             outline
-            :color="row.kelamin == 'L' ? 'primary' : 'secondary'"
+            :type="row.kelamin == 'L' ? 'primary' : 'secondary'"
             ><fa :icon="row.kelamin == 'L' ? 'mars' : 'venus'"></fa></dv-badge
         ></template>
         <template #item-tgl_lahir="row">

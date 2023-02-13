@@ -50,6 +50,7 @@ import { useAuthStore } from "@/store/auth";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { AxiosResponse } from "axios";
+import { HomePage } from "@/router";
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -69,7 +70,7 @@ function login() {
       remember: loginForm.value.remember,
     })
     .then(() => {
-      router.push("/dashboard");
+      router.push(HomePage);
     })
     .catch((err: AxiosResponse) => {
       errors.value = err.data.errors;

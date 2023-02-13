@@ -124,7 +124,7 @@
           </div>
         </template>
         <template #item-plan="row">
-          <div v-if="row.resep?.resep_contents">
+          <div v-if="row.resep?.resep_contents?.length">
             <ul class="list-disc">
               <li v-for="resep in row.resep.resep_contents">
                 {{ resep.obat.nama }} {{ resep.obat.kemasan }}
@@ -132,8 +132,19 @@
               </li>
             </ul>
           </div>
+          <div v-if="row.resep?.resep_luars?.length">
+            <span class="text-sm font-semibold text-left">{{ t("resep.form.resep_luars") }} : </span>
+            <ul class="list-disc">
+              <li v-for="resep in row.resep.resep_luars">
+                {{ resep.nama_obat }} ({{ resep.signa }})
+              </li>
+            </ul>
+          </div>
           <div class="mt-2" v-if="row.invoice?.total">
-            {{ t("invoice.form.jumlah") + " : " }} <span class="text-success fomt-mono font-bold">{{ money(row.invoice.total).toFormat() }}</span>
+            {{ t("invoice.form.jumlah") + " : " }}
+            <span class="text-success fomt-mono font-bold">{{
+              money(row.invoice.total).toFormat()
+            }}</span>
           </div>
         </template>
 
@@ -177,7 +188,7 @@ import http from "@/services/api/base";
 
 const props = defineProps({
   pasienId: [String, Number],
-  pasien: Object as PropType<App.Models.Pasien>
+  pasien: Object as PropType<App.Models.Pasien>,
 });
 
 const { t } = useI18n();
@@ -290,7 +301,6 @@ function getHasilValue(
     ? output[0].hasil
     : '<span class="badge text-error">n/a</span>';
 }
-
 
 watch(
   serverOptions,

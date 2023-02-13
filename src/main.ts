@@ -17,6 +17,8 @@ import floatingVue from "floating-vue";
 import {vfmPlugin} from 'vue-final-modal';
 import Dashboard from "./layout/Dashboard.vue";
 import Empty from "./layout/Empty.vue";
+import print from 'vue3-print-nb'
+
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -36,5 +38,6 @@ app
   .use(formkitPlugin, formkitConfig)
   .use(Toast)
   .use(fontawesome)
+  .use(print)
   .use(autoAnimatePlugin)
   .mount("#app");

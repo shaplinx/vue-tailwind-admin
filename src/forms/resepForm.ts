@@ -18,6 +18,12 @@ export const defineResepSchema = ({
       name: "pertemuan_id",
     },
     {
+      $formkit: "text",
+      name: "ref_number",
+      readOnly:true,
+      label:t("resep.form.ref_number")
+    },
+    {
       $formkit: "vSelect",
       name: "farmasis",
       displayLabel: "fullname",
@@ -86,6 +92,37 @@ export const defineResepSchema = ({
               $formkit: "text",
               name: "aturan_pakai",
               label: t("resep.form.resep_contents_aturan_pakai"),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      $formkit: "vRepeater",
+      name: "resep_luars",
+      label: t("resep.form.resep_luars"),
+      addLabel: t("formkit.repeater-new"),
+      children: [
+        {
+          $formkit: "text",
+          name: "nama_obat",
+          label: t("resep.form.resep_luars_nama_obat"),
+        },
+        {
+          $el: "div",
+          attrs: {
+            class: "grid grid-cols-1 sm:grid-cols-2 gap-2",
+          },
+          children: [
+            {
+              $formkit: "number",
+              name: "jumlah",
+              label: t("resep.form.resep_luars_jumlah"),
+            },
+            {
+              $formkit: "text",
+              name: "signa",
+              label: t("resep.form.resep_luars_signa"),
             },
           ],
         },

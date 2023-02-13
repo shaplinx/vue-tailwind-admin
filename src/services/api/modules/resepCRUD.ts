@@ -16,6 +16,9 @@ const config = {
     if (type === "DESTROY") {
       return `${baseUrl}/${id}/${extUrl}`;
     }
+    if (type === "INDEX") {
+      return `fasilitas/farmasi/resep`;
+    }
     return baseUrl;
   },
 };

@@ -18,6 +18,6 @@ const config = {
     return baseUrl;
   },
 };
-const { actions } = new CRUD<App.Models.Pertemuan.Pemeriksaan>(config);
+const { actions } = new CRUD<App.Models.Invoice>(config);
 
 export default actions;

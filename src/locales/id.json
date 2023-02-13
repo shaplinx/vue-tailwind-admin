@@ -13,6 +13,8 @@
     "delete-modal-content": "Apakah anda yakin akan menghapus pasien dengan id berikut?",
     "form": {
       "id": "No. RM",
+      "goldar":"Golongan Darah",
+      "pekerjaan": "Pekerjaan",
       "usia": "Usia",
       "nama_lengkap": "Nama Lengkap",
       "no_id": "Nomer Identitas",
@@ -284,11 +286,16 @@
     "right": "Resep Selanjutnya",
     "form": {
       "farmasis": "Farmasis",
+      "ref_number" : "No. Referensi",
       "status": "Status",
       "resep_contents": "Isi Resep",
       "resep_contents_obat": "Nama Obat",
       "resep_contents_jumlah": "Jumlah Obat",
       "resep_contents_aturan_pakai": "Aturan Pakai",
+      "resep_luars": "Resep Luar",
+      "resep_luars_nama_obat": "Nama Obat",
+      "resep_luars_jumlah": "Jumlah Obat",
+      "resep_luars_signa": "Aturan Pakai",
       "submit": "Simpan Resep"
     }
   },
@@ -343,6 +350,7 @@
     "right": "Tagihan Selanjutnya",
     "form": {
       "deskripsi": "Deskripsi",
+      "ref_number" : "No. Referensi",
       "jumlah": "Jumlah",
       "subTotal": "Sub Total",
       "status":"Status",
@@ -393,6 +401,9 @@
       "HR": "HR",
       "TD": "TD",
       "T": "T",
+      "BB": "Berat Badan",
+      "TB": "Tinggi Badan",
+      "buta_warna": "Buta Warna",
       "Spo2": "SpO₂",
       "laju_nadi": "Laju Nadi",
       "tekanan_darah": "Tekanan Darah",
@@ -439,9 +450,13 @@
     "add-new-title": "Tambah Permintaan Lab Baru",
     "edit-title": "Edit Permintaan Lab Lama",
     "left": "Permintaan Lab Sebelumnya",
+    "opening": "Yang bertanda tangan di bawah ini menerangkan bahwa:",
+    "closing": "Demikianlah surat keterangan ini diperbuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.",
+    "inter": "Telah dilakukan pemeriksaan lab dengan hasil berikut :",
     "right": "Permintaan Lab Selanjutnya",
     "form": {
       "laborat": "Laborat",
+      "ref_number" : "No. Referensi",
       "pemeriksaan_labs": "Pemeriksaan Lab",
       "hasil_lab": "Hasil Lab",
       "status":"Status",
@@ -452,6 +467,53 @@
       "submit": "Simpan Permintaan Lab"
     }
   },
+  "suratSehat": {
+    "index-title": "Surat Sehat Terdaftar",
+    "title": "Surat Keterangan Sehat",
+    "ref_number" : "No.",
+    "opening": "Yang bertanda tangan di bawah ini menerangkan bahwa:",
+    "closing": " Benar telah diperiksa dengan teliti dan dinyatakan dalam keadaan sehat. Demikianlah surat keterangan ini buat dengan sebenarnya untuk dapat dipergunakan untuk",
+    "inter": "Dengan hasil pemeriksaan",
+    "default_keperluan": "sebagaimana mestinya",
+    "delete-modal-title": "Konfirmasi Penghapusan Surat Sehat",
+    "delete-modal-content": "Apakah anda yakin akan menghapus Surat Sehat dengan id berikut?",
+    "submit": "Simpan Surat Sehat",
+    "add-new-title": "Tambah Surat Sehat Baru",
+    "edit-title": "Edit Surat Sehat Lama",
+    "left": "Surat Sehat Sebelumnya",
+    "right": "Surat Sehat Selanjutnya",
+    "form": {
+      "keperluan": "Keperluan",
+      "ref_number" : "No. Referensi",
+      "submit": "Simpan Surat Sehat"
+    }
+  },
+  "suratSakit": {
+    "index-title": "Surat Sakit Terdaftar",
+    "delete-modal-title": "Konfirmasi Penghapusan Surat Sakit",
+    "title": "Surat Keterangan Sakit",
+    "ref_number" : "No.",
+    "day":"hari",
+    "1":"satu",
+    "2": "dua",
+    "3":"tiga",
+    "opening": "Yang bertanda tangan di bawah ini menerangkan bahwa:",
+    "closing": "Demikianlah surat keterangan ini diperbuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.",
+    "inter": "Pada pemeriksaan kami, ia benar dalam keadaan sakit dan perlu diberikan istirahat selama masa penyembuhan selama",
+    "delete-modal-content": "Apakah anda yakin akan menghapus Surat Sakit dengan id berikut?",
+    "submit": "Simpan Surat Sakit",
+    "add-new-title": "Tambah Surat Sakit Baru",
+    "edit-title": "Edit Surat Sakit Lama",
+    "left": "Surat Sakit Sebelumnya",
+    "right": "Surat Sakit Selanjutnya",
+    "form": {
+      "keperluan": "Keperluan",
+      "ref_number" : "No. Referensi",
+      "dari": "Dari Tanggal",
+      "sampai": "Sampai Tanggal",
+      "submit": "Simpan Surat Sakit"
+    }
+  },
   "message": {
     "warn": {
       "noItemSelected": "Pilih item terlebih dahulu",
@@ -459,6 +521,10 @@
     }
   },
   "menu": {
+    "surat_sakit": "Surat Sakit",
+    "surat_sehat": "Surat Sehat",
+    "profile": "Profil",
+    "logout": "Log Out",
     "pertemuan_tindakan": "Tindakan",
     "rm":"Rekam Medis",
     "rekam-medis": "Rekam Medis",
@@ -561,11 +627,18 @@
       "rr" : "kpm",
       "temp": "°C",
       "spo2": "%",
-      "bp": "mmHg"
+      "bp": "mmHg",
+      "bb": "kg",
+      "tb": "cm"
     },
     "select":"Pilih",
     "month": "Bulan",
-    "year":"Tahun"
+    "year":"Tahun",
+    "colorBlind": {
+      "0": "Tidak",
+      "1": "Ya",
+      "null": "Tidak Diperiksa"
+    }
   }
 
 

@@ -45,13 +45,6 @@
             </g>
           </svg>
         </dv-button>
-
-        <dv-input
-          class="max-w-xs"
-          :border="false"
-          placeholder="Search"
-          size="md"
-        />
       </dv-navbar-start>
       <dv-navbar-end class="gap-x-3">
         <input
@@ -62,34 +55,56 @@
             content: `${theme ? 'Dark' : 'Light'} Mode`,
           }"
         />
-        <dv-indicator>
-          <dv-indicator-item>
-            <dv-badge size="sm" type="secondary">99+</dv-badge>
-          </dv-indicator-item>
-          <dv-button variant="link" class="w-10 rounded-full">
-            <dv-avatar
-              src="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-              size="md"
-            />
+        <DropdownMenuVue>
+          <dv-button data-set-theme="dark" variant="ghost">
+            <icon-ellipsis-horizontal />
           </dv-button>
-        </dv-indicator>
-
-        <dv-button @click="$router.push({name: 'Login'})" data-set-theme="dark" variant="ghost">
-          <icon-ellipsis-horizontal />
-        </dv-button>
+          <template #popper>
+            <li>
+              <a v-close-popper @click="onProfile">{{ t("menu.profile") }}</a>
+            </li>
+            <li>
+              <a v-close-popper @click="onLogOut">{{ t("menu.logout") }}</a>
+            </li>
+          </template>
+        </DropdownMenuVue>
       </dv-navbar-end>
     </dv-navbar>
   </div>
 </template>
 <script lang="ts" setup>
-import {  IconEllipsisHorizontal } from "daisyui-vue";
-import { ref, watch,  } from "vue";
+import { IconEllipsisHorizontal } from "daisyui-vue";
+import { ref, watch } from "vue";
 import { usePreferencesStore } from "../../store/preferences";
+import { useAuthStore } from "@/store/auth";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
 
+const { t } = useI18n();
 const preferences = usePreferencesStore();
-const theme = ref(preferences.theme == "dark" ? false :true);
+const theme = ref(preferences.theme == "dark" ? false : true);
 
 watch(theme, (val) => {
   preferences.changeTheme(val ? "light" : "dark");
 });
+
+const auth = useAuthStore();
+const router = useRouter();
+function onLogOut() {
+  return auth
+    .logout()
+    .then((res) => {
+      router.push({ name: "Login" });
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+function onProfile() {
+  let id = auth?.user?.id;
+  router.push({ name: "PegawaiEdit", params: { id } });
+}
 </script>

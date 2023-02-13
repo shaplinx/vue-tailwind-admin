@@ -97,6 +97,25 @@ export const definePasienSchema = ({
         label: t("pasien.form.hp"),
         name: "hp",
       },
+      {
+        $el: "div",
+        attrs: {
+          class: "grid grid-cols-2 gap-4",
+        },
+        children: [
+          {
+            $formkit: "text",
+            label: t("pasien.form.pekerjaan"),
+            name: "pekerjaan",
+          },
+          {
+            $formkit: "select",
+            label: t("pasien.form.goldar"),
+            name: "goldar",
+            options: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+          },
+        ],
+      },
     ];
   });
 };

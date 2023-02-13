@@ -1,0 +1,93 @@
+function addStyles(win, styles) {
+  styles.forEach((style) => {
+    let link = win.document.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("type", "text/css");
+    link.setAttribute("href", style);
+    win.document.getElementsByTagName("head")[0].appendChild(link);
+  });
+}
+
+function openWindow(url, name, props) {
+  let windowRef = null;
+  if (/*@cc_on!@*/ false) {
+    // for IE only
+    windowRef = window.open("", name, props);
+    windowRef.close();
+  }
+  windowRef = window.open(url, name, props);
+  if (!windowRef.opener) {
+    windowRef.opener = self;
+  }
+  windowRef.focus();
+  return windowRef;
+}
+
+export const htmlToPaper = (el, localOptions, cb = () => true) => {
+
+  let defaultName = "_blank",
+    defaultSpecs = ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
+    defaultReplace = true,
+    defaultStyles = [];
+
+
+
+  // If has localOptions
+  // TODO: improve logic
+  if (!!localOptions) {
+    if (localOptions.name) name = localOptions.name;
+    if (localOptions.specs) specs = localOptions.specs;
+    if (localOptions.replace) replace = localOptions.replace;
+    if (localOptions.styles) styles = localOptions.styles;
+  }
+
+  specs = !!specs.length ? specs.join(",") : "";
+
+  const element = window.document.getElementById(el);
+  console.log(element)
+
+  if (!element) {
+    alert(`Element to print #${el} not found!`);
+    return;
+  }
+
+  const url = "";
+  const win = openWindow(url, name, specs);
+
+  win.document.write(`
+    <html>
+      <head>
+        <title>${window.document.title}</title>
+      </head>
+      <body>
+        ${element.innerHTML}
+      </body>
+    </html>
+  `);
+
+  addStyles(win, styles);
+
+  setTimeout(() => {
+    win.document.close();
+    win.focus();
+    win.print();
+    setTimeout(function () {
+      window.close();
+    }, 1);
+    cb();
+  }, 1000);
+
+  return true;
+};
+
+const VueHtmlToPaper = {
+  install(app, options = {}) {
+    app.config.globalProperties.$htmlToPaper = (
+      el,
+      localOptions,
+      cb = () => true
+    ) => htmlToPaper(el, localOptions, cb);
+  },
+};
+
+export default VueHtmlToPaper;

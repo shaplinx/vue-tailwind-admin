@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const svgToDataUri = require("mini-svg-data-uri");
 const formKitTailwind = require('@formkit/themes/tailwindcss');
+const daisyUi = require("daisyui") 
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
@@ -28,5 +29,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [require("daisyui"), formKitTailwind],
+  plugins: [daisyUi, formKitTailwind],
 };

@@ -10,7 +10,7 @@ import { CaseConversion } from "@/hooks/helpers/string";
 
 interface BelongsToPertemuanConfig<T> {
   onGetModelSuccess?(data: T | null, routeId: string): void;
-  processData?(data: T | null): T;
+  processData?(data: T | null): T | null;
   processErrors?(error: any | null): any;
   onSubmitSuccess?(res: AxiosResponse<ResponseData<T>>): void;
   afterDelete?(form: FormKitNode | undefined, res: ResponseData<T>): void;
@@ -68,7 +68,7 @@ export class BelongsToPertemuan<T extends { pertemuan_id: string | number }> {
 
   private submitFn() {
     this.isSubmitting.value = true;
-    this.getForm()?.clearErrors;
+    this.getForm()?.clearErrors();
     return this.config.crud
       .update?.({
         id: this.route.params.id,

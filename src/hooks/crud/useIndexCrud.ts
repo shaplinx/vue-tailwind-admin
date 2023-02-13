@@ -22,6 +22,7 @@ interface IndexCrudConfig<T> {
   crud: Actions<T>;
   moduleName: string;
   headers?: Header[];
+  primaryKey?: string;
   filterSchema?: FormKitSchemaNode[];
   serverOptions?: RequestParams;
   generateRequestParams?: (arg: RequestParams) => () => object;
@@ -39,6 +40,7 @@ class IndexCRUD<T> {
   #default = {
     headers: [{ text: "ID", value: "id", sortable: true }],
     filterSchema: [],
+    primaryKey: "id",
     serverOptions: {
       page: 1,
       rowsPerPage: 10,
@@ -61,16 +63,16 @@ class IndexCRUD<T> {
       {
         icon: "trash",
         label: "Delete",
-        callback: (id: any) => {
+        callback: (id: any, row: any) => {
           $vfm.show(
             { component: DeleteModal },
             {
-              id,
+              id: row && this.#config.primaryKey ? row[this.#config.primaryKey] :id,
               moduleName: new CaseConversion(this.#config.moduleName)
                 .toCamelCase()
                 .get(),
               deleteFn: this.#config.crud.destroy,
-              onSuccess: this.loadFromServer,
+              onSuccess: () => this.loadFromServer(),
             }
           );
         },
@@ -177,11 +179,15 @@ class IndexCRUD<T> {
     return this;
   }
 
-  clear(...args: Clearable[]) {
-    if (args.length === 0)
-      args = ["headers", "filterSchema", "actions", "buttons"];
-    args.forEach((val) => {
-      this[val].value = [];
+  clear(clearable: Clearable[], index: number | undefined = undefined) {
+    if (clearable.length === 0)
+      clearable = ["headers", "filterSchema", "actions", "buttons"];
+    clearable.forEach((val) => {
+      if (index !== undefined) {
+        this[val].value.splice(index, 1);
+      } else {
+        this[val].value = [];
+      }
     });
     return this;
   }

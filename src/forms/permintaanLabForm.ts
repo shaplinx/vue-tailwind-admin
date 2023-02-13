@@ -20,6 +20,12 @@ export const definePermintaanLabSchema = ({
         name: "pertemuan_id",
       },
       {
+        $formkit: "text",
+        name: "ref_number",
+        readOnly:true,
+        label:t("permintaanLab.form.ref_number")
+      },
+      {
         $formkit: "vSelect",
         name: "laborat",
         displayLabel: "fullname",

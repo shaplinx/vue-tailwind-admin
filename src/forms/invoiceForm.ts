@@ -14,6 +14,12 @@ export const defineInvoiceSchema = ({
       name: "id",
     },
     {
+      $formkit: "text",
+      name: "ref_number",
+      readOnly:true,
+      label:t("invoice.form.ref_number")
+    },
+    {
       $formkit: "hidden",
       name: "pertemuan_id",
     },
