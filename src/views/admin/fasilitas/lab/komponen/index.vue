@@ -39,7 +39,7 @@
               <li
                 v-close-popper
                 v-for="action in actions"
-                @click="action.callback?.(row.id)"
+                @click="action.callback?.(row.id, row)"
               >
                 <a
                   ><fa v-if="action.icon" :icon="action.icon"></fa
@@ -61,6 +61,8 @@ import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
 import crud from "@/services/api/modules/komponenLabCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
+import MutasiKomponenLabModal from "@/components/modals/KomponenLabModal.vue";
+import { $vfm } from "vue-final-modal";
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -131,7 +133,21 @@ const {
       "wrapper-class":
         "$reset flex-row h-full max-sm:flex max-sm:flex-col max-sm:gap-2 max-sm:items-center",
     },
-  ]);
+  ]).addActions([
+    {
+      label: t("menu.mutasi"),
+      icon: 'timeline',
+      callback: (id, komponen) => {
+        $vfm.show(
+          { component: MutasiKomponenLabModal },
+          {
+            KomponenLabId: id,
+            KomponenLab: komponen
+          }
+        );
+      }
+    }
+  ]);;
 
 // initial load
 loadFromServer();

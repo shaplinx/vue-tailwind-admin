@@ -3,7 +3,7 @@ import RouterView from "@/components/RouterView.vue";
 import RouterViewSlideIn from "@/components/RouterViewSlideIn.vue";
 
 //import Chart from "../views/ChartView.vue";
-export const HomePage = "/admin/dashboard";
+export const HomePage = import.meta.env.VITE_HOMEPAGE_ROUTE;
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -165,6 +165,24 @@ const routes: Array<RouteRecordRaw> = [
         redirect: "/admin/administrasi/diagnosis",
         component: RouterView,
         children: [
+          {
+            path: "invoice",
+            redirect: "/admin/administrasi/invoice/index",
+            component: () => import("@/views/admin/administrasi/index.vue"),
+            children: [
+              {
+                path: "index",
+                name: "InvoiceIndex",
+                component: () =>
+                  import("@/views/admin/administrasi/invoice/index.vue"),
+              },
+              {
+                path: "read/:id",
+                name: "InvoiceRead",
+                component: () => import("@/views/admin/administrasi/invoice/read.vue"),
+              },
+            ],
+          },
           {
             path: "surat-sehat",
             redirect: "/admin/administrasi/surat-sehat/index",

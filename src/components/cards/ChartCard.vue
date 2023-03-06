@@ -101,6 +101,8 @@ function refreshColors() {
   style.value = getComputedStyle(document.body);
   colors.value = {
     primary: `hsl(${style.value.getPropertyValue("--p")})`,
+    secondary: `hsl(${style.value.getPropertyValue("--s")})`,
+    accent: `hsl(${style.value.getPropertyValue("--ac")})`,
     primaryContent: `hsl(${style.value.getPropertyValue("--pc")})`,
     baseContent: `hsl(${style.value.getPropertyValue("--bc")})`,
     base100: `hsl(${style.value.getPropertyValue("--b1")})`,
@@ -126,12 +128,7 @@ const chartOptions: ChartOptions = {
         color: colors.value.baseContent,
       },
     },
-    x: {
-      beginAtZero: true,
-      grid: {
-        color: colors.value.baseContent,
-      },
-    },
+
   },
 };
 
@@ -142,7 +139,7 @@ const datasets = computed(() => {
       {
         label: props.moduleName,
         backgroundColor: colors.value.primary,
-        borderColor: colors.value.baseContent,
+        borderColor: colors.value.primary,
         data: props.chartData?.data,
       },
     ],

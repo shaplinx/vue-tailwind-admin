@@ -110,6 +110,8 @@
                 </tr>
               </template>
           </table>
+        <p>{{ t("permintaanLab.closing") }}</p>
+
           <div class="flex flex-row-reverse">
             <div class="flex flex-col">
               <p class="mb-20 text-center">

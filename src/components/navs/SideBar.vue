@@ -123,6 +123,11 @@ const NavItems = ref<NavItem[]>([{
   type:"none",
   subs: [
     {
+      icon: "receipt",
+      label: "menu.invoice",
+      to:"InvoiceIndex"
+    },
+    {
       icon: "user-tie",
       label: "menu.profesi",
       to: `ProfesiIndex`,

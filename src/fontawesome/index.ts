@@ -1,6 +1,8 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+
 
 import { Plugin } from "vue";
 import {
@@ -17,7 +19,7 @@ interface FaPluginOptions {
 export default {
   install: (
     app: any,
-    options: FaPluginOptions = { iconPacks: [fas], icons: [] }
+    options: FaPluginOptions = { iconPacks: [fas,far], icons: [] }
   ) => {
     library.add(...options.iconPacks, ...options.icons);
     app.component("fa", FontAwesomeIcon);

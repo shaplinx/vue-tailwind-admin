@@ -40,8 +40,8 @@ export const usePreferencesStore = defineStore({
     isTransitionEnabled: (state) => state.enableTransition,
   },
   state: () => ({
-    menuCompact: true as MenuCompact,
-    theme: "dark" as ThemeName,
+    menuCompact: localStorage.getItem('menuCompact') === 'true' ,
+    theme: localStorage.getItem('theme') ?? "light" as ThemeName,
     enableTransition: false as boolean,
   }),
   actions: {
@@ -49,11 +49,12 @@ export const usePreferencesStore = defineStore({
       if (state) {
         return (this.menuCompact = state);
       }
-
       this.menuCompact = !this.menuCompact;
+      localStorage.setItem('menuCompact', this.menuCompact.toString())
     },
     changeTheme(themeName: ThemeName | undefined = undefined) {
       this.theme = themeName ?? this.theme;
+      localStorage.setItem('theme',themeName || 'light')
       document.documentElement.setAttribute("data-theme", this.theme);
     },
 

@@ -7,15 +7,16 @@
         v-model="model"
         type="form"
         :disabled="isSubmitting"
-        id="surat-sehat-form"
+        id="surat-sakit-form"
       >
         <FormKitSchema :schema="schema" />
       </FormKit>
       <SaveButtons
         module="surat_sakit"
         :is-saving="isSubmitting"
-        :only="['submit', 'delete']"
+        :only="['submit', 'delete','print']"
         @submit="submit()"
+        @print=" $router.push({name: 'SuratSakitRead', params: {id:$route.params.id}})"
         @delete="destroy"
       />
     </dv-card-body>

@@ -15,6 +15,9 @@ const config = {
     if (type === "DESTROY") {
       return `${baseUrl}/${id}/${extUrl}`;
     }
+    if (type === "INDEX") {
+      return `administrasi/invoice`;
+    }
     return baseUrl;
   },
 };

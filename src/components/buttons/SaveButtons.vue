@@ -25,6 +25,7 @@
         buttonMap[btn].label ?? t(module + ".form." + btn)
       }}
     </dv-button>
+
   </div>
 </template>
 <script setup lang="ts">
@@ -82,5 +83,10 @@ const buttonMap = ref<any>({
     icon: "trash",
     label: t("menu.delete"),
   },
+  print: {
+    variant:"default",
+    icon: "print",
+    label: t("menu.print")
+  }
 });
 </script>

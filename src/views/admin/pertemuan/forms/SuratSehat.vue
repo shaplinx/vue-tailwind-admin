@@ -14,8 +14,9 @@
       <SaveButtons
         module="surat_sehat"
         :is-saving="isSubmitting"
-        :only="['submit', 'delete']"
+        :only="['submit', 'delete','print']"
         @submit="submit()"
+        @print=" $router.push({name: 'SuratSehatRead', params: {id:$route.params.id}})"
         @delete="destroy"
       />
     </dv-card-body>

@@ -32,6 +32,7 @@ class ReadCrud<T> {
   config = reactive({
     anonSignature: true,
     location: null,
+    details: null,
   });
 
   loadModel = () => {

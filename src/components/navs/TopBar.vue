@@ -45,16 +45,13 @@
             </g>
           </svg>
         </dv-button>
+        <dv-button v-if="router.options.history.state.back" @click="router.back()">
+          <fa class="mr-2" icon="arrow-left"></fa>
+          {{ t("menu.back") }}
+        </dv-button>
       </dv-navbar-start>
       <dv-navbar-end class="gap-x-3">
-        <input
-          type="checkbox"
-          class="toggle"
-          v-model="theme"
-          v-tooltip.down="{
-            content: `${theme ? 'Dark' : 'Light'} Mode`,
-          }"
-        />
+        <ThemeSelector v-model="theme"/>
         <DropdownMenuVue>
           <dv-button data-set-theme="dark" variant="ghost">
             <icon-ellipsis-horizontal />
@@ -74,20 +71,25 @@
 </template>
 <script lang="ts" setup>
 import { IconEllipsisHorizontal } from "daisyui-vue";
-import { ref, watch } from "vue";
-import { usePreferencesStore } from "../../store/preferences";
+import { computed} from "vue";
+import { ThemeName, usePreferencesStore } from "../../store/preferences";
 import { useAuthStore } from "@/store/auth";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-
+import ThemeSelector from "../inputs/ThemeSelector.vue";
 const { t } = useI18n();
 const preferences = usePreferencesStore();
-const theme = ref(preferences.theme == "dark" ? false : true);
 
-watch(theme, (val) => {
-  preferences.changeTheme(val ? "light" : "dark");
-});
+
+const theme = computed({
+  get() {
+    return preferences.theme
+  },
+  set(val) {
+    preferences.changeTheme(val as ThemeName)
+  }
+})
 
 const auth = useAuthStore();
 const router = useRouter();

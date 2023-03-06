@@ -341,6 +341,10 @@
   },
   "invoice": {
     "index-title": "Tagihan Terdaftar",
+    "title": "Tagihan",
+    "ref_number":"No. Referensi :",
+    "signature":"Penanggung Jawab",
+    "opening": "DItagihkan Kepada :",
     "delete-modal-title": "Konfirmasi Penghapusan Tagihan",
     "delete-modal-content": "Apakah anda yakin akan menghapus Tagihan dengan id berikut?",
     "submit": "Simpan Tagihan",
@@ -443,7 +447,9 @@
     }
   },
   "permintaanLab": {
+    "title":"Surat Keterangan Pemeriksaan Lab",
     "index-title": "Permintaan Lab Terdaftar",
+    "ref_number": "No. Referensi :",
     "delete-modal-title": "Konfirmasi Penghapusan Permintaan Lab",
     "delete-modal-content": "Apakah anda yakin akan menghapus Permintaan Lab dengan id berikut?",
     "submit": "Simpan Permintaan Lab",
@@ -488,6 +494,18 @@
       "submit": "Simpan Surat Sehat"
     }
   },
+  "surat_sakit": {
+    "form": {
+      "submit": "Simpan Surat Sakit",
+      "print": "Lihat/Cetak"
+    }
+  },
+  "surat_sehat": {
+    "form": {
+      "submit": "Simpan Surat Sakit",
+      "print": "Lihat/Cetak"
+    }
+  },
   "suratSakit": {
     "index-title": "Surat Sakit Terdaftar",
     "delete-modal-title": "Konfirmasi Penghapusan Surat Sakit",
@@ -521,6 +539,10 @@
     }
   },
   "menu": {
+    "mutasi":"Mutasi",
+    "reference_type": "Referensi",
+    "reference_id" : "Referensi ID",
+    "description":"Keterangan",
     "surat_sakit": "Surat Sakit",
     "surat_sehat": "Surat Sehat",
     "profile": "Profil",
@@ -530,6 +552,7 @@
     "rekam-medis": "Rekam Medis",
     "selectDate": "Pilih Waktu",
     "create": "Buat Baru",
+    "index": "Index",
     "dokter": "Dokter",
     "all": "Semua",
     "dashboard": "Dashboard",

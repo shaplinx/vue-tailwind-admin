@@ -8,7 +8,6 @@ import Vue3EasyDataTable from "vue3-easy-data-table";
 import { formkitPlugin, formkitConfig } from "@/services/formkit/index";
 import i18n from "./services/lang/i18n";
 import Toast from "vue-toastification";
-import Ripple from "@/services/ripple/ripple";
 import { createPinia } from "pinia";
 import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
 import fontawesome from "./services/icons/FontAwesome/index";
@@ -17,7 +16,7 @@ import floatingVue from "floating-vue";
 import {vfmPlugin} from 'vue-final-modal';
 import Dashboard from "./layout/Dashboard.vue";
 import Empty from "./layout/Empty.vue";
-import print from 'vue3-print-nb'
+
 
 
 const app = createApp(App);

@@ -5,6 +5,15 @@
  */
 
 declare namespace App.Models {
+    export interface StockMutation {
+        stockable_type: string;
+        stockable_id: number;
+        reference_type: string;
+        reference_id: number;
+        description: string;
+        amount: number
+    }
+
     export interface Pertemuan {
         id: number;
         pasien_id: number;
@@ -39,6 +48,7 @@ declare namespace App.Models {
         invoice_contents?: Array<App.Models.InvoiceContent> | null;
         pertemuan?: App.Models.Pertemuan | null;
         invoice_contents_count?: number | null;
+        status?: any | null;
         readonly total?: any;
         readonly sub_total_pemeriksaan?: any;
         readonly sub_total_obat?: any;
@@ -426,6 +436,7 @@ declare namespace App.Models.Fasilitas.Farmasi {
         readonly label?: any;
         readonly stock?: any;
         readonly ballance?: any;
+        readonly stock_mutations?: any;
     }
 
 }

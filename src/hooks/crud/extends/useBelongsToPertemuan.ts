@@ -84,7 +84,6 @@ export class BelongsToPertemuan<T extends { pertemuan_id: string | number }> {
           let errors = this.config.processErrors
             ? this.config.processErrors(err.data.errors)
             : err.data.errors;
-          console.log(errors);
 
           setErrors(this.config.formId, [err.data.message], errors);
         }

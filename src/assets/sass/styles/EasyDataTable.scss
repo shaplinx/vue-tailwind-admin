@@ -44,3 +44,7 @@
 .vue3-easy-data-table__main {
   @apply rounded-t-lg;
 }
+
+.vue3-easy-data-table__main.fixed-header th[data-v-0c7bc512] {
+  z-index: 0;
+}

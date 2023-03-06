@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableCard
-      :title="t('suratSakit.index-title')"
+      :title="t('invoice.index-title')"
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
@@ -30,11 +30,13 @@
             {{ row.pertemuan?.pemeriksa?.fullname }}
           </p>
         </template>
-        <template #item-dari="row">
-          {{ dateTime(row.dari).format("llll") }}
+        <template #item-status="row">
+          <dv-badge :type="statusBadge(row.status)">{{
+            t(`menu.status.${row.status}`)
+          }}</dv-badge>
         </template>
-        <template #item-sampai="row">
-          {{ dateTime(row.sampai).format("llll") }}
+        <template #item-total="row">
+          {{ money(row.total).toFormat() }}
         </template>
         <template #item-created_at="row">
           {{ dateTime(row.created_at).format("llll") }}
@@ -62,10 +64,11 @@
 <script setup lang="ts">
 import TableCard from "@/components/cards/TableCard.vue";
 import { dateTime } from "@/services/moment/moment";
+import { money } from "@/services/dinero/dinero";
 import { useI18n } from "vue-i18n";
 import { watch } from "vue";
 import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
-import crud from "@/services/api/modules/SuratSakitCRUD";
+import crud from "@/services/api/modules/invoiceCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
 
@@ -83,26 +86,26 @@ const {
   serverItemsLength,
   serverOptions,
   loadFromServer,
-} = new IndexCRUD<App.Models.Pertemuan.SuratSakit>({
-  moduleName: "suratSakit",
+} = new IndexCRUD<App.Models.Invoice>({
+  moduleName: "Invoice",
   crud,
   primaryKey: "pertemuan_id",
   filterSchema: schema,
   headers: [
     { text: "ID", value: "ref_number", sortable: true },
     { text: t("menu.pertemuan"), value: "pertemuan", sortable: false },
-    { text: t("suratSakit.form.dari"), value: "dari", sortable: false },
-    { text: t("suratSakit.form.sampai"), value: "sampai", sortable: false },
+    { text: t("invoice.form.status"), value: "status", sortable: false },
+    { text: t("invoice.form.total"), value: "total", sortable: false },
     { text: t("menu.created_at"), value: "created_at", sortable: true },
     { text: "Aksi", value: "action", sortable: false },
   ],
   buttons: (index) => [
     {
-      label: t("suratSakit.add-new-title"),
+      label: t("invoice.add-new-title"),
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () => index.router.push({ name: "InvoiceForm" }),
     },
   ],
 })
@@ -120,7 +123,7 @@ const {
       label: "Edit",
       callback: (id: any, row: any) => {
         router.push({
-          name: "SuratSakitForm",
+          name: "InvoiceForm",
           params: { id: row.pertemuan_id },
         });
       },
@@ -130,12 +133,25 @@ const {
       label: "Read",
       callback: (id: any, row: any) => {
         router.push({
-          name: "SuratSakitRead",
+          name: "InvoiceRead",
           params: { id: row.pertemuan_id },
         });
       },
     },
   ]);
+
+  const statusBadge = (value: number) => {
+  switch (value) {
+    case 0:
+      return "error";
+    case 1:
+      return "warning";
+    case 2:
+      return "success";
+    default:
+      return "default";
+  }
+};
 
 // initial load
 loadFromServer();

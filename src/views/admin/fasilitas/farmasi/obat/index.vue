@@ -1,24 +1,10 @@
 <template>
   <div>
-    <TableCard
-      :title="t('obat.index-title')"
-      :useFilter="true"
-      :filterSchema="filterSchema"
-      :buttons="buttons"
-      v-model="serverOptions"
-    >
-      <DataTable
-        v-model:server-options="serverOptions"
-        :server-items-length="serverItemsLength"
-        :loading="loading"
-        :headers="headers"
-        :items="items"
-        buttons-pagination
-        :rows-items="[5, 10, 15]"
-        alternating
-        table-class-name="light-table"
-        must-sort
-      >
+    <TableCard :title="t('obat.index-title')" :useFilter="true" :filterSchema="filterSchema" :buttons="buttons"
+      v-model="serverOptions">
+      <DataTable v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :loading="loading"
+        :headers="headers" :items="items" buttons-pagination :rows-items="[5, 10, 15]" alternating
+        table-class-name="light-table" must-sort>
         <template #item-pabrik="row">
           <span class="font-bold">{{ row.pabrik }}™</span>
         </template>
@@ -33,26 +19,18 @@
           }}</dv-badge>
         </template>
         <template #item-stock="row">
-          <dv-badge
-            :type="row.stock <= row.alert_stock ? 'error' : 'success'"
-            >{{ row.stock }}</dv-badge
-          >
+          <dv-badge :type="row.stock <= row.alert_stock ? 'error' : 'success'">{{ row.stock }}</dv-badge>
         </template>
         <template #item-action="row">
           <DropdownMenuVue>
-            <dv-button variant="primary" size="small"
-              ><fa icon="ellipsis"></fa
-            ></dv-button>
+            <dv-button variant="primary" size="small">
+              <fa icon="ellipsis"></fa>
+            </dv-button>
             <template #popper>
-              <li
-                v-close-popper
-                v-for="action in actions"
-                @click="action.callback?.(row.id)"
-              >
-                <a
-                  ><fa v-if="action.icon" :icon="action.icon"></fa
-                  >{{ action.label }}</a
-                >
+              <li v-close-popper v-for="action in actions" @click="action.callback?.(row.id, row)">
+                <a>
+                  <fa v-if="action.icon" :icon="action.icon"></fa>{{ action.label }}
+                </a>
               </li>
             </template>
           </DropdownMenuVue>
@@ -70,6 +48,9 @@ import DropdownMenuVue from "@/components/dropdowns/DropdownMenu.vue";
 import crud from "@/services/api/modules/obatCRUD";
 import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
+import { $vfm } from "vue-final-modal";
+import MutasiObatModal from "@/components/modals/MutasiObatModal.vue";
+
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -122,8 +103,8 @@ const {
     {
       $formkit: "toggle",
       name: "warning",
-      size:"lg",
-      type:"secondary",
+      size: "lg",
+      type: "secondary",
       label: t("formkit.low-on-stock"),
       "label-class": "$reset text-sm",
       "outer-class": "mb-0",
@@ -131,6 +112,21 @@ const {
       "wrapper-class":
         "$reset flex-row h-full max-sm:flex max-sm:flex-col max-sm:gap-2 max-sm:items-center",
     },
+  ])
+  .addActions([
+    {
+      label: t("menu.mutasi"),
+      icon: 'timeline',
+      callback: (id, obat) => {
+        $vfm.show(
+          { component: MutasiObatModal },
+          {
+            obatId: id,
+            obat: obat
+          }
+        );
+      }
+    }
   ]);
 
 // initial load

@@ -102,7 +102,7 @@ const {
       iconClass: "plus",
       variant: "primary",
       outline: true,
-      onClick: () => index.router.push({ name: "PasienCreate" }),
+      onClick: () => index.router.push({ name: "SuratSakitForm" }),
     },
   ],
 })

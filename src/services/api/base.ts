@@ -4,7 +4,7 @@ import router from "@/router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API_URL || "http://localhost:8000/api",
+  baseURL: import.meta.env.VITE_BASE_API_URL || "http://emr.karen.pc/backend/api",
   headers: {
     "Content-Type": "application/json",
   },

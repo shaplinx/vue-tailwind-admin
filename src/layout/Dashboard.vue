@@ -8,6 +8,7 @@
       <TopBarVue />
 
       <main class="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl h-full mx-auto">
+        <BreadCrumbs/>
         <RouterView v-slot="{ Component, route }">
           <Transition
             :enter-active-class="transitionCss?.enterActive"
@@ -32,6 +33,7 @@ import TopBarVue from "@/components/navs/TopBar.vue";
 import SideBarVue from "@/components/navs/SideBar.vue";
 import { usePreferencesStore } from "@/store/preferences";
 import { computed } from "vue";
+import BreadCrumbs from "@/components/BreadCrumbs.vue";
 
 const preferences = usePreferencesStore();
 

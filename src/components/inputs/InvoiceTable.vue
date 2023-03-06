@@ -4,12 +4,12 @@
       <!-- head -->
       <thead>
         <tr>
-          <th v-for="col in columns">{{ col.title }}</th>
+          <th class="text-center" v-for="col in columns">{{ col.title }}</th>
         </tr>
       </thead>
       <tbody>
         <tr class="hover" v-for="(datum, rowIndex) in data">
-          <td v-for="col in columns">
+          <td class="text-center" v-for="col in columns">
             {{
               col.render
                 ? col.render(datum[col.dataIndex!], datum, rowIndex)
@@ -19,13 +19,13 @@
         </tr>
       </tbody>
       <thead class>
-        <tr>
+        <tr class="border-t border-base-300">
           <th :colspan="columns.length - 1" class="text-center">{{ t("invoice.form.jumlah") }}</th>
-          <th>{{ money(sum).toFormat() }}</th>
+          <th class="text-center">{{ money(sum).toFormat() }}</th>
         </tr>
       </thead>
     </table>
-    <div class="w-full flex sm:w-52 items-center justify-between">
+    <div v-if="!printMode" class="w-full flex sm:w-52 items-center justify-between">
       <Toggle v-model="details"></Toggle
       ><span class="text-sm">{{ $t("invoice.form.details") }}</span>
     </div>
@@ -41,7 +41,7 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const props = defineProps(["modelValue", "id", "title"]);
+const props = defineProps(["modelValue", "id", "title","printMode", "propDetails"]);
 
 const model = computed(() => {
   return isArray(props.modelValue) ? props.modelValue : [];
@@ -77,7 +77,7 @@ const data = computed<any[]>((): any[] => {
         subTotal: item.jumlah * item.harga,
       };
     });
-    if (details.value) {
+    if (props.printMode ? props.propDetails : details.value) {
       return parsedData ?? ([] as any[]);
     }
     return (
