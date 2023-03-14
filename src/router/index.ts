@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory } from "vue-router";
 import RouterView from "@/components/RouterView.vue";
 import RouterViewSlideIn from "@/components/RouterViewSlideIn.vue";
 

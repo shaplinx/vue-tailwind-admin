@@ -72,6 +72,7 @@ import IndexCRUD from "@/hooks/crud/useIndexCrud";
 import { defineFilterSchema } from "@/forms/defaultFilters";
 import { $vfm } from "vue-final-modal";
 import RekamMedisModal from "@/components/modals/RekamMedisModal.vue";
+import router from "@/router";
 
 const { t } = useI18n();
 const schema = defineFilterSchema({ t });
@@ -129,6 +130,18 @@ const {
           }
         ),
     },
+    {
+      label:t("pertemuan.add-new-title"),
+      icon:"comment-medical",
+      callback:(id,pasien)=> {
+        return router.push({
+          name:"PertemuanCreate",
+          params: {
+            pasienId: id
+          }
+        })
+      }
+    }
   ]);
 
 // initial load

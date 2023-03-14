@@ -44,7 +44,7 @@
       v-show="isOpen"
       :class="[
         compact ? 'rounded-3xl mt-1' : 'p-1 w-full border-l-2',
-        isOpen ? 'max-h-96' : 'max-h-10',
+        isOpen ? '' : 'max-h-10',
       ]"
       class="flex justify-between p-0 text-sm transition-all"
     >

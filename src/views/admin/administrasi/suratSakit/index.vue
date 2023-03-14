@@ -31,10 +31,10 @@
           </p>
         </template>
         <template #item-dari="row">
-          {{ dateTime(row.dari).format("llll") }}
+          {{ dateTime(row.dari).format("ll") }}
         </template>
         <template #item-sampai="row">
-          {{ dateTime(row.sampai).format("llll") }}
+          {{ dateTime(row.sampai).format("ll") }}
         </template>
         <template #item-created_at="row">
           {{ dateTime(row.created_at).format("llll") }}

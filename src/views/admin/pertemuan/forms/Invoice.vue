@@ -14,7 +14,8 @@
       <SaveButtons
         module="invoice"
         :is-saving="isSubmitting"
-        :only="['submit', 'delete']"
+        :only="['submit', 'delete','print']"
+        @print=" $router.push({name: 'InvoiceRead', params: {id:$route.params.id}})"
         @submit="submit()"
         @delete="destroy"
       />

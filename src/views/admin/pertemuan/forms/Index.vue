@@ -94,7 +94,7 @@
                 >{{ t("pertemuan.form.pemeriksa") }} :</span
               >
               <span class="text-sm xl:text-md">
-                {{ model.pertemuan?.pemeriksa?.name }}</span
+                {{ model.pertemuan?.pemeriksa?.fullname }}</span
               >
             </div>
           </div>

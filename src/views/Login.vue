@@ -1,14 +1,30 @@
 <template>
   <div class="flex items-center justify-center h-screen px-6">
     <div class="w-full max-w-sm p-6 bg-base-100 rounded-md shadow-md">
-      <div class="flex items-center justify-center mb-5">
-        <svg class="w-8 h-8 ml-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
-          </path>
+      <div class="flex items-center justify-center gap-2 mb-5">
+        <svg width="32" height="32" viewBox="0 0 32 32">
+          <defs>
+            <linearGradient x1="28.538%" y1="20.229%" x2="100%" y2="108.156%" id="logo-a">
+              <stop stop-color="#A5B4FC" stop-opacity="0" offset="0%"></stop>
+              <stop stop-color="#A5B4FC" offset="100%"></stop>
+            </linearGradient>
+            <linearGradient x1="88.638%" y1="29.267%" x2="22.42%" y2="100%" id="logo-b">
+              <stop stop-color="#38BDF8" stop-opacity="0" offset="0%"></stop>
+              <stop stop-color="#38BDF8" offset="100%"></stop>
+            </linearGradient>
+          </defs>
+          <rect fill="#6366F1" width="32" height="32" rx="16"></rect>
+          <path
+            d="M18.277.16C26.035 1.267 32 7.938 32 16c0 8.837-7.163 16-16 16a15.937 15.937 0 01-10.426-3.863L18.277.161z"
+            fill="#4F46E5"></path>
+          <path
+            d="M7.404 2.503l18.339 26.19A15.93 15.93 0 0116 32C7.163 32 0 24.837 0 16 0 10.327 2.952 5.344 7.404 2.503z"
+            fill="url(#logo-a)"></path>
+          <path
+            d="M2.223 24.14L29.777 7.86A15.926 15.926 0 0132 16c0 8.837-7.163 16-16 16-5.864 0-10.991-3.154-13.777-7.86z"
+            fill="url(#logo-b)"></path>
         </svg>
-        <span class="text-2xl font-semibold text-gray-700">VueBoard</span>
+        <span class="text-2xl font-semibold text-gray-700">{{ AppName }}</span>
       </div>
 
       <FormKit type="form" v-model="loginForm" :disabled="auth.loggingIn" :input-errors="errors" @submit="login" :actions="false">
@@ -41,6 +57,8 @@ import { HomePage } from "@/router";
 
 const router = useRouter();
 const auth = useAuthStore();
+const AppName = import.meta.env.VITE_APP_NAME || 'BZ App';
+
 
 const loginForm = ref<LoginForm>({
   email: "",

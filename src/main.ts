@@ -16,7 +16,7 @@ import floatingVue from "floating-vue";
 import {vfmPlugin} from 'vue-final-modal';
 import Dashboard from "./layout/Dashboard.vue";
 import Empty from "./layout/Empty.vue";
-
+import print from 'vue3-print-nb'
 
 
 const app = createApp(App);
@@ -25,7 +25,6 @@ app
   .component("DataTable", Vue3EasyDataTable)
   .component("DashboardLayout",Dashboard)
   .component("EmptyLayout",Empty)
-  .directive("ripple", Ripple)
   .use(pinia)
   .use(router)
   .use(i18n)

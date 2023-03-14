@@ -1,25 +1,11 @@
 <template>
   <div>
     <Overview />
-    <TableCard
-      :title="t('rekening.index-title')"
-      :useFilter="true"
-      :filterSchema="filterSchema"
-      :buttons="buttons"
-      v-model="serverOptions"
-    >
-      <DataTable
-        v-model:server-options="serverOptions"
-        :server-items-length="serverItemsLength"
-        :loading="loading"
-        :headers="headers"
-        :items="items"
-        buttons-pagination
-        :rows-items="[5, 10, 15]"
-        alternating
-        table-class-name="light-table"
-        must-sort
-      >
+    <TableCard :title="t('rekening.index-title')" :useFilter="true" :filterSchema="filterSchema" :buttons="buttons"
+      v-model="serverOptions">
+      <DataTable v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :loading="loading"
+        :headers="headers" :items="items" buttons-pagination :rows-items="[5, 10, 15]" alternating
+        table-class-name="light-table" must-sort>
         <template #item-amount="row">
           <span :class="row.amount < 0 ? 'text-error' : 'text-success'">
             {{ money(row.amount).toFormat() }}
@@ -40,19 +26,14 @@
         </template>
         <template #item-action="row">
           <DropdownMenuVue>
-            <dv-button variant="primary" size="small"
-              ><fa icon="ellipsis"></fa
-            ></dv-button>
+            <dv-button variant="primary" size="small">
+              <fa icon="ellipsis"></fa>
+            </dv-button>
             <template #popper>
-              <li
-                v-close-popper
-                v-for="action in actions"
-                @click="action.callback?.(row.id)"
-              >
-                <a
-                  ><fa v-if="action.icon" :icon="action.icon"></fa
-                  >{{ action.label }}</a
-                >
+              <li v-close-popper v-for="action in actions" @click="action.callback?.(row.id)">
+                <a>
+                  <fa v-if="action.icon" :icon="action.icon"></fa>{{ action.label }}
+                </a>
               </li>
             </template>
           </DropdownMenuVue>
@@ -122,7 +103,28 @@ const {
       onClick: () => index.router.push({ name: "RekeningCreate" }),
     },
   ],
-}).addServerOptions({ date_start: null, date_end: null });
+}).addServerOptions({ date_start: null, date_end: null, active: undefined })
+  .addFilterSchema([
+    {
+      $formkit: "select",
+      name: "active",
+      options: [
+        { label: t("menu.all"), value: undefined },
+        { label: t("menu.yes"), value: true },
+        { label: t("menu.no"), value: false },
+      ],
+      label: t("menu.active"),
+      "label-class": "$reset text-sm",
+      "outer-class": "mb-0",
+      "inner-class": "bg-base-100 text-sm",
+      "wrapper-class": "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
+    }
+  ])
+  .extRequestParams((index: any) => {
+    return {
+      active: index.serverOptions.value.active,
+    };
+  });
 
 // initial load
 loadFromServer();

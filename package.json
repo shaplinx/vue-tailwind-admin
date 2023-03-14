@@ -1,12 +1,13 @@
 {
-  "name": "tailwind",
+  "name": "BZ EMR",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
   },
   "dependencies": {
     "@formkit/addons": "^1.0.0-beta.11",
@@ -61,6 +62,7 @@
     "vue3-whr-ripple-directive": "^1.0.0"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^1.2.3",
     "@vitejs/plugin-vue": "^3.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",

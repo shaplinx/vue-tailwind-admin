@@ -8,13 +8,17 @@ const config = {
 
 moment.locale(config.locale);
 
-function dateTime(inp: moment.MomentInput = undefined) {
+export function dateTime(inp: moment.MomentInput = undefined) {
   return moment(inp).tz(config.timeZone);
 }
 
-function age(inp: moment.MomentInput) {
+export function date(inp: moment.MomentInput = undefined) {
+  return moment(inp).local();
+}
+
+
+export function age(inp: moment.MomentInput) {
   let diff = moment(inp).tz(config.timeZone).diff(dateTime(), "milliseconds");
   return moment.duration(diff).humanize();
 }
 
-export { dateTime, age };

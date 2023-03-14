@@ -2,36 +2,25 @@
   <div class="grid grid-cols-1 gap-5">
     <dv-navbar class="bg-base-100 rounded-box">
       <div class="flex w-full justify-end gap-2 items-center">
-        <dv-button class="mr-auto" variant="accent" @click="destroy" size="sm"
-          ><fa icon="trash" class="mr-1" /> {{ t("menu.delete") }}</dv-button
-        >
-        <FormKit
-          type="toggle"
-          v-model="config.anonSignature"
-          label="Anonymous"
-          :classes="{
-            outer: '$reset mt-2 flex gap-3 items-center mb-0',
-            inner: '$reset',
-            label: 'mb-1',
-          }"
-        />
-        <dv-button
-          @click="back({ name: 'SuratSakitIndex' })"
-          variant="secondary"
-          size="sm"
-          ><fa icon="arrow-left" class="mr-1" /> {{ t("menu.back") }}</dv-button
-        >
-        <dv-button
-          @click="
-            edit({ name: 'SuratSakitForm', params: { id: route.params.id } })
-          "
-          variant="warning"
-          size="sm"
-          ><fa icon="pencil" class="mr-1" /> {{ t("menu.edit") }}</dv-button
-        >
-        <dv-button variant="primary" size="sm" v-print="'#print-area'"
-          ><fa icon="print" class="mr-1" /> {{ t("menu.print") }}</dv-button
-        >
+        <dv-button class="mr-auto" variant="accent" @click="destroy" size="sm">
+          <fa icon="trash" class="mr-1" /> {{ t("menu.delete") }}
+        </dv-button>
+        <FormKit type="toggle" v-model="config.anonSignature" label="Anonymous" :classes="{
+          outer: '$reset mt-2 flex gap-3 items-center mb-0',
+          inner: '$reset',
+          label: 'mb-1',
+        }" />
+        <dv-button @click="back({ name: 'SuratSakitIndex' })" variant="secondary" size="sm">
+          <fa icon="arrow-left" class="mr-1" /> {{ t("menu.back") }}
+        </dv-button>
+        <dv-button @click="
+          edit({ name: 'SuratSakitForm', params: { id: route.params.id } })
+        " variant="warning" size="sm">
+          <fa icon="pencil" class="mr-1" /> {{ t("menu.edit") }}
+        </dv-button>
+        <dv-button variant="primary" size="sm" v-print="'#print-area'">
+          <fa icon="print" class="mr-1" /> {{ t("menu.print") }}
+        </dv-button>
       </div>
     </dv-navbar>
     <dv-card class="bg-base-100" bordered>
@@ -67,8 +56,7 @@
               <td>
                 {{
                   t(
-                    `formkit.options.gender.${
-                      model.pertemuan?.pasien?.kelamin.toLowerCase() ?? "l"
+                    `formkit.options.gender.${model.pertemuan?.pasien?.kelamin.toLowerCase() ?? "l"
                     }`
                   )
                 }}
@@ -87,20 +75,16 @@
           </table>
           <p>
             {{ t("suratSakit.inter") }}
-            <span class="font-bold"
-              >{{ days }} ({{ t(`suratSakit.${days ?? "1"}`) }})</span
-            >
+            <span class="font-bold">{{ days }} ({{ t(`suratSakit.${days ?? "1"}`) }})</span>
             {{ t("suratSakit.day") }}
             {{
-              new CaseConversion(t("suratSakit.form.dari")).toLowerCase().get()
+              t("suratSakit.form.dari").toLowerCase()
             }}
             <span class="font-bold">
               {{ dateTime(model.dari).format("ll") }}
             </span>
             {{
-              new CaseConversion(t("suratSakit.form.sampai"))
-                .toLowerCase()
-                .get()
+              t("suratSakit.form.sampai").toLocaleLowerCase()
             }}
             <span class="font-bold">{{
               dateTime(model.sampai).format("ll")
@@ -133,7 +117,6 @@ import { useI18n } from "vue-i18n";
 import useReadCrud from "@/hooks/crud/useReadCrud";
 import { dateTime, age } from "@/services/moment/moment";
 import SpinnerOverlay from "@/components/loader/SpinnerOverlay.vue";
-import { CaseConversion } from "@/hooks/helpers/string";
 import { computed } from "vue";
 
 const { t } = useI18n();

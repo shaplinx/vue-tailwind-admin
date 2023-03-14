@@ -112,7 +112,7 @@ export const definePasienSchema = ({
             $formkit: "select",
             label: t("pasien.form.goldar"),
             name: "goldar",
-            options: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+            options: [{label:"-",value:undefined},"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
           },
         ],
       },

@@ -109,13 +109,43 @@ const {
     },
   ],
 })
-  .addServerOptions({ date_start: null, date_end: null })
+  .addServerOptions({ date_start: null, date_end: null,  status:null})
   .extRequestParams((index: any) => {
     return {
       date_start: index.serverOptions.value.date_start,
+      status: index.serverOptions.value.status,
       date_end: index.serverOptions.value.date_end,
     };
   })
+  .addFilterSchema([
+    {
+      $formkit:"select",
+      label:t("invoice.form.status"),
+      name:"status",
+      options: [
+        {
+          label: t("menu.all"),
+          value:null
+        },
+        {
+          label: t("menu.status.2"),
+          value:2
+        },
+        {
+          label: t("menu.status.1"),
+          value:1
+        },
+        {
+          label: t("menu.status.0"),
+          value:0
+        },
+      ],
+      "label-class": "$reset text-sm",
+        "outer-class":"mb-0",
+        "inner-class": "bg-base-100 text-sm",
+        "wrapper-class": "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
+    }
+  ])
   .clear(["actions"], 0)
   .addActions([
     {

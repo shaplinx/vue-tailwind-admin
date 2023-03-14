@@ -43,7 +43,6 @@ import DropDown from "@/components/inputs/DropDown.vue";
 import SpinnerOverlay from "../loader/SpinnerOverlay.vue";
 import { dateTime } from "@/services/moment/moment";
 import { reactive, computed, defineProps, ref, watch } from "vue";
-import { ChartOptions } from "chart.js/dist/types/index";
 import { usePreferencesStore } from "@/store/preferences";
 import { useI18n } from "vue-i18n";
 
@@ -101,6 +100,7 @@ function refreshColors() {
   style.value = getComputedStyle(document.body);
   colors.value = {
     primary: `hsl(${style.value.getPropertyValue("--p")})`,
+    primaryArea: `hsla(${style.value.getPropertyValue("--p")})`,
     secondary: `hsl(${style.value.getPropertyValue("--s")})`,
     accent: `hsl(${style.value.getPropertyValue("--ac")})`,
     primaryContent: `hsl(${style.value.getPropertyValue("--pc")})`,
@@ -118,19 +118,24 @@ watch(
   }
 );
 
-const chartOptions: ChartOptions = {
+const chartOptions = {
   responsive: true,
   maintainAspectRatio: true,
   scales: {
     y: {
-      beginAtZero: true,
       grid: {
-        color: colors.value.baseContent,
+        display: colors.value.baseContent,
+      },
+    },
+    x: {
+      grid: {
+        display: false,
       },
     },
 
   },
 };
+
 
 const datasets = computed(() => {
   return {
@@ -138,9 +143,12 @@ const datasets = computed(() => {
     datasets: [
       {
         label: props.moduleName,
-        backgroundColor: colors.value.primary,
+        backgroundColor: colors.value.base100,
         borderColor: colors.value.primary,
         data: props.chartData?.data,
+        fill: 'false',
+      cubicInterpolationMode: 'monotone',
+      tension: 0.3
       },
     ],
   };

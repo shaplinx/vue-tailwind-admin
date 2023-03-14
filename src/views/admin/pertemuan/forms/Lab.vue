@@ -14,7 +14,8 @@
       <SaveButtons
         module="pemeriksaan"
         :is-saving="isSubmitting"
-        :only="['submit', 'delete']"
+        :only="['submit', 'delete', 'print']"
+        @print=" $router.push({name: 'PermintaanLabRead', params: {id:$route.params.id}})"
         @submit="submit()"
         @delete="destroy"
       />

@@ -128,6 +128,16 @@ const NavItems = ref<NavItem[]>([{
       to:"InvoiceIndex"
     },
     {
+      icon: "head-side-cough",
+      label: "menu.sakit",
+      to:"SuratSakitIndex"
+    },
+    {
+      icon: "envelope-open-text",
+      label: "menu.sehat",
+      to:"SuratSehatIndex"
+    },
+    {
       icon: "user-tie",
       label: "menu.profesi",
       to: `ProfesiIndex`,

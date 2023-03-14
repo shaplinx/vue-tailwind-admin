@@ -4,34 +4,20 @@
       <dv-card-title class="flex">
         {{ t("pertemuan.add-new-title") }}
       </dv-card-title>
-      <FormKit
-        :actions="false"
-        v-model="formData"
-        type="form"
-        :disabled="isSaving"
-        id="pertemuan-create"
-      >
+      <FormKit :actions="false" v-model="formData" type="form" :disabled="isSaving" id="pertemuan-create">
         <FormKitSchema :schema="schema" />
       </FormKit>
-      <SaveButtons
-        module="pertemuan"
-        :except="['delete']"
-        :is-saving="isSaving"
-        @submit="submit(onSubmit)"
-        @submitNext="
-          submit((res) => {
-            router.push({
-              name: 'PemeriksaanForm',
-              params: {
-                id: res.data.data.id,
-              },
-            });
-          })
-        "
-        @submitNew="submit({ name: 'PertemuanCreate' })"
-        @submitClose="submit({ name: 'PertemuanIndex' })"
-        @close="() => router.push({ name: 'PertemuanIndex' })"
-      />
+      <SaveButtons module="pertemuan" :except="['delete']" :is-saving="isSaving" @submit="submit(onSubmit)" @submitNext="
+        submit((res) => {
+          router.push({
+            name: 'PemeriksaanForm',
+            params: {
+              id: res.data.data.id,
+            },
+          });
+        })
+      " @submitNew="submit({ name: 'PertemuanCreate' })" @submitClose="submit({ name: 'PertemuanIndex' })"
+        @close="() => router.push({ name: 'PertemuanIndex' })" />
     </dv-card-body>
   </dv-card>
 </template>
@@ -93,7 +79,7 @@ function getPasien() {
 
 watch(
   () => route.params.pasienId,
-  () => getPasien()
+  () => { if (route.params.pasienId)  getPasien()  }
 );
 
 if (route.params.pasienId) {
