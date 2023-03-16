@@ -2,27 +2,25 @@
   <div
     class="w-full bg-base-300 m-auto py-16 min-h-screen flex items-center justify-center"
   >
-    <dv-card width="6/12">
+    <dv-card width="6/12" class="bg-base-100 shadow-xl">
       <div class="text-center py-6">
         <h1 class="text-9xl font-bold text-purple-400">404</h1>
-        <h1 class="text-6xl font-medium py-8">oops! Page not found</h1>
+        <h1 class="text-6xl font-medium py-8"> {{ t("message.error.404-title") }}</h1>
         <p class="text-2xl pb-8 px-12 font-medium">
-          Oops! The page you are looking for does not exist. It might have been
-          moved or deleted.
+          {{ t("message.error.404-text") }}
         </p>
-        <router-link to="/dashboard">
-          <dv-button class="mx-5" color="primary" label="HOME" >Home</dv-button>
+        <router-link to="admin/dashboard">
+          <dv-button class="mx-5" color="primary" label="HOME" > {{ t("menu.dashboard") }}</dv-button>
         </router-link>
-        <router-link to="/">
-          <dv-button class="mx-5" color="secondary" label="ABOUT US" >About Us</dv-button>
-        </router-link>
+          <dv-button @click="$router.go(-2)" class="mx-5" color="primary" label="HOME" >{{ t("menu.back") }}</dv-button>
       </div>
     </dv-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-
+import { useI18n } from 'vue-i18n';
+const {t} = useI18n()
 </script>
 
 <style>

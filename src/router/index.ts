@@ -59,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
         ],
       },
       {
-        path: "/admin/pertemuan",
+        path: "/admin/pertemuan/",
         redirect: "/admin/pertemuan/index",
         component: RouterViewSlideIn,
         children: [
@@ -620,7 +620,8 @@ router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem("auth");
 
   if (authRequired && !loggedIn) {
-    next("/user/login");
+    if (from.path !== "/user/login")
+      next("/user/login");
   }
   if (guestRequired && loggedIn) {
     next(HomePage);

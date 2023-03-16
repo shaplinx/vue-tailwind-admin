@@ -26,7 +26,7 @@
           {{ dateTime(row.waktu_pertemuan).format("llll") }}
         </template>
         <template #item-status="row">
-          <div class="flex gap-1">
+          <div class="flex gap-1 w-56 flex-wrap">
             <dv-badge :type="renderStatus(row.pemeriksaan).color" v-tooltip="renderStatus(row.pemeriksaan).text"> {{
               t("menu.pemeriksaan") }} </dv-badge>
             <dv-badge :type="renderStatus(row.permintaan_lab).color" v-tooltip="renderStatus(row.permintaan_lab).text"> {{

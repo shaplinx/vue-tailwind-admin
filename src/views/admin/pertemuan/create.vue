@@ -30,7 +30,6 @@ import useCreateCrud from "@/hooks/crud/useCreateCrud";
 import { useI18n } from "vue-i18n";
 import { dateTime } from "@/services/moment/moment";
 import { AxiosResponse } from "axios";
-import { watch } from "vue";
 import { ResponseData } from "@/services/api/modules/crud/crud";
 import pasienCRUD from "@/services/api/modules/pasienCRUD";
 
@@ -77,10 +76,6 @@ function getPasien() {
   });
 }
 
-watch(
-  () => route.params.pasienId,
-  () => { if (route.params.pasienId)  getPasien()  }
-);
 
 if (route.params.pasienId) {
   getPasien();

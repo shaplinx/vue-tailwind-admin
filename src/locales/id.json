@@ -537,6 +537,10 @@
     "warn": {
       "noItemSelected": "Pilih item terlebih dahulu",
       "must-one-selected": "Mohon pilih satu item saja untuk melanjutkan"
+    },
+    "error": {
+      "404-title": "Oops! Halaman tidak ditemukan",
+      "404-text": "Halaman yang anda cari tidak ditemukan. Mungkin halaman belum dibuat, sudah dihapus atau dipindahkan"
     }
   },
   "menu": {
