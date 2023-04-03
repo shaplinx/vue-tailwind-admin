@@ -3,6 +3,8 @@
     v-bind="context?.attrs"
     @update:modelValue="(val:any) => input(val)"
     :modelValue="context?.value"
+    :utc="true"
+    timezone="Asia/Jakarta"
   />
 </template>
 

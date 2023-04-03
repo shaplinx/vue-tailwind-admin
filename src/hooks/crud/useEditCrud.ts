@@ -30,12 +30,13 @@ class editCrud<T> {
     return this;
   }
   isSaving = ref(false);
-  isLoadingFormData = ref(true);
+  isLoadingFormData = ref(false);
 
   formData = ref({}) as Ref<T>;
 
-  loadFormData = () => {
-    this.#config.crud.show!({ id: +this.route.params.id })
+  loadFormData = (id:any | undefined = undefined) => {
+    this.isLoadingFormData.value = true
+    this.#config.crud.show!({ id: id ?? +this.route.params.id })
       .then((res: AxiosResponse<any>) => {
         this.formData.value = res.data;
       })
@@ -48,12 +49,12 @@ class editCrud<T> {
     return values;
   };
 
-  submitFn() {
+  submitFn(id : any| undefined =undefined) {
     getNode(this.#config.formId)?.clearErrors();
     this.isSaving.value = true;
 
     return this.#config.crud.update!({
-      id: +this.route.params.id,
+      id: id ?? +this.route.params.id,
       data: this.#config.processData
         ? this.#config.processData(this.formData.value)
         : this.processData(this.formData.value),
@@ -87,9 +88,10 @@ class editCrud<T> {
       | callback
       | undefined
       | string
-      | RouteLocationRaw = undefined
+      | RouteLocationRaw = undefined,
+      id:any |undefined = undefined
   ) => {
-    this.submitFn()
+    this.submitFn(id)
       .then((res) => {
         if (
           typeof afterSubmitSuccess == "string" ||

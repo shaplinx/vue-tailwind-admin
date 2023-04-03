@@ -18,89 +18,123 @@
         >
           <div class="grid grid-cols-1 gap-2">
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2"
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
             >
               <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right"
-                >{{ t("pertemuan.form.id") }} :
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pertemuan.form.id") }}
               </span>
-              <span class="text-sm xl:text-md"> {{ model.pertemuan?.id }}</span>
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12"> {{ model.pertemuan?.id }}</span>
             </div>
 
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2"
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
             >
               <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right"
-                >{{ t("pasien.form.tgl_lahir") }} :</span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pasien.form.tgl_lahir") }} </span
               >
-              <span class="text-sm xl:text-md">
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
                 {{ model.pertemuan?.pasien?.tgl_lahir }} ({{
                   age(model.pertemuan?.pasien?.tgl_lahir)
                 }})</span
               >
             </div>
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2"
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
             >
               <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right"
-                >{{ t("pasien.form.nama_lengkap") }} :</span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pasien.form.nama_lengkap") }} </span
               >
-              <span class="text-sm xl:text-md">
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
                 {{ model.pertemuan?.pasien?.nama_lengkap }}</span
               >
             </div>
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2 row-span-4"
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
             >
               <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right"
-                >{{ t("pasien.form.alamat") }} :</span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pasien.form.alamat") }} </span
               >
-              <span class="text-sm xl:text-md">
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
                 {{ model.pertemuan?.pasien?.alamatLengkap }}</span
               >
             </div>
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2"
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
             >
               <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right"
-                >{{ t("pertemuan.form.waktu_pertemuan") }} :</span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pasien.form.pekerjaan") }}</span
               >
-              <span class="text-sm xl:text-md">
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
+                {{ model.pertemuan?.pasien?.pekerjaan ?? '-' }}</span
+              >
+            </div>
+            <div
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
+            >
+              <span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pasien.form.goldar") }}</span
+              >
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
+                {{ model.pertemuan?.pasien?.goldar ?? '-' }}</span
+              >
+            </div>
+            <div
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
+            >
+              <span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pertemuan.form.waktu_pertemuan") }} </span
+              >
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
                 {{
                   dateTime(model.pertemuan?.waktu_pertemuan).format("llll")
                 }}</span
               >
             </div>
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2"
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
             >
               <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right"
-                >{{ t("pertemuan.form.poliklinik") }} :</span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pertemuan.form.poliklinik") }} </span
               >
-              <span class="text-sm xl:text-md">
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
                 {{ model.pertemuan?.poliklinik?.nama }}</span
               >
             </div>
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2"
+              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
             >
               <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right"
-                >{{ t("pertemuan.form.pemeriksa") }} :</span
+                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
+                >{{ t("pertemuan.form.pemeriksa") }} </span
               >
-              <span class="text-sm xl:text-md">
+              <span class="xl:text-center xl:w-1/12">:</span>
+              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
                 {{ model.pertemuan?.pemeriksa?.fullname }}</span
               >
             </div>
           </div>
 
           <dv-button @click="showRekamMedis" type="primary">
-            Lihat Rekam Medis</dv-button
+            {{ t("menu.rm") }}</dv-button
+          >
+          <dv-button @click="editPasien" type="secondary">
+            {{ t("menu.edit") }} {{ t("menu.pasien") }}</dv-button
           >
         </div>
         <div class="space-y-5 rounded-lg bg-base-200 p-4" v-show="!model.pertemuan && show">
@@ -182,7 +216,7 @@
 </template>
 
 <script setup lang="ts">
-import { dateTime, age } from "@/services/moment/moment";
+import { dateTime, age, moment } from "@/services/moment/moment";
 import { AxiosResponse } from "axios";
 import { ref, computed } from "vue";
 import pertemuanCRUD from "@/services/api/modules/pertemuanCRUD";
@@ -194,6 +228,7 @@ import { FormKitSchemaNode } from "@formkit/core";
 import { CaseConversion } from "@/hooks/helpers/string";
 import RekamMedisModal from "@/components/modals/RekamMedisModal.vue";
 import { $vfm } from "vue-final-modal";
+import PasienEditModal from "@/components/modals/PasienEditModal.vue"
 
 const route = useRoute();
 const router = useRouter();
@@ -295,6 +330,15 @@ const schema: FormKitSchemaNode[] = [
 const showRekamMedis = () => {
   $vfm.show(
     { component: RekamMedisModal },
+    {
+      pasienId: model.value.pertemuan?.pasien?.id,
+      pasien: model.value.pertemuan?.pasien,
+    }
+  );
+};
+const editPasien = () => {
+  $vfm.show(
+    { component: PasienEditModal },
     {
       pasienId: model.value.pertemuan?.pasien?.id,
       pasien: model.value.pertemuan?.pasien,

@@ -1,4 +1,4 @@
-import moment from "moment-timezone";
+import m from "moment-timezone"  ;
 import "moment/dist/locale/id";
 
 const config = {
@@ -6,19 +6,23 @@ const config = {
   timeZone: "Asia/Jakarta",
 };
 
-moment.locale(config.locale);
+m.locale(config.locale);
 
-export function dateTime(inp: moment.MomentInput = undefined) {
-  return moment(inp).tz(config.timeZone);
+export function dateTime(inp: m.MomentInput = undefined) {
+  return m(inp).tz(config.timeZone);
 }
 
-export function date(inp: moment.MomentInput = undefined) {
-  return moment(inp).local();
+export function moment(inp: m.MomentInput = undefined) {
+  return m.utc(inp)
+};
+
+export function date(inp: m.MomentInput = undefined) {
+  return m(inp).local();
 }
 
 
-export function age(inp: moment.MomentInput) {
-  let diff = moment(inp).tz(config.timeZone).diff(dateTime(), "milliseconds");
-  return moment.duration(diff).humanize();
+export function age(inp: m.MomentInput) {
+  let diff = m(inp).tz(config.timeZone).diff(dateTime(), "milliseconds");
+  return m.duration(diff).humanize();
 }
 
