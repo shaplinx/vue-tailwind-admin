@@ -1,24 +1,10 @@
 <template>
   <div>
-    <TableCard
-      :title="t('menu.rm') + ' ' + pasien?.nama_lengkap"
-      :useFilter="true"
-      :filterSchema="filterSchema"
-      :buttons="buttons"
-      v-model="filterParams"
-    >
-      <DataTable
-        v-model:server-options="serverOptions"
-        :server-items-length="serverItemsLength"
-        :loading="loading"
-        :headers="headers"
-        :items="items"
-        buttons-pagination
-        :rows-items="[5, 10, 15]"
-        alternating
-        table-class-name="light-table"
-        must-sort
-      >
+    <TableCard :title="t('menu.rm') + ' ' + pasien?.nama_lengkap" :useFilter="true" :filterSchema="filterSchema"
+      :buttons="buttons" v-model="filterParams">
+      <DataTable v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :loading="loading"
+        :headers="headers" :items="items" buttons-pagination :rows-items="[5, 10, 15]" alternating
+        table-class-name="light-table" must-sort>
         <template #item-waktu_pertemuan="row">
           {{ dateTime(row.waktu_pertemuan).format("llll") }}
         </template>
@@ -64,38 +50,24 @@
 
           <br />
 
-          <template
-            v-if="row.permintaan_lab && row.permintaan_lab.pemeriksaan_labs"
-          >
+          <template v-if="row.permintaan_lab && row.permintaan_lab.pemeriksaan_labs">
             {{ $t("menu.permintaanlab") }} :
             <br />
 
-            <template
-              v-for="pemeriksaan in row.permintaan_lab.pemeriksaan_labs"
-            >
+            <template v-for="pemeriksaan in row.permintaan_lab.pemeriksaan_labs">
               <VTooltip>
-                <dv-badge
-                  :id="`pemeriksaan${pemeriksaan.id}${row.id}`"
-                  type="success"
-                  >{{ pemeriksaan.nama }}
+                <dv-badge :id="`pemeriksaan${pemeriksaan.id}${row.id}`" type="success">{{ pemeriksaan.nama }}
                 </dv-badge>
 
                 <template #popper>
                   <ul ul class="mb-0 list-unstyled">
-                    <li
-                      v-for="komponen in pemeriksaan.komponen_lab"
-                      :key="komponen.id"
-                    >
-                      <small
-                        class="text-mute"
-                        v-html="
-                          `${komponen.nama} : ${getHasilValue(
-                            row.permintaan_lab.hasil_labs,
-                            komponen.id,
-                            pemeriksaan.id
-                          )} ${komponen.satuan} (${komponen.nilai_rujukan})`
-                        "
-                      />
+                    <li v-for="komponen in pemeriksaan.komponen_lab" :key="komponen.id">
+                      <small class="text-mute" v-html="`${komponen.nama} : ${getHasilValue(
+                          row.permintaan_lab.hasil_labs,
+                          komponen.id,
+                          pemeriksaan.id
+                        )} ${komponen.satuan} (${komponen.nilai_rujukan})`
+                        " />
                     </li>
                   </ul>
                 </template>
@@ -110,12 +82,8 @@
                 <li>
                   {{ diagnosis.nama }}
 
-                  <dv-badge
-                    v-if="diagnosis.icd10"
-                    type="success"
-                    :id="`icd10${row.id}${diagnosis.icd10.id}`"
-                    v-tooltip="diagnosis.icd10.name_locale"
-                  >
+                  <dv-badge v-if="diagnosis.icd10" type="success" :id="`icd10${row.id}${diagnosis.icd10.id}`"
+                    v-tooltip="diagnosis.icd10.name_locale">
                     {{ diagnosis.icd10.code }}
                   </dv-badge>
                 </li>
@@ -127,8 +95,8 @@
           <div v-if="row.resep?.resep_contents?.length">
             <ul class="list-disc">
               <li v-for="resep in row.resep.resep_contents">
-                {{ resep.obat.nama }} {{ resep.obat.kemasan }}
-                {{ resep.obat.sediaan }} ({{ resep.aturan_pakai }})
+                {{ resep.obat.label }}
+                ({{ resep.jumlah }})
               </li>
             </ul>
           </div>
@@ -153,19 +121,14 @@
         </template>
         <template #item-action="row">
           <DropdownMenuVue>
-            <dv-button variant="primary" size="small"
-              ><fa icon="ellipsis"></fa
-            ></dv-button>
+            <dv-button variant="primary" size="small">
+              <fa icon="ellipsis"></fa>
+            </dv-button>
             <template #popper>
-              <li
-                v-close-popper
-                v-for="action in actions"
-                @click="action.callback?.(row.id)"
-              >
-                <a
-                  ><fa v-if="action.icon" :icon="action.icon"></fa
-                  >{{ action.label }}</a
-                >
+              <li v-close-popper v-for="action in actions" @click="action.callback?.(row.id)">
+                <a>
+                  <fa v-if="action.icon" :icon="action.icon"></fa>{{ action.label }}
+                </a>
               </li>
             </template>
           </DropdownMenuVue>
@@ -204,6 +167,7 @@ const {
   serverItemsLength,
   serverOptions,
   filterParams,
+  loadFromServer,
 } = new IndexCRUD<App.Models.Pertemuan>({
   moduleName: "Pertemuan",
   crud,
@@ -242,7 +206,7 @@ const {
     },
   ],
 })
-  .addFilterParams({ date_start: null, date_end: null })
+  .addFilterParams({ date_start: null, date_end: null, pasien:props.pasienId })
   .extRequestParams((index: any) => {
     return {
       date_start: index.filterParams.value.date_start,
@@ -301,6 +265,7 @@ function getHasilValue(
     ? output[0].hasil
     : '<span class="badge text-error">n/a</span>';
 }
+
 
 
 </script>

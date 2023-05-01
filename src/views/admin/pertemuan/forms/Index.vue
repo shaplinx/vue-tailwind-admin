@@ -16,119 +16,17 @@
           class="rounded-lg bg-base-200 p-6 flex flex-col gap-3"
           v-show="model.pertemuan"
         >
-          <div class="grid grid-cols-1 gap-2">
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pertemuan.form.id") }}
-              </span>
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12"> {{ model.pertemuan?.id }}</span>
-            </div>
-
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pasien.form.tgl_lahir") }} </span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{ model.pertemuan?.pasien?.tgl_lahir }} ({{
-                  age(model.pertemuan?.pasien?.tgl_lahir)
-                }})</span
-              >
-            </div>
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pasien.form.nama_lengkap") }} </span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{ model.pertemuan?.pasien?.nama_lengkap }}</span
-              >
-            </div>
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pasien.form.alamat") }} </span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{ model.pertemuan?.pasien?.alamatLengkap }}</span
-              >
-            </div>
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pasien.form.pekerjaan") }}</span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{ model.pertemuan?.pasien?.pekerjaan ?? '-' }}</span
-              >
-            </div>
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pasien.form.goldar") }}</span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{ model.pertemuan?.pasien?.goldar ?? '-' }}</span
-              >
-            </div>
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pertemuan.form.waktu_pertemuan") }} </span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{
-                  dateTime(model.pertemuan?.waktu_pertemuan).format("llll")
-                }}</span
-              >
-            </div>
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pertemuan.form.poliklinik") }} </span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{ model.pertemuan?.poliklinik?.nama }}</span
-              >
-            </div>
-            <div
-              class="flex flex-col sm:flex-row lg:felx-col xl:flex-row xl:items-center justify-center gap-2"
-            >
-              <span
-                class="font-semibold text-left sm:text-right lg:text-left xl:text-right xl:w-5/12"
-                >{{ t("pertemuan.form.pemeriksa") }} </span
-              >
-              <span class="xl:text-center xl:w-1/12">:</span>
-              <span class="text-sm xl:text-md xl:text-left xl:w-6/12">
-                {{ model.pertemuan?.pemeriksa?.fullname }}</span
-              >
-            </div>
-          </div>
+        <ColumnWrapper>
+          <ColumnItem :field=" t('pertemuan.form.id')" :value="model.pertemuan?.id"/>
+          <ColumnItem :field=" t('pasien.form.tgl_lahir')" :value="`${model.pertemuan?.pasien?.tgl_lahir} (${age(model.pertemuan?.pasien?.tgl_lahir)})`"/>
+          <ColumnItem :field=" t('pasien.form.nama_lengkap')" :value="model.pertemuan?.pasien?.nama_lengkap"/>
+          <ColumnItem :field=" t('pasien.form.alamat')" :value="model.pertemuan?.pasien?.alamatLengkap"/>
+          <ColumnItem :field=" t('pasien.form.pekerjaan')" :value=" model.pertemuan?.pasien?.pekerjaan ?? '-'"/>
+          <ColumnItem :field=" t('pasien.form.goldar')" :value="model.pertemuan?.pasien?.goldar ?? '-'"/>
+          <ColumnItem :field=" t('pertemuan.form.waktu_pertemuan')" :value="dateTime(model.pertemuan?.waktu_pertemuan).format('llll')"/>
+          <ColumnItem :field=" t('pertemuan.form.poliklinik')" :value="model.pertemuan?.poliklinik?.nama"/>
+          <ColumnItem :field=" t('pertemuan.form.pemeriksa')" :value="model.pertemuan?.pemeriksa?.fullname"/>
+        </ColumnWrapper>
 
           <dv-button @click="showRekamMedis" type="primary">
             {{ t("menu.rm") }}</dv-button
@@ -155,7 +53,6 @@
             <div class="h-5 animate-pulse w-3/4 rounded-lg bg-base-300"></div>
             <div class="h-5 animate-pulse  rounded-lg bg-base-300"></div>
             <div class="h-5 animate-pulse w-3/4 rounded-lg bg-base-300"></div>
-
           </div>
           <div class="h-12 rounded-lg w-full bg-base-300"></div>
         </div>
@@ -228,7 +125,9 @@ import { FormKitSchemaNode } from "@formkit/core";
 import { CaseConversion } from "@/hooks/helpers/string";
 import RekamMedisModal from "@/components/modals/RekamMedisModal.vue";
 import { $vfm } from "vue-final-modal";
-import PasienEditModal from "@/components/modals/PasienEditModal.vue"
+import PasienEditModal from "@/components/modals/PasienEditModal.vue";
+import ColumnWrapper from "@/components/columns/ColumnWrapper.vue";
+import ColumnItem from "@/components/columns/ColumnItem.vue";
 
 const route = useRoute();
 const router = useRouter();

@@ -1,5 +1,8 @@
-0.0.6
+0.0.5-hotfix
+- CRITICAL : fix Rekam Medis Modal showing all history from all pasien
 - fix date-start and date-end on gaji
+- created column component used in pemeriksaan forms index
+
 
 0.0.5
 - fix filtering always reseted when when page and sort changed ✓

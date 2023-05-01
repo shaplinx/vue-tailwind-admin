@@ -153,19 +153,11 @@ class IndexCRUD<T> {
     this.#config = config;
     this.reset();
 
-    this.loadFromServer();
-
-    const params = computed(()=> {
-      return Object.assign({},this.filterParams.value,this,this.serverOptions.value)
-    })
-
-    const value1 = ref(0);
-    const value2 = ref(0);
-
     watch([
       this.serverOptions,
       this.filterParams
     ],()=> {
+
       this.loadFromServer()
     }, {deep:true})
   
