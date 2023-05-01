@@ -5,7 +5,7 @@
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
-      v-model="serverOptions"
+      v-model="filterParams"
     >
       <DataTable
         v-model:server-options="serverOptions"
@@ -203,7 +203,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Pertemuan>({
   moduleName: "Pertemuan",
   crud,
@@ -242,12 +242,12 @@ const {
     },
   ],
 })
-  .addServerOptions({ date_start: null, date_end: null })
+  .addFilterParams({ date_start: null, date_end: null })
   .extRequestParams((index: any) => {
     return {
-      date_start: index.serverOptions.value.date_start,
-      date_end: index.serverOptions.value.date_end,
-      doctor: index.serverOptions.value.doctor?.id,
+      date_start: index.filterParams.value.date_start,
+      date_end: index.filterParams.value.date_end,
+      doctor: index.filterParams.value.doctor?.id,
       pasien: props.pasienId,
     };
   })
@@ -302,11 +302,5 @@ function getHasilValue(
     : '<span class="badge text-error">n/a</span>';
 }
 
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
+
 </script>

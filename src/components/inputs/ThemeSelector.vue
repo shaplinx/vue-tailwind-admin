@@ -3,15 +3,7 @@
         <dv-button variant="ghost">
             <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
                 <fa :icon="{prefix:'fas', iconName : 'palette'}" class="mr-2" />   
-                <div class="flex-grow text-xs font-bold">
-                    {{ modelValue }}
-                </div>
-                <div class="flex flex-shrink-0 flex-wrap gap-1">
-                    <div class="bg-primary w-2 rounded"></div>
-                    <div class="bg-secondary w-2 rounded"></div>
-                    <div class="bg-accent w-2 rounded"></div>
-                    <div class="bg-neutral w-2 rounded"></div>
-                </div>
+               THEME
             </div>
         </dv-button>
         <template #content>

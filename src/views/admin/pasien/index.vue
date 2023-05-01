@@ -6,7 +6,7 @@
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
-      v-model="serverOptions"
+      v-model="filterParams"
     >
       <DataTable
         v-model:server-options="serverOptions"
@@ -86,7 +86,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Pasien>({
   moduleName: "Pasien",
   crud,
@@ -110,11 +110,41 @@ const {
     },
   ],
 })
-  .addServerOptions({ date_start: null, date_end: null })
+  .addFilterParams({ date_start: null, date_end: null, tgl_lahir: null, kelamin:null })
+  .addFilterSchema([
+    {
+      $formkit: "date",
+      label: t("pasien.form.tgl_lahir"),
+      name: "tgl_lahir",
+      "outer-class":"mb-0",
+      "label-class": "$reset text-sm",
+      "wrapper-class": "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
+      "inner-class": "bg-base-100 text-sm text-base-content w-full sm:w-auto",
+    },
+    {
+        $formkit: "select",
+        name: "kelamin",
+        options: [
+          {
+            value: null,
+            label: t("formkit.selectPlaceholder"),
+            selected: true,
+          },
+          { value: "L", label: t("pasien.form.L") },
+          { value: "P", label: t("pasien.form.P") },
+        ],
+        label: t("pasien.form.kelamin"),
+      "outer-class":"mb-0",
+      "label-class": "$reset text-sm",
+      "wrapper-class": "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
+      "inner-class": "bg-base-100 text-sm text-base-content w-full sm:w-auto",
+    },
+
+  ])
   .extRequestParams((index: any) => {
     return {
-      date_start: index.serverOptions.value.date_start,
-      date_end: index.serverOptions.value.date_end,
+      date_start: index.filterParams.value.date_start,
+      date_end: index.filterParams.value.date_end,
     };
   })
   .addActions([
@@ -145,15 +175,7 @@ const {
   ]);
 
 // initial load
-loadFromServer();
 
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
 
 
 </script>

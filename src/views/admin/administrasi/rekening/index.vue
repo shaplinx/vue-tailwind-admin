@@ -2,7 +2,7 @@
   <div>
     <Overview />
     <TableCard :title="t('rekening.index-title')" :useFilter="true" :filterSchema="filterSchema" :buttons="buttons"
-      v-model="serverOptions">
+      v-model="filterParams">
       <DataTable v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :loading="loading"
         :headers="headers" :items="items" buttons-pagination :rows-items="[5, 10, 15]" alternating
         table-class-name="light-table" must-sort>
@@ -66,7 +66,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Administrasi.BallanceMutation>({
   moduleName: "Rekening",
   crud,
@@ -103,7 +103,7 @@ const {
       onClick: () => index.router.push({ name: "RekeningCreate" }),
     },
   ],
-}).addServerOptions({ date_start: null, date_end: null, active: undefined })
+}).addFilterParams({ date_start: null, date_end: null, active: undefined })
   .addFilterSchema([
     {
       $formkit: "select",
@@ -122,18 +122,10 @@ const {
   ])
   .extRequestParams((index: any) => {
     return {
-      active: index.serverOptions.value.active,
+      active: index.filterParams.value.active,
     };
   });
 
 // initial load
-loadFromServer();
 
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
 </script>

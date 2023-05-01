@@ -5,7 +5,7 @@
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
-      v-model="serverOptions"
+      v-model="filterParams"
     >
       <DataTable
         v-model:server-options="serverOptions"
@@ -116,7 +116,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Fasilitas.Farmasi.Resep>({
   moduleName: "PermintaanLab",
   crud,
@@ -178,24 +178,15 @@ const {
         "wrapper-class": "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
     }
   ])
-  .addServerOptions({ date_start: null, date_end: null, status:null })
+  .addFilterParams({ date_start: null, date_end: null, status:null })
   .extRequestParams((index: any) => {
     return {
-      date_start: index.serverOptions.value.date_start,
-      date_end: index.serverOptions.value.date_end,
-      status: index.serverOptions.value.status
+      date_start: index.filterParams.value.date_start,
+      date_end: index.filterParams.value.date_end,
+      status: index.filterParams.value.status
     };
   });
 
 // initial load
-loadFromServer();
 
-
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
 </script>

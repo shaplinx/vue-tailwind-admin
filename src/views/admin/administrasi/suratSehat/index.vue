@@ -5,7 +5,7 @@
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
-      v-model="serverOptions"
+      v-model="filterParams"
     >
       <DataTable
         v-model:server-options="serverOptions"
@@ -81,7 +81,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Pertemuan.SuratSehat>({
   moduleName: "suratSehat",
   crud,
@@ -108,11 +108,11 @@ const {
     },
   ],
 })
-  .addServerOptions({ date_start: null, date_end: null })
+  .addFilterParams({ date_start: null, date_end: null })
   .extRequestParams((index: any) => {
     return {
-      date_start: index.serverOptions.value.date_start,
-      date_end: index.serverOptions.value.date_end,
+      date_start: index.filterParams.value.date_start,
+      date_end: index.filterParams.value.date_end,
     };
   })
   .clear(["actions"],0)
@@ -140,13 +140,5 @@ const {
   ]);
 
 // initial load
-loadFromServer();
 
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
 </script>

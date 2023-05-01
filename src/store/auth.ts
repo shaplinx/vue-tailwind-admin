@@ -32,7 +32,16 @@ export const useAuthStore = defineStore({
           .login(data)
           .then((res: AxiosResponse) => {
             this.auth = res.data;
+            let theme = this.auth.user.user_preference?.theme;
+            let menu_mode = this.auth.user.user_preference?.menu_mode === "compact" ? "true" : "false"
             localStorage.setItem("auth", JSON.stringify(res.data));
+            localStorage.setItem('menuCompact',menu_mode)
+            if (theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+            localStorage.setItem('theme',theme.toString())
+            }
+
+
             this.loggingIn = false;
             reslove(res);
           })

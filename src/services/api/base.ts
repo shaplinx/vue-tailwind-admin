@@ -35,7 +35,7 @@ const ErrorBehaviors: ErrorBehaviors[] = [
     code: 401,
     callback: () => {
       localStorage.removeItem("auth");
-      router.push("/login");
+      router.push("/user/login");
     },
   },
   {

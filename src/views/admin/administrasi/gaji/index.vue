@@ -5,7 +5,7 @@
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
-      v-model="serverOptions"
+      v-model="filterParams"
     >
       <DataTable
         v-model:server-options="serverOptions"
@@ -100,7 +100,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Administrasi.Gaji>({
   moduleName: "Gaji",
   crud,
@@ -130,7 +130,7 @@ const {
     },
   ],
 })
-  .addServerOptions({ date_start: null, date_end: null, status:null, user:null })
+  .addFilterParams({ date_start: null, date_end: null, status:null, user:null })
   .addFilterSchema([
     {
       $formkit:"select",
@@ -194,23 +194,15 @@ const {
   ])
   .extRequestParams((index: any) => {
     return {
-      date_start: index.serverOptions.value.date_start,
-      date_end: index.serverOptions.value.date_end,
-      status: index.serverOptions.value.status,
-      user: index.serverOptions.value.user?.id
+      date_start: index.filterParams.value.date_start,
+      date_end: index.filterParams.value.date_end,
+      status: index.filterParams.value.status,
+      user: index.filterParams.value.user?.id
     };
   });
 
 // initial load
-loadFromServer();
 
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
 
 const statusBadge = (value: number) => {
   switch (value) {

@@ -5,7 +5,7 @@
       :useFilter="true"
       :filterSchema="filterSchema"
       :buttons="buttons"
-      v-model="serverOptions"
+      v-model="filterParams"
     >
       <DataTable
         v-model:server-options="serverOptions"
@@ -85,7 +85,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Invoice>({
   moduleName: "Invoice",
   crud,
@@ -109,12 +109,12 @@ const {
     },
   ],
 })
-  .addServerOptions({ date_start: null, date_end: null,  status:null})
+  .addFilterParams({ date_start: null, date_end: null,  status:null})
   .extRequestParams((index: any) => {
     return {
-      date_start: index.serverOptions.value.date_start,
-      status: index.serverOptions.value.status,
-      date_end: index.serverOptions.value.date_end,
+      date_start: index.filterParams.value.date_start,
+      status: index.filterParams.value.status,
+      date_end: index.filterParams.value.date_end,
     };
   })
   .addFilterSchema([
@@ -184,13 +184,5 @@ const {
 };
 
 // initial load
-loadFromServer();
 
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
 </script>

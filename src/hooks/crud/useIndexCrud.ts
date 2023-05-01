@@ -1,5 +1,5 @@
-import { ref, Ref } from "vue";
-import { ServerOptions, Header } from "vue3-easy-data-table";
+import { ref, Ref, watch, computed } from "vue";
+import { ServerOptions, Header, } from "vue3-easy-data-table";
 import { FormKitSchemaNode } from "@formkit/core";
 import { Actions, Pagination } from "@/services/api/modules/crud/crud";
 import { useRouter } from "vue-router";
@@ -8,7 +8,7 @@ import DeleteModal from "@/components/modals/DeleteModal.vue";
 import { CaseConversion } from "../helpers/string";
 import { ButtonProp } from "@/components/buttons/buttons";
 
-interface RequestParams extends ServerOptions {
+interface RequestParams {
   [key: string]: any;
 }
 
@@ -25,6 +25,7 @@ interface IndexCrudConfig<T> {
   primaryKey?: string;
   filterSchema?: FormKitSchemaNode[];
   serverOptions?: RequestParams;
+  filterParams?:RequestParams;
   generateRequestParams?: (arg: RequestParams) => () => object;
   actions?: action[];
   buttons?: (index: IndexCRUD<T>) => ButtonProp[];
@@ -46,6 +47,8 @@ class IndexCRUD<T> {
       rowsPerPage: 10,
       sortBy: "id",
       sortType: "desc",
+    },
+    filters: {
       search: "",
     },
     plugins: [],
@@ -67,7 +70,7 @@ class IndexCRUD<T> {
           $vfm.show(
             { component: DeleteModal },
             {
-              id: row && this.#config.primaryKey ? row[this.#config.primaryKey] :id,
+              id: row && this.#config.primaryKey ? row[this.#config.primaryKey] : id,
               moduleName: new CaseConversion(this.#config.moduleName)
                 .toCamelCase()
                 .get(),
@@ -89,8 +92,12 @@ class IndexCRUD<T> {
   loading = ref<boolean>(false);
   serverItemsLength = ref<number>(0);
 
-  serverOptions = ref<RequestParams>(
-    this.#default.serverOptions as RequestParams
+  serverOptions = ref<ServerOptions>(
+    this.#default.serverOptions as ServerOptions
+  );
+
+  filterParams = ref<RequestParams>(
+    this.#default.filters as RequestParams
   );
 
   actions = ref<action[]>(this.#default.actions);
@@ -98,16 +105,13 @@ class IndexCRUD<T> {
   buttons = ref<ButtonProp[]>(this.#default.buttons);
 
   generateRequestParams = (): object => {
-    return {
+    return Object.assign({},{
       page: this.serverOptions.value.page,
       per_page: this.serverOptions.value.rowsPerPage,
-      search: this.serverOptions.value.search,
       sort: this.serverOptions.value.sortBy
         ? `${this.serverOptions.value.sortBy}|${this.serverOptions.value.sortType}`
         : undefined,
-      date_start: this.serverOptions.value.date_start,
-      date_end: this.serverOptions.value.date_end,
-    };
+    }, this.filterParams.value);
   };
 
   requestParamsExtension = (args: any): object => {
@@ -143,9 +147,28 @@ class IndexCRUD<T> {
     delete this.plugins[name];
   }
 
+
+
   constructor(config: IndexCrudConfig<T>) {
     this.#config = config;
     this.reset();
+
+    this.loadFromServer();
+
+    const params = computed(()=> {
+      return Object.assign({},this.filterParams.value,this,this.serverOptions.value)
+    })
+
+    const value1 = ref(0);
+    const value2 = ref(0);
+
+    watch([
+      this.serverOptions,
+      this.filterParams
+    ],()=> {
+      this.loadFromServer()
+    }, {deep:true})
+  
     return this;
   }
 
@@ -159,8 +182,9 @@ class IndexCRUD<T> {
     return this;
   }
 
-  addServerOptions(options: object) {
-    this.serverOptions.value = { ...this.serverOptions.value, ...options };
+
+  addFilterParams(options: object) {
+    this.filterParams.value = Object.assign({},this.filterParams.value, options);
     return this;
   }
 
@@ -193,7 +217,7 @@ class IndexCRUD<T> {
   }
   reset() {
     this.generateRequestParams = this.#config.generateRequestParams
-      ? this.#config.generateRequestParams(this.serverOptions.value)
+      ? this.#config.generateRequestParams(this)
       : this.generateRequestParams;
 
     this.headers.value = this.#config.headers ?? this.#default.headers;
@@ -208,6 +232,7 @@ class IndexCRUD<T> {
       });
     }
   }
+
 }
 
 export default IndexCRUD;

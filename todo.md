@@ -1,9 +1,21 @@
+0.0.6
+- fix date-start and date-end on gaji
+
+0.0.5
+- fix filtering always reseted when when page and sort changed ✓
+- fix prevent mobile sidebar from calling api request. ✓
+- add new filters : 
+  > "polikilink" for kunjungan. ✓
+  > Jenis kelamin and tanggal lahir for pasien. ✓
+- Fix white border on bottom when page scrolled to bottom and then go to other route. ✓
+
 0.0.4
-- pasien edit modal on pertemuan's forms
+- pasien edit modal on pertemuan's forms ✓
+- fix unauthenticated user redirect to not found ✓
 
 0.0.3
-- Increase Max digit in lab
-- fix routing error on create pertemuan form
+- Increase Max digit in lab ✓
+- fix routing error on create pertemuan form ✓
 
 0.0.2
 - Print Lab ✓

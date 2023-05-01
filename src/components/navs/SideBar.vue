@@ -10,7 +10,7 @@
     >
       <div
         v-show="!preferences.isMenuCompact"
-        @click="preferences.toggleMenu(false)"
+        @click="preferences.toggleMenu(false,true)"
         class="w-full h-full md:hidden fixed inset-0 z-10 bg-black/70"
       ></div>
     </Transition>

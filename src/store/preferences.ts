@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import HTTP from "@/services/api/base"
 
 export type ThemeName =
   | "light"
@@ -33,6 +34,14 @@ export type ThemeName =
 
 export type MenuCompact = boolean;
 
+function convertMenuToBool(menu: 'compact' | 'full' | any) {
+  return menu === "compact" ? true : false
+}
+
+function convertBoolToMenu(bool: boolean | undefined) {
+  return bool ? 'compact' : 'full'
+}
+
 export const usePreferencesStore = defineStore({
   id: "preferences",
   getters: {
@@ -40,22 +49,41 @@ export const usePreferencesStore = defineStore({
     isTransitionEnabled: (state) => state.enableTransition,
   },
   state: () => ({
-    menuCompact: localStorage.getItem('menuCompact') === 'true' ,
+    menuCompact: localStorage.getItem('menuCompact') === 'true' ? true : false,
     theme: localStorage.getItem('theme') ?? "light" as ThemeName,
     enableTransition: false as boolean,
   }),
   actions: {
-    toggleMenu(state: boolean | undefined = undefined) {
-      if (state) {
-        return (this.menuCompact = state);
+    toggleMenu(state: boolean | undefined = undefined, mobile : boolean =false) {
+      if (!state) {
+        state = !this.menuCompact
       }
-      this.menuCompact = !this.menuCompact;
-      localStorage.setItem('menuCompact', this.menuCompact.toString())
+      if (mobile) {
+        this.menuCompact = !this.menuCompact
+        return this.menuCompact
+      }
+      return HTTP.patch('auth/preferences', {
+        menu_mode: convertBoolToMenu(state)
+      }).then((res) => {
+        this.menuCompact = convertMenuToBool(res.data?.data?.menu_mode);
+        localStorage.setItem('menuCompact', this.menuCompact.toString())
+        return this.menuCompact;
+      })
     },
-    changeTheme(themeName: ThemeName | undefined = undefined) {
-      this.theme = themeName ?? this.theme;
-      localStorage.setItem('theme',themeName || 'light')
-      document.documentElement.setAttribute("data-theme", this.theme);
+    changeTheme(themeName: ThemeName) {
+      
+      if(themeName) {
+        return HTTP.patch('auth/preferences', {
+          theme: themeName
+        }).then((res) => {
+          this.theme = res.data?.data?.theme ?? this.theme;
+          localStorage.setItem('theme', this.theme || 'light')
+          document.documentElement.setAttribute("data-theme", this.theme);
+          return this.theme;
+        })
+      } else {
+        document.documentElement.setAttribute("data-theme", this.theme);
+      }
     },
 
     toggleTransition(value: boolean | undefined) {

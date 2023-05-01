@@ -2,7 +2,7 @@
   <div>
     <Overview />
     <TableCard :title="t('pertemuan.index-title')" :useFilter="true" :filterSchema="filterSchema" :buttons="buttons"
-      v-model="serverOptions">
+      v-model="filterParams">
       <DataTable v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :loading="loading"
         :headers="headers" :items="items" buttons-pagination :rows-items="[5, 10, 15]" alternating
         table-class-name="light-table" must-sort>
@@ -82,7 +82,7 @@ const {
   loading,
   serverItemsLength,
   serverOptions,
-  loadFromServer,
+  filterParams,
 } = new IndexCRUD<App.Models.Pertemuan>({
   moduleName: "Pertemuan",
   crud,
@@ -123,12 +123,13 @@ const {
     },
   ],
 })
-  .addServerOptions({ date_start: null, date_end: null })
+  .addFilterParams({ date_start: null, date_end: null, doctor:null,poliklinik:null })
   .extRequestParams((index: any) => {
     return {
-      date_start: index.serverOptions.value.date_start,
-      date_end: index.serverOptions.value.date_end,
-      doctor: index.serverOptions.value.doctor?.id,
+      date_start: index.filterParams.value.date_start,
+      date_end: index.filterParams.value.date_end,
+      doctor: index.filterParams.value.doctor?.id,
+      poliklinik: index.filterParams.value.poliklinik?.id,
     };
   })
   .addFilterSchema([
@@ -165,55 +166,79 @@ const {
       "inner-class":
         "bg-base-100 text-sm w-full sm:min-w-[14rem] sm:max-w-full rounded-lg",
     },
+    {
+      $formkit: "vSelect",
+      name: "poliklinik",
+      displayLabel: "nama",
+      label: t("poliklinik.form.nama"),
+      object: true,
+      valueProp: "id",
+      "filter-results": false,
+      "min-chars": 1,
+      placeholder: t("formkit.searchPlaceholder"),
+      "resolve-on-load": true,
+      mode: "single",
+      clearOnSearch: true,
+      debounce: 500,
+      searchable: true,
+      options: (search: string): Promise<any[]> => {
+        return http
+          .get("fasilitas/poliklinik", {
+            params: {
+              search,
+            },
+          })
+          .then((res) => res.data.data)
+          .catch(() => []);
+      },
+      "outer-class": "mb-0",
+      "label-class": "$reset text-sm",
+      "wrapper-class":
+        "max-sm:flex max-sm:flex-row max-sm:gap-2 max-sm:items-center",
+      "inner-class":
+        "bg-base-100 text-sm w-full sm:min-w-[14rem] sm:max-w-full rounded-lg",
+    },
   ])
   .addActions([
     {
       label: t("menu.pemeriksaan"),
       icon: "stethoscope",
-      callback: (id) =>
+      callback: (id:number) =>
         router.push({ name: "PemeriksaanForm", params: { id } }),
     },
     {
       label: t("menu.permintaanLab"),
       icon: "flask",
-      callback: (id) => router.push({ name: "LabForm", params: { id } }),
+      callback: (id:number) => router.push({ name: "LabForm", params: { id } }),
     },
     {
       label: t("menu.resep"),
       icon: "prescription",
-      callback: (id) => router.push({ name: "ResepForm", params: { id } }),
+      callback: (id:number) => router.push({ name: "ResepForm", params: { id } }),
     },
     {
       label: t("menu.tindakan"),
       icon: "syringe",
-      callback: (id) => router.push({ name: "TindakanForm", params: { id } }),
+      callback: (id:number) => router.push({ name: "TindakanForm", params: { id } }),
     },
     {
       label: t("menu.invoice"),
       icon: "receipt",
-      callback: (id) => router.push({ name: "InvoiceForm", params: { id } }),
+      callback: (id:number) => router.push({ name: "InvoiceForm", params: { id } }),
     },
     {
       label: t("menu.sehat"),
       icon: "envelope-open-text",
-      callback: (id) => router.push({ name: "SuratSehatForm", params: { id } }),
+      callback: (id:number) => router.push({ name: "SuratSehatForm", params: { id } }),
     },
     {
       label: t("menu.sakit"),
       icon: "head-side-cough",
-      callback: (id) => router.push({ name: "SuratSakitForm", params: { id } }),
+      callback: (id:number) => router.push({ name: "SuratSakitForm", params: { id } }),
     },
   ]);
 // initial load
-loadFromServer();
 
-watch(
-  serverOptions,
-  (value) => {
-    loadFromServer();
-  },
-  { deep: true }
-);
 
 function renderStatus(object?: {
   [key: string]: any,

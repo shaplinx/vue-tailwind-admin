@@ -4,7 +4,50 @@
       <dv-navbar-start class="flex-1 gap-x-2">
         <dv-button
           @click="preferences.toggleMenu()"
-          class="block"
+          class="hidden sm:block"
+          variant="ghost"
+          ><svg
+            v-if="!preferences.isMenuCompact"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 24 24"
+            class="w-5 h-5"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+              <path d="M9 4v16"></path>
+              <path d="M15 10l-2 2l2 2"></path>
+            </g>
+          </svg>
+          <svg
+            v-else
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 24 24"
+            class="w-5 h-5"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+              <path d="M9 4v16"></path>
+              <path d="M14 10l2 2l-2 2"></path>
+            </g>
+          </svg>
+        </dv-button>
+        <dv-button
+          @click="preferences.toggleMenu(undefined,true)"
+          class="block sm:hidden"
           variant="ghost"
           ><svg
             v-if="!preferences.isMenuCompact"

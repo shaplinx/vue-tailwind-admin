@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8">
-    <div class="mt-6">
+    <div class="mt-6 ">
       <div class="flex gap-2 my-2 flex-row-reverse items-start">
         <slot name="buttons" :buttons="buttons">
           <div v-if="buttons" class="btn-group">
@@ -17,13 +17,13 @@
         </slot>
         
       </div>
-      <div v-if="useFilter">
+      <div v-if="useFilter" class="mb-2">
         <FormKit
           @keydown.enter.prevent
           class=""
           :actions="false"
           :model-value="modelValue"
-          @input="(val) => $emit('update:modelValue', val)"
+          @input="(val :any ) => $emit('update:modelValue', val)"
           type="form"
           @submit.prevent
         >

@@ -8,7 +8,6 @@
         type="form"
         :disabled="isSubmitting"
         id="pemeriksaan-form"
-        @keydown.enter.prevent
       >
         <FormKitSchema :schema="schema" />
       </FormKit>

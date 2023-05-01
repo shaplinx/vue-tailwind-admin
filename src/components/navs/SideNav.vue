@@ -24,7 +24,7 @@
             fill="url(#logo-b)"></path>
         </svg></a>
       <span v-show="!compact" class="text text-lg font-sans font-bold text-gray-100">{{ AppName }}</span>
-      <dv-button @click="preferences.toggleMenu(false)" shape="square" class="ml-auto mr-1"
+      <dv-button @click="preferences.toggleMenu(false,true)" shape="square" class="ml-auto mr-1"
         variant="block md:hidden ghost">X</dv-button>
     </div>
     <div class="flex justify-start" :class="compact ? 'rounded-3xl' : 'rounded-md'">

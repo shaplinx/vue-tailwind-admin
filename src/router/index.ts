@@ -1,9 +1,11 @@
-import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory, RouterScrollBehavior, RouteLocationNormalized } from "vue-router";
 import RouterView from "@/components/RouterView.vue";
 import RouterViewSlideIn from "@/components/RouterViewSlideIn.vue";
+import { Awaitable } from "@vueuse/core";
 
 //import Chart from "../views/ChartView.vue";
 export const HomePage = import.meta.env.VITE_HOMEPAGE_ROUTE;
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -606,10 +608,35 @@ const routes: Array<RouteRecordRaw> = [
   },
 ];
 
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASEURL || "/"),
   routes,
+  scrollBehavior(to, from, savedPosition)  {
+    let toTop = {top:0} as ScrollOptions
+    if (!to.name) {
+      return toTop
+    }
+    let toSavedPositions = [
+      "PemeriksaanForm",
+      "ResepForm",
+      "InvoiceForm",
+      "LabForm",
+      "TindakanForm",
+      "SuratSehatForm",
+      "SuratSakitForm",
+    ];
+    if (toSavedPositions.includes(to.name as string)) {
+      return savedPosition ?? undefined
+    }
+      return toTop
+    
+    
+  },
 });
+
+
 
 router.beforeEach((to, from, next) => {
   let publicPages = ["/user/login"];
