@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@components": path.resolve(__dirname, "./src/components"),
+      'tailwind-config': path.resolve(__dirname, './tailwind.config.cjs'),
     },
   },
   // prevent vite from obscuring rust errors

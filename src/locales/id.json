@@ -165,6 +165,8 @@
       "pabrik": "Pabrik",
       "pabrik_help": "Dapat di isi dengan pabrik pembuat obat datau nama dagang obat",
       "sediaan": "Sediaan Obat",
+      "update_transaksi":"Update Transaksi",
+      "update_transaksi_help":"Jika diaktifkan maka akan dibuatkan mutasi keuangan dengan formula -(HARGA BELI) * (STOK OBAT SAAT INI - JUMLAH OBAT LAMA)",
       "sediaan_help": "Contoh: (500 mg), (125 mg/5cc), (100.000 IU), dll ",
       "kemasan": "Kemasan",
       "kemasan_help": "Contoh: (Tablet), (Sirup), (Suspensi), dll ",

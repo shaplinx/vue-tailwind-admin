@@ -1,3 +1,9 @@
+0.0.6
+- add animation to sidebar submenu
+- separate menu controller for sidebar mobile and desktop
+- add toggle input in obat form "update transaksi keuangan"
+- diagnosis label now has information of its icd10
+
 0.0.5-hotfix
 - CRITICAL : fix Rekam Medis Modal showing all history from all pasien
 - fix date-start and date-end on gaji

@@ -46,15 +46,17 @@ export const usePreferencesStore = defineStore({
   id: "preferences",
   getters: {
     isMenuCompact: (state) => state.menuCompact,
+    isMobileMenuShown: (state) => state.mobileMenuShow,
     isTransitionEnabled: (state) => state.enableTransition,
   },
   state: () => ({
     menuCompact: localStorage.getItem('menuCompact') === 'true' ? true : false,
     theme: localStorage.getItem('theme') ?? "light" as ThemeName,
+    mobileMenuShow: false,
     enableTransition: false as boolean,
   }),
   actions: {
-    toggleMenu(state: boolean | undefined = undefined, mobile : boolean =false) {
+    toggleMenu(state: boolean | undefined = undefined, mobile: boolean = false) {
       if (!state) {
         state = !this.menuCompact
       }
@@ -70,9 +72,18 @@ export const usePreferencesStore = defineStore({
         return this.menuCompact;
       })
     },
+    refreshMenuCompact(){
+      this.menuCompact = localStorage.getItem('menuCompact') === 'true' ? true : false
+    },
+    toggleMobileMenu(state: boolean | undefined) {
+      if (typeof state === "boolean") {
+        this.mobileMenuShow = state
+      }
+      return this.mobileMenuShow = !this.mobileMenuShow
+    },
     changeTheme(themeName: ThemeName) {
-      
-      if(themeName) {
+
+      if (themeName) {
         return HTTP.patch('auth/preferences', {
           theme: themeName
         }).then((res) => {

@@ -140,7 +140,7 @@ export const definePemeriksaanSchema = ({
             $formkit: "autoSuggest",
             name: "nama",
             label: t("pemeriksaan.form.diagnosis_nama"),
-            labelKey: "nama",
+            labelKey: "label",
             valueKey: "id",
             onSelect: (val: string, item: any, node: FormKitNode) => {
               node?.parent?.input?.(item).then(() => {
@@ -169,7 +169,7 @@ export const definePemeriksaanSchema = ({
             $formkit: "vSelect",
             name: "icd10",
             label: t("pemeriksaan.form.diagnosis_icd10"),
-            displayLabel: "label_locale",
+            displayLabel: "label_en",
             placeholder: t("formkit.searchPlaceholder"),
             object: true,
             valueProp: "id",

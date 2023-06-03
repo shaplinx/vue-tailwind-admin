@@ -337,6 +337,7 @@ declare namespace App.Models.Administrasi {
         custom_gaji_contents_count?: number | null;
         readonly total_jasa?: any;
         readonly total_custom_gaji?: any;
+        readonly all_filtered_jasa?: any;
         readonly total_gaji?: any;
         readonly filtered_jasa?: any;
         readonly ballance?: any;

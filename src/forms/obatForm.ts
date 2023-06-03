@@ -79,5 +79,14 @@ export const defineObatSchema = ({
         },
       ],
     },
+    {
+      $formkit: "toggle",
+      size:"lg",
+      color:"primary",
+      name: "update_transaksi",
+      label: t("obat.form.update_transaksi"),
+      help: t("obat.form.update_transaksi_help"),
+
+    },
   ];
 };

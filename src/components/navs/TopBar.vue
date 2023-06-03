@@ -4,7 +4,7 @@
       <dv-navbar-start class="flex-1 gap-x-2">
         <dv-button
           @click="preferences.toggleMenu()"
-          class="hidden sm:block"
+          class="hidden md:block"
           variant="ghost"
           ><svg
             v-if="!preferences.isMenuCompact"
@@ -47,7 +47,7 @@
         </dv-button>
         <dv-button
           @click="preferences.toggleMenu(undefined,true)"
-          class="block sm:hidden"
+          class="block md:hidden"
           variant="ghost"
           ><svg
             v-if="!preferences.isMenuCompact"

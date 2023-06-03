@@ -27,13 +27,32 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed, onBeforeUnmount, watch } from "vue";
 import SideNav from "./SideNav.vue";
+import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from "../../store/preferences";
 
+const {width} = useWindowSize()
 
+let onMobile = computed(()=> width.value < 768 ? true:false);
+
+watch(width,()=> {
+  if (onMobile.value) {
+    if(!preferences.isMenuCompact) {
+      preferences.toggleMenu(false,true)
+    }
+  }
+  else {
+    preferences.refreshMenuCompact()
+  }
+})
 
 const preferences = usePreferencesStore();
+
+if (onMobile.value && !preferences.isMenuCompact) {
+    preferences.toggleMenu(false,true)
+  }
+
 
 const NavItems = ref<NavItem[]>([{
   id: "dashboards",

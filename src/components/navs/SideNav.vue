@@ -36,10 +36,11 @@
 </template>
 <script setup lang="ts">
 import NavItemVue from "./NavItem.vue";
-import { PropType, defineProps } from "vue";
+import { PropType, defineProps, ref } from "vue";
 import { usePreferencesStore } from "../../store/preferences";
 
 const preferences = usePreferencesStore();
+
 const AppName = import.meta.env.VITE_APP_NAME || 'BZ App';
 
 
