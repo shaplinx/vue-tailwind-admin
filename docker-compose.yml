@@ -1,0 +1,12 @@
+version: "1.0"
+services:
+ FrontEmr:
+   image: node:alpine
+   container_name: FrontEmr
+   entrypoint: /bin/sh
+   working_dir: /srv/app
+   volumes:
+     - type: bind
+       source: ./
+       target: /srv/app
+   tty: true
