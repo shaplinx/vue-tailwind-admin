@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+  bellza_admin:
+    image: node:18-bookworm
+    container_name: bellza_admin
+    entrypoint: /bin/bash
+    ports:
+      - 8000:8000
+    working_dir: /app
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    tty: true
