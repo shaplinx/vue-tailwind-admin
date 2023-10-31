@@ -28,7 +28,7 @@ import TreeNavItem from './TreeNavItem.vue';
 import { ref, computed, watch } from 'vue';
 import { Collapse } from 'vue-collapsed'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { useRoute } from 'vue-router';
+import { useMenuItem } from './hooks/navigation';
 
 
 const props = defineProps<{
@@ -36,53 +36,24 @@ const props = defineProps<{
   linkClass?: string
 }>()
 
-const route = useRoute();
-const emits = defineEmits(["change:isChildActive"]);
+const emits = defineEmits(["change:isActive"]);
 
 const element = computed(()=> props.item.to ? AppLink : 'div');
 
 const isDropdownOpen = ref(false);
 
-function nestedSome(
-  array: any[] | undefined,
-  callback: (item: any) => boolean
-): boolean {
-  if (!array) return false;
-  return array.some(function (item: any) {
-    if (item.subs) {
-      return nestedSome(item.subs, callback);
-    }
-    return callback(item);
-  });
-}
+const {
+    isChildActive,
+    routeActive,
+    isActive
+  } = useMenuItem(props.item)
 
-function checkMenuActive(to : Base.Component.Menu.MenuItem["to"]) {
-  if (!to) return false
-  if(typeof to === 'string') {
-    return route.fullPath === to
-  }
-  else {
-   return to.name === route.name
-  }
-}
-
-const isChildActive = computed(() => {
-  return nestedSome(props.item?.child, (child) => checkMenuActive(child));
-});
-
-const routeActive = computed(() => {
-  return checkMenuActive(props.item.to)
-});
-
-
-const isActive = computed(() => {
-  return isChildActive.value || routeActive.value;
-});
 
 watch(
   () => isActive.value,
   (val) => {
-    emits("change:isChildActive", val);
+    if (val) isDropdownOpen.value = val
+    emits("change:isActive", val);
   },
   {
     immediate: true,

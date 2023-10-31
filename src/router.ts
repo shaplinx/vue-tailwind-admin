@@ -14,6 +14,10 @@ const routes = [
         path: "/about/child",
         component: () => import("./view/Child.vue")
       },
+      {
+        path: "/about/child2",
+        component: () => import("./view/Child.vue")
+      },
     ]
   },
 ]

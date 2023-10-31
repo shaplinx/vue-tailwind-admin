@@ -54,7 +54,7 @@ const user: Base.User = {
 const navigation: Base.Component.Menu.MenuItem[] = [
   { id: 'Home', label: 'Home', to: '/', icon: faStar, },
   { id: 'About', label: 'About', to: '/about', icon: faStar, child: [{ id: "Child", label: 'Child', to: '/about/child', icon: faStar }] },
-  { id: 'About2', label: 'About2', to:'#', icon: faStar, child: [{ id: "Child", label: 'Child2', to: '/about/child', icon: faStar, child:[{ id: 'About2', label: 'About2', to:'#', icon: faStar, child: [{ id: "Child", label: 'Child2', to: '/about/child', icon: faStar }] }] }] }
+  { id: 'About2', label: 'About2', to:'#', icon: faStar, child: [{ id: "Child2", label: 'Child2', to: '/about/child2', icon: faStar }] }
 
 ]
 

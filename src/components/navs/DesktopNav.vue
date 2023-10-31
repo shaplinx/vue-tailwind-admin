@@ -1,6 +1,6 @@
 <template>
   <!-- Static sidebar for desktop -->
-  <div class="hidden lg:flex lg:flex-shrink-0">
+  <div class="hidden lg:flex lg:flex-shrink-0" v-on-click-outside="onClickOutsideMenu">
     <div class="flex w-20 flex-col">
       <div class="flex min-h-0 flex-1 flex-col overflow-y-auto bg-indigo-600">
         <div class="flex-1">
@@ -9,27 +9,8 @@
 
           </div>
           <nav aria-label="Sidebar" class="flex flex-col items-center space-y-3 py-6">
-            <app-link @click="openDrawer(key); isDrawerContainerOpen =  menuHasChild(key)" v-for="(item, key) in navigation" :key="item.id" :to="item.to">
-              <div class="flex items-center rounded-lg p-4 text-indigo-200 hover:bg-indigo-700"
-                :class="{ 'bg-indigo-800': item.active || item.childActive}">
-                <Icon :icon="item.icon" aria-hidden="true"></Icon>
-                <span class="sr-only">{{ item.label }}</span>
-              </div>
-
-              <!-- <Teleport v-if="item.child" to="body" disabled>
-                <div v-show="isDrawerOpened(key)" @click="closeDrawer()" @mouseover="closeDrawer()" class="fixed inset-20 bg-transparent" />
-                <Transition :enter-active-class="enableTransition ? 'transition-all ease-in-out duration-300 transform' : 'transition-none' " enter-from-class="w-0"
-                  enter-to-class="w-56" :leave-active-class="enableTransition ? 'transition-all ease-in-out duration-300 transform' : 'transition-none'"
-                  leave-from-class="w-56" leave-to-class="w-0">
-                  <div v-show="isDrawerOpened(key)"
-                    class="absolute left-20 top-0  flex h-full w-56  flex-col overflow-y-auto overflow-x-hidden border-r border-gray-200 bg-white">
-                    {{ item.label }}
-                    <TreeNav class="w-56" :navigation="item.child"></TreeNav>
-                  </div>
-                </Transition>
-              </Teleport> -->
-
-            </app-link>
+            <DesktopNavItem v-for="(item, key) in navigation" :item="item"
+              @change:is-active="(val) => onChildActive(val, key)" @click="() => lastClicked = key"></DesktopNavItem>
           </nav>
 
         </div>
@@ -44,57 +25,43 @@
         </div>
       </div>
     </div>
-    <Teleport to="body" :disabled="!isCompact">
-    <Transition :enter-active-class="'transition-all ease-in-out duration-300 transform'"
-      enter-from-class="w-0" enter-to-class="w-56"
-      :leave-active-class="'transition-all ease-in-out duration-300 transform'"
-      leave-from-class="w-56" leave-to-class="w-0">
-      <aside class="overflow-x-hidden border-r transition-all transform border-gray-200 bg-white" :class="{'absolute left-20 top-0 h-full':isCompact}" v-show="isDrawerContainerOpen || !isCompact">
-        <template v-for="(item, key) in navigation">
-          <div  v-if="!isCompact" v-show="activeParentMenu === key" @click="closeDrawer()" @mouseover="closeDrawer()" class="fixed tup-0 left-80 h-full w-full bg-transparent" />
-          <div v-if="item.child?.length && activeParentMenu === key"
-            class="flex h-full w-60 flex-col overflow-y-auto">
-            <TreeNav :navigation="item.child"></TreeNav>
+    <aside class="overflow-hidden border-r transition-all transform border-gray-200 bg-white"
+      :class="[isCompact ? 'absolute top-0 left-20 h-full' : '']">
+      <template v-for="(item, key) in navigation">
+        <Transition :css="enableTransition" mode="in-out" class="overflow-hidden" enter-active-class="transition-[width]"
+          enter-to-class="w-60" enter-from-class="w-0" leave-to-class="w-0" leave-from-class="w-60"
+          leave-active-class="transition-[width]">
+          <div v-if="item.child?.length && (activeStates[key] || lastClicked == key)"
+            class="flex h-full flex-col  overflow-x-hidden overflow-y-hidden">
+            <TreeNav class="w-60  overflow-x-hidden overflow-y-auto " :navigation="item.child"></TreeNav>
           </div>
-
-        </template>
-      </aside>
-    </Transition>
-  </Teleport>
+        </Transition>
+      </template>
+    </aside>
   </div>
 </template>
 <script setup lang="ts">
-import { Transition, ref, onMounted, computed } from 'vue';
-import AppLink from './AppLink.vue';
+import { Transition, ref, watch } from 'vue';
 import TreeNav from './TreeNav.vue';
+import DesktopNavItem from './DesktopNavItem.vue';
+import { vOnClickOutside } from '@vueuse/components'
 const props = defineProps<{
   navigation: Base.Component.Menu.MenuItem[],
   user: Base.User,
 }>()
 
 
-function getChildActive() {
-  for (let id = 0; id < props.navigation.length; id++) {
-    const element = props.navigation[id];
-    if (element.active || element.childActive) {
-      return id 
-    }
-  }
-  return null
- 
-}
-
-const openedDrawer = ref<number | null>(null);
-
-const activeParentMenu= computed(()=> {
-  return getChildActive();
-})
-
+const activeStates = ref<boolean[]>([])
+const lastClicked = ref<number | null>(null)
 const enableTransition = ref(true);
 
+watch(lastClicked, (nv, ov) => {
+  checkAnimation(nv, ov)
+})
+
 function menuHasChild(key: number) {
-    return props.navigation[key].child?.length ? true : false
-  }
+  return props.navigation[key].child?.length ? true : false
+}
 
 function checkAnimation(newval: number | null, oldval: number | null) {
 
@@ -104,22 +71,21 @@ function checkAnimation(newval: number | null, oldval: number | null) {
   enableTransition.value = (menuHasChild(oldval!) && menuHasChild(newval!)) ? false : true
 }
 
-function openDrawer(id: number | null): void {
-  checkAnimation(id, openedDrawer.value)
-  openedDrawer.value = id
+
+function onChildActive(val: boolean, key: number) {
+  activeStates.value[key] = val;
+  if (val) lastClicked.value = key
 }
 
-function closeDrawer(): void {
-  isDrawerContainerOpen.value =false;
+const isCompact = ref(true);
+
+function onClickOutsideMenu() {
+  if (!isCompact.value) return
+  lastClicked.value = null;
+  activeStates.value.fill(false);
 }
 
-function isDrawerOpened(id: number | null): boolean {
-  return openedDrawer.value === id
-}
 
-const isDrawerContainerOpen = ref(false)
-
-const isCompact = ref(false);
 
 
 </script>

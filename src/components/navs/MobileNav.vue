@@ -10,7 +10,7 @@
       enter-from-class="-translate-x-full" enter-to-class="translate-x-0"
       leave-active-class="transition ease-in-out duration-300 transform" leave-from-class="translate-x-0"
       leave-to-class="-translate-x-full">
-      <div v-show="isOpen" class="fixed inset-0 z-40 flex max-w-xs">
+      <div v-if="isOpen" class="fixed inset-0 z-40 flex max-w-xs">
         <div class="relative flex  max-w-xs flex-1 flex-col bg-white focus:outline-none">
           <div class="pt-5 pb-4">
             <div class="flex w-full items-center pl-4 pr-1">
