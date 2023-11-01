@@ -2,9 +2,9 @@
   <div class="grid grid-col-1 gap-1">
     <component :is="element" :key="item.id" :to="item.to " @click="onToggle()">
       <div
-        class="group flex items-center rounded-md p-2 text-base font-medium text-gray-600 hover:bg-gray-100 active:bg-gray-200  hover:text-indigo-600"
+        class="group flex items-center rounded-md p-2 text-base font-medium text-base-content hover:bg-base-200 active:bg-base-300  "
         :class="[
-          {'bg-gray-200 text-indigo-600': (isChildActive && !isDropdownOpen) || routeActive},
+          {'bg-base-300 ': (isChildActive && !isDropdownOpen) || routeActive},
           linkClass
           ]"
         >
@@ -15,7 +15,7 @@
     </component>
 
     <Collapse :when="isDropdownOpen" v-if="item.child?.length">
-      <div class="ml-6 relative before:absolute before:w-[1px] before:h-full  before:bg-gray-200 before:-left-1.5 before:top-0 before:bottom-0 before:my-auto" >
+      <div class="ml-6 relative before:absolute before:w-[1px] before:h-full  before:bg-base-300 before:-left-1.5 before:top-0 before:bottom-0 before:my-auto" >
       <TreeNavItem v-for="child in item.child" :item="child"></TreeNavItem>
       </div>
     </Collapse>

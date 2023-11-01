@@ -4,7 +4,7 @@
       enter-from-class="opacity-0" enter-to-class="opacity-100"
       leave-active-class="transition-opacity ease-linear duration-300" leave-from-class="opacity-100"
       leave-to-class="opacity-0">
-      <div v-show="isOpen" @click="() => $emit('update:isOpen', false)" class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+      <div v-show="isOpen" @click="() => $emit('update:isOpen', false)" class="fixed inset-0 bg-neutral/75" />
     </Transition>
     <Transition enter-active-class="transition-all ease-in-out duration-300 transform"
       enter-from-class="-translate-x-full" enter-to-class="translate-x-0"
